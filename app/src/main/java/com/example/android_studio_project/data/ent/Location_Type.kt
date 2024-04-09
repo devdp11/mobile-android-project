@@ -1,6 +1,7 @@
 package com.example.android_studio_project.data.ent
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
@@ -8,8 +9,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "location_types")
 data class LocationType(
-    @PrimaryKey val id: Int,
-    val name: String
+    @PrimaryKey(autoGenerate = true) val uuid: Int,
+    @ColumnInfo(name = "name") val name: String
 ) : Parcelable{
     companion object {
         val predefinedTypes = listOf(

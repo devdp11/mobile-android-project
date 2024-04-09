@@ -1,5 +1,6 @@
 package com.example.android_studio_project.data.ent
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
@@ -12,12 +13,12 @@ enum class UserType {
 @Parcelize
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey val uuid: UUID,
-    val firstName: String,
-    val lastName: String,
-    val avatar: String?,
-    val username: String,
-    val password: String,
-    val email: String,
-    val type: UserType
+    @PrimaryKey(autoGenerate = true) val uuid: Int,
+    @ColumnInfo(name = "firstName") val firstName: String,
+    @ColumnInfo(name = "lastName") val lastName: String,
+    @ColumnInfo(name = "avatar") val avatar: String?,
+    @ColumnInfo(name = "username") val username: String,
+    @ColumnInfo(name = "password") val password: String,
+    @ColumnInfo(name = "email") val email: String,
+    @ColumnInfo(name = "type") val type: UserType
 ) : Parcelable
