@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define enum UserType
+enum UserType {
+  ADMIN
+  NORMAL_USER
+}
+
+// Define model User
+model User {
+  uuid      Int        @id @default(autoincrement())
+  firstName String
+  lastName  String
+  avatar    String?
+  username  String
+  password  String
+  email     String
+  type      UserType
+  trips     UserTrip[]
+}
+
+// Define model Trip
+model Trip {
+  uuid         Int            @id @default(autoincrement())
+  description  String
+  name         String
+  startDate    DateTime
+  endDate      DateTime
+  rating       Int
+  locations    Location[]
+  users        UserTrip[]
+  TripLocation TripLocation[]
+}
+
+// Define model Location
+model Location {
+  uuid        Int            @id @default(autoincrement())
+  name        String
+  description String
+  type        Int
+  rating      Int
+  latitude    Float
+  longitude   Float
+  photos      Photo[]
+  trips       TripLocation[]
+  Trip        Trip?          @relation(fields: [tripUuid], references: [uuid])
+  tripUuid    Int?
+}
+
+// Define model LocationType
+model LocationType {
+  uuid Int    @id @default(autoincrement())
+  name String
+
+  @@unique([name])
+  // Adding predefined types
+  // These will be seeded to the database when you first migrate
+  @@map("location_types")
+}
+
+// Define model Photo
+model Photo {
+  uuid       Int      @id @default(autoincrement())
+  url        String
+  location   Location @relation(fields: [locationId], references: [uuid])
+  locationId Int
+}
+
+// Define model TripLocation
+model TripLocation {
+  trip       Trip     @relation(fields: [tripId], references: [uuid])
+  tripId     Int
+  location   Location @relation(fields: [locationId], references: [uuid])
+  locationId Int
+
+  @@id([tripId, locationId])
+}
+
+// Define model UserTrip
+model UserTrip {
+  user   User @relation(fields: [userId], references: [uuid])
+  userId Int
+  trip   Trip @relation(fields: [tripId], references: [uuid])
+  tripId Int
+
+  @@id([userId, tripId])
+}
