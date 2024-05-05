@@ -1,5 +1,6 @@
 package com.example.android_studio_project.data.ent
-import android.os.Parcelable
+
+/* import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,6 +11,7 @@ enum class UserType {
     ADMIN,
     NORMAL_USER
 }
+
 @Parcelize
 @Entity(tableName = "users")
 data class User(
@@ -21,4 +23,4 @@ data class User(
     @ColumnInfo(name = "password") val password: String,
     @ColumnInfo(name = "email") val email: String,
     @ColumnInfo(name = "type") val type: UserType
-) : Parcelable
+) : Parcelable */

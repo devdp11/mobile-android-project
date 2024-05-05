@@ -1,6 +1,6 @@
 package com.example.android_studio_project.data.ent
 
-import android.os.Parcelable
+/* import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -15,5 +15,4 @@ data class Trip(
     @ColumnInfo(name = "startDate")val startDate: Date,
     @ColumnInfo(name = "endDate")val endDate: Date,
     @ColumnInfo(name = "rating")val rating: Int,
-    @ColumnInfo(name = "locations")val locations: MutableList<Location> = mutableListOf()
-) : Parcelable
+) : Parcelable */

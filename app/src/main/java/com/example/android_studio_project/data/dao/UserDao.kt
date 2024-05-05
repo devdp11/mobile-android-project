@@ -1,6 +1,6 @@
 package com.example.android_studio_project.data.dao
 
-import androidx.room.Dao
+/* import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -26,4 +26,4 @@ interface UserDao {
 
     @Delete
     suspend fun deleteUserTrip(userTrip: UserTrip)
-}
+} */
