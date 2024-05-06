@@ -1,4 +1,4 @@
-package com.example.android_studio_project.data.ent
+package com.example.android_studio_project.room.ent
 
 /* import android.os.Parcelable
 import androidx.room.ColumnInfo

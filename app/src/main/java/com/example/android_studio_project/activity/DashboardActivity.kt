@@ -8,6 +8,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.android_studio_project.R
 
 class DashboardActivity : AppCompatActivity() {
+
+    private val BASE_URL = "https://localhost:4242/api"
+    private val TAG: String = "CHECK_RESPONSE"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
