@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Journeys</string>
+    <string name="intro_slider_one">Explora o mundo</string>
+    <string name="intro_slider_two">Planeia as visitas</string>
+    <string name="intro_slider_three">Partilha as viagens</string>
+    <string name="skip_intro_slider">Avançar</string>
 </resources>
