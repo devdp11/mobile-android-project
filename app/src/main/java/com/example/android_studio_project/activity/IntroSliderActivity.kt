@@ -30,14 +30,14 @@ class IntroSliderActivity : AppCompatActivity() {
             navigateToDashboard()
         }
 
-        val btnNext: Button = findViewById(R.id.btn_next)
-        btnNext.setOnClickListener {
-            navigateToNextPage()
-        }
-
         val btnBack: Button = findViewById(R.id.btn_back)
         btnBack.setOnClickListener {
             navigateToPrevPage()
+        }
+
+        val btnNext: Button = findViewById(R.id.btn_next)
+        btnNext.setOnClickListener {
+            navigateToNextPage()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
