@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Journeys</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Palavra-passe</string>
+    <string name="login_button">Autenticar</string>
+    <string name="register_button">Registar</string>
+    <string name="first_name">Nome</string>
+    <string name="last_name">Apelido</string>
 </resources>

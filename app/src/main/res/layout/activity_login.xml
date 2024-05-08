@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ellipse"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textViewAppTitle"
@@ -35,6 +36,7 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="45dp"
         android:layout_marginTop="110dp"
+        android:autofillHints=""
         android:background="@drawable/input_border"
         android:fontFamily="@font/kadwa_bold"
         android:hint="@string/email"
@@ -50,6 +52,7 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="45dp"
         android:layout_marginTop="64dp"
+        android:autofillHints=""
         android:background="@drawable/input_border"
         android:fontFamily="@font/kadwa_bold"
         android:hint="@string/password"
