@@ -30,6 +30,16 @@ class IntroSliderActivity : AppCompatActivity() {
             navigateToDashboard()
         }
 
+        val btnNext: Button = findViewById(R.id.btn_next)
+        btnNext.setOnClickListener {
+            navigateToNextPage()
+        }
+
+        val btnBack: Button = findViewById(R.id.btn_back)
+        btnBack.setOnClickListener {
+            navigateToPrevPage()
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -54,6 +64,16 @@ class IntroSliderActivity : AppCompatActivity() {
     private fun navigateToNextPage() {
         currentIndex = (currentIndex + 1) % fragments.size
         navController.navigate(fragments[currentIndex])
+
+        handler.removeCallbacksAndMessages(null)
+        startAutoNavigation()
+    }
+
+    private fun navigateToPrevPage() {
+        currentIndex = if (currentIndex > 0) currentIndex - 1 else fragments.size - 1
+        navController.navigate(fragments[currentIndex])
+
+        handler.removeCallbacksAndMessages(null)
         startAutoNavigation()
     }
 
