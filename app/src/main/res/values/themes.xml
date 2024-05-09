@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="nightmodeswitch" parent="Theme.AppCompat.Light" >
+        <item name="colorControlActivated" > @color/nightmode </item>
+        <item name="colorSwitchThumbNormal" > @color/white </item>
+        <item name="android:colorForeground" > #99FFFFFF </item>
+    </style>
 </resources>
