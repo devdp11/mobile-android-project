@@ -14,4 +14,14 @@
     <string name="security_privacy">Security &amp; Privacy</string>
     <string name="language">Language</string>
     <string name="logout">Logout</string>
+    <string name="app_name">Journeys</string>
+    <string name="intro_slider_one">Explore the world</string>
+    <string name="intro_slider_two">Plan the journey</string>
+    <string name="intro_slider_three">Share the trip</string>
+    <string name="intro_slider_one_desc">Embark on a journey of discovery as you explore stunning landscapes, vibrant cultures, and unforgettable adventures around the world.</string>
+    <string name="intro_slider_two_desc">Get ready for the adventure of your dreams as you plan every detail of your trip, from exciting destinations to thrilling activities, creating memories that will last a lifetime.</string>
+    <string name="intro_slider_three_desc">Invite your friends to join your journey and share unforgettable moments together. Let them be part of your adventures, creating memories for a lifetime.</string>
+    <string name="skip_intro_slider">Get Started</string>
+    <string name="back_intro_slider">Back</string>
+    <string name="next_intro_slider">Next</string>
 </resources>

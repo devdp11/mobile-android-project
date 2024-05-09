@@ -15,4 +15,5 @@
     <color name="notification">#b1ba00</color>
     <color name="security">#ba1f00</color>
     <color name="language">#0fba00</color>
+    <color name="main_color">#50C2C9</color>
 </resources>
