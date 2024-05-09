@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="username">Nome de Utilizador</string>
+    <string name="password">Palavra-passe</string>
+    <string name="login_button">Entrar</string>
+    <string name="register_button">Registar</string>
+    <string name="first_name">Nome</string>
+    <string name="last_name">Apelido</string>
+    <string name="profile">Perfil</string>
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="night_mode">Modo Noturno</string>
+    <string name="notification">Notificação</string>
+    <string name="security_privacy">Segurança &amp; Privacidade</string>
+    <string name="language">Idioma</string>
+    <string name="logout">Desconectar</string>
     <string name="app_name">Journeys</string>
     <string name="intro_slider_one">Explora o mundo</string>
     <string name="intro_slider_two">Planeia a jornada</string>
