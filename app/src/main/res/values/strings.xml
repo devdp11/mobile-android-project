@@ -7,12 +7,11 @@
     <string name="register_button">Register</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="profile">Profile</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="notifications">Notifications</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="notification">Notification</string>
+    <string name="security_privacy">Security &amp; Privacy</string>
     <string name="language">Language</string>
-    <string name="profile_title">Profile</string>
-    <string name="security">Security</string>
-    <string name="theme">Theme</string>
-    <string name="hi">Hi,</string>
-    <string name="mode">Light/Dark Mode</string>
+    <string name="logout">Logout</string>
 </resources>
