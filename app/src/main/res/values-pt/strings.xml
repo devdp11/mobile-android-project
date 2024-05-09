@@ -8,4 +8,10 @@
     <string name="register_button">Registar</string>
     <string name="first_name">Nome</string>
     <string name="last_name">Apelido</string>
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="notifications">Notificações</string>
+    <string name="language">Linguagem</string>
+    <string name="profile_title">Perfil</string>
+    <string name="security">Segurança</string>
+    <string name="theme">Tema</string>
 </resources>

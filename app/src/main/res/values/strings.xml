@@ -7,4 +7,10 @@
     <string name="register_button">Register</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="language">Language</string>
+    <string name="profile_title">Profile</string>
+    <string name="security">Security</string>
+    <string name="theme">Theme</string>
 </resources>
