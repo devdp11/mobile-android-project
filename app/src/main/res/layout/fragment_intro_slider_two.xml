@@ -16,7 +16,7 @@
             android:layout_height="275dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:src="@drawable/two" />
+            android:src="@drawable/slider2" />
 
         <TextView
             android:id="@+id/title_one"

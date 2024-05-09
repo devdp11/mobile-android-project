@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Journeys</string>
+    <string name="app_name">Journeys</string>
     <string name="email" translatable="false">Email</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -14,7 +14,6 @@
     <string name="security_privacy">Security &amp; Privacy</string>
     <string name="language">Language</string>
     <string name="logout">Logout</string>
-    <string name="app_name">Journeys</string>
     <string name="intro_slider_one">Explore the world</string>
     <string name="intro_slider_two">Plan the journey</string>
     <string name="intro_slider_three">Share the trip</string>

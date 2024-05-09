@@ -17,7 +17,6 @@
         <activity android:name=".activity.DashboardActivity"
             android:exported="false" />
         <activity
-        <activity
             android:name=".activity.IntroSliderActivity"
             android:exported="true" >
             <intent-filter>

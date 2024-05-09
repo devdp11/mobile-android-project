@@ -5,13 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".register">
+    tools:context=".activity.RegisterActivity">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="460dp"
-        android:background="@drawable/triangles"
+        android:background="@drawable/triangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +115,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
-        android:backgroundTint="@color/main_color"
+        android:backgroundTint="#DC851F"
         android:fontFamily="@font/kadwa_bold"
         android:text="@string/register_button"
         android:textColor="@color/white"
