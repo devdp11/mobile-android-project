@@ -14,8 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidstudioproject"
         tools:targetApi="31">
+        <activity android:name=".activity.DashboardActivity"
+            android:exported="false" />
         <activity
-            android:name=".activity.DashboardActivity"
+            android:name=".activity.IntroSliderActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

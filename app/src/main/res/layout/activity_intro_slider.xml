@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFBE6"
     tools:context=".activity.IntroSliderActivity">
 
     <TextView
@@ -41,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="144dp"
-        android:backgroundTint="@color/main_color"
+        android:backgroundTint="#DC851F"
         android:text="@string/skip_intro_slider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
