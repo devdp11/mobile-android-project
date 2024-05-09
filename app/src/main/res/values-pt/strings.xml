@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Journeys</string>
+    <string name="intro_slider_one">Explora o mundo</string>
+    <string name="intro_slider_two">Planeia a jornada</string>
+    <string name="intro_slider_three">Partilha as viagens</string>
+    <string name="intro_slider_one_desc">Embarque numa jornada de descoberta enquanto explora paisagens deslumbrantes, culturas vibrantes e aventuras inesquecíveis ao redor do mundo.</string>
+    <string name="intro_slider_two_desc">Prepare-se para a aventura dos seus sonhos ao planear cada detalhe da sua viagem, desde destinos emocionantes até atividades empolgantes, criando memórias que durarão para sempre.</string>
+    <string name="intro_slider_three_desc">Convide os seus amigos para se juntarem à sua viagem e compartilhem momentos inesquecíveis juntos. Deixe que eles façam parte das suas aventuras, criando memórias para toda a vida.</string>
+    <string name="skip_intro_slider">Comece Agora</string>
+    <string name="back_intro_slider">Voltar</string>
+    <string name="next_intro_slider">Prox</string>
 </resources>
