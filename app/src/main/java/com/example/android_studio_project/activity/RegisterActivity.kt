@@ -38,9 +38,9 @@ class RegisterActivity : AppCompatActivity() {
             passwordText.setSelection(passwordText.text.length)
         }
 
-        val buttonRegister: Button = findViewById(R.id.buttonRegister)
+        val btnRegister: Button = findViewById(R.id.buttonRegister)
 
-        buttonRegister.setOnClickListener {
+        btnRegister.setOnClickListener {
             val firstNameText = findViewById<EditText>(R.id.editTextFirstName).text.toString()
             val lastNameText = findViewById<EditText>(R.id.editTextLastName).text.toString()
             val usernameText = findViewById<EditText>(R.id.editTextUsername).text.toString()
@@ -55,18 +55,29 @@ class RegisterActivity : AppCompatActivity() {
                 email = emailText,
                 password = passwordText
             )
+            if (emailText.isNotEmpty() && passwordText.isNotEmpty() && firstNameText.isNotEmpty() && lastNameText.isNotEmpty() && usernameText.isNotEmpty()) {
 
-            authService.createUser(newUser, onResponse = { createdUser ->
-                if (createdUser != null) {
+                authService.createUser(newUser, onResponse = { responseMessage ->
                     runOnUiThread {
-                        Toast.makeText(this, "Utilizador criado com sucesso", Toast.LENGTH_SHORT).show()
+                        if (responseMessage == "success") {
+                            Toast.makeText(
+                                this,
+                                "Utilizador criado com sucesso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(this, "Erro ao criar utilizador", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
-                }
-            }, onFailure = {
-                runOnUiThread {
-                    Toast.makeText(this, "Erro ao criar utilizador", Toast.LENGTH_SHORT).show()
-                }
-            })
+                }, onFailure = {
+                    runOnUiThread {
+                        Toast.makeText(this, "Erro ao criar utilizador", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+            }
 
         }
     }
