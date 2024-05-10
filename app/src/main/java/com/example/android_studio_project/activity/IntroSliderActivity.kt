@@ -27,7 +27,7 @@ class IntroSliderActivity : AppCompatActivity() {
 
         val btnSkip: Button = findViewById(R.id.btn_skip)
         btnSkip.setOnClickListener {
-            navigateToDashboard()
+            navigateToLogin()
         }
 
         val btnBack: Button = findViewById(R.id.btn_back)
@@ -49,8 +49,8 @@ class IntroSliderActivity : AppCompatActivity() {
         startAutoNavigation()
     }
 
-    private fun navigateToDashboard() {
-        val intent = Intent(this, DashboardActivity::class.java)
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }

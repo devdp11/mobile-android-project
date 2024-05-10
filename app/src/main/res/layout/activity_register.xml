@@ -110,6 +110,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
+    <ImageButton
+        android:id="@+id/togglePasswordVisibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:background="@android:color/transparent"
+        android:padding="10dp"
+        android:src="@drawable/eye1"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextPassword" />
+
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
