@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".activity.RegisterActivity">
 
     <ImageView
@@ -17,34 +18,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewAppTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        android:fontFamily="@font/paytone_one"
-        android:text="@string/app_name"
-        android:textColor="@android:color/black"
-        android:textSize="66sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="37dp" />
 
     <EditText
         android:id="@+id/editTextFirstName"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginHorizontal="45dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:autofillHints=""
-        android:background="@drawable/input_border"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/kadwa_bold"
         android:hint="@string/first_name"
         android:inputType="text"
+        android:textColorHint="@color/white"
+        android:textColor="#FFFFFF"
         android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAppTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <EditText
         android:id="@+id/editTextLastName"
@@ -53,10 +52,12 @@
         android:layout_marginHorizontal="45dp"
         android:layout_marginTop="30dp"
         android:autofillHints=""
-        android:background="@drawable/input_border"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/kadwa_bold"
         android:hint="@string/last_name"
         android:inputType="text"
+        android:textColorHint="@color/white"
+        android:textColor="#FFFFFF"
         android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +71,9 @@
         android:layout_marginHorizontal="45dp"
         android:layout_marginTop="30dp"
         android:autofillHints=""
-        android:background="@drawable/input_border"
+        android:textColorHint="@color/white"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/kadwa_bold"
         android:hint="@string/username"
         android:inputType="text"
@@ -85,9 +88,11 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="45dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/input_border"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/kadwa_bold"
         android:hint="@string/email"
+        android:textColorHint="@color/white"
+        android:textColor="#FFFFFF"
         android:inputType="text"
         android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,9 +106,11 @@
         android:layout_marginHorizontal="45dp"
         android:layout_marginTop="30dp"
         android:autofillHints=""
-        android:background="@drawable/input_border"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/kadwa_bold"
         android:hint="@string/password"
+        android:textColorHint="@color/white"
+        android:textColor="#FFFFFF"
         android:inputType="textPassword"
         android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,6 +125,7 @@
         android:background="@android:color/transparent"
         android:padding="10dp"
         android:src="@drawable/eye1"
+        android:tint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/editTextPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTextPassword" />
@@ -126,13 +134,31 @@
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="#DC851F"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/logreg_button"
         android:fontFamily="@font/kadwa_bold"
         android:text="@string/register_button"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <TextView
+        android:id="@+id/link_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/acc"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center_horizontal"
+        android:autoLink="web"
+        android:textColor="@color/black"
+        android:clickable="true"
+        android:onClick="openLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegister"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

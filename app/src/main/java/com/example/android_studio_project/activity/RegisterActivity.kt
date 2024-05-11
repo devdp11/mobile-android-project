@@ -1,7 +1,9 @@
 package com.example.android_studio_project.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
@@ -39,4 +41,7 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
     }
+    fun openLogin(view: View) {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)}
 }
