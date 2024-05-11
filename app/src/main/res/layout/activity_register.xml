@@ -25,7 +25,8 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/logo"
         tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="37dp" />
+        tools:layout_editor_absoluteY="37dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextFirstName"
