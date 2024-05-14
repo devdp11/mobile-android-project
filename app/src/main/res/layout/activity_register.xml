@@ -20,12 +20,14 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:src="@drawable/logo"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="37dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -33,7 +35,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginHorizontal="45dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:autofillHints=""
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/kadwa_bold"
@@ -135,8 +137,7 @@
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/logreg_button"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/kadwa_bold"
         android:text="@string/register_button"
         android:textColor="@color/white"
@@ -148,18 +149,17 @@
         android:id="@+id/link_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/acc"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:autoLink="web"
-        android:textColor="@color/black"
         android:clickable="true"
+        android:focusable="true"
         android:onClick="openLogin"
+        android:text="@string/acc"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegister"
-        android:focusable="true" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

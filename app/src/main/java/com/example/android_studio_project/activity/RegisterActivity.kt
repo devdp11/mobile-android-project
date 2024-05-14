@@ -1,17 +1,21 @@
 package com.example.android_studio_project.activity
 
 import android.content.Intent
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.android_studio_project.R
 
 class RegisterActivity : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -20,7 +24,6 @@ class RegisterActivity : AppCompatActivity() {
         val passwordText: EditText = findViewById(R.id.editTextPassword)
 
         var isPasswordVisible = false
-
 
         btnVisibility.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
