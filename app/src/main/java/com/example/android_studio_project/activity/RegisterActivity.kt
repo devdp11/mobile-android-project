@@ -1,18 +1,32 @@
 package com.example.android_studio_project.activity
 
+import android.content.Intent
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+
+import android.view.View
+import android.widget.EditText
+import android.widget.ImageButton
+import androidx.annotation.RequiresApi
+=======
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.AuthService
 
 class RegisterActivity : AppCompatActivity() {
+
+    @RequiresApi(Build.VERSION_CODES.O)
+
     private lateinit var authService: AuthService
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,4 +95,11 @@ class RegisterActivity : AppCompatActivity() {
 
         }
     }
+
+    fun openLogin(view: View) {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)}
 }
+=======
+}
+

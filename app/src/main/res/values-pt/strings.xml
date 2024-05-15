@@ -23,4 +23,6 @@
     <string name="skip_intro_slider">Comece Agora</string>
     <string name="back_intro_slider">Voltar</string>
     <string name="next_intro_slider">Prox</string>
+    <string name="no_acc">Sem conta? Regista-te aqui!</string>
+    <string name="acc">Já tem conta? Entra aqui!</string>
 </resources>

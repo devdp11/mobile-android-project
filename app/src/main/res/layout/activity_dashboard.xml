@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:background="@drawable/dashgradient"
     android:layout_height="match_parent"
     tools:context=".activity.DashboardActivity">
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
@@ -14,7 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tab"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab"
@@ -23,6 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/metallic"
         app:tabMode="fixed"
         app:tabGravity="fill">
 
@@ -42,7 +46,8 @@
             android:id="@+id/btn_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/profile"/>
+            android:icon="@drawable/profile" />
+
 
     </com.google.android.material.tabs.TabLayout>
 
