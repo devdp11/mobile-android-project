@@ -86,6 +86,7 @@ class RegisterActivity : AppCompatActivity() {
                 }, onFailure = {
                     runOnUiThread {
                         Toast.makeText(this, "Erro ao criar utilizador", Toast.LENGTH_SHORT).show()
+
                     }
                 })
             } else {
@@ -99,5 +100,4 @@ class RegisterActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)}
 }
-
 

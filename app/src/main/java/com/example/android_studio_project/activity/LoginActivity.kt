@@ -1,10 +1,13 @@
 package com.example.android_studio_project.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import android.content.SharedPreferences
 
 import android.widget.Button
 import android.widget.EditText
@@ -19,6 +22,13 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+        if (isLoggedIn()) {
+            navigateToDashboard()
+            return
+        }
+
         setContentView(R.layout.activity_login)
 
         authService = AuthService()
@@ -37,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
                         runOnUiThread {
                             Toast.makeText(this, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                         }
+                        saveLoginState(true)
                         navigateToDashboard()
                     } else {
                         runOnUiThread {
@@ -46,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
                 }, onFailure = { error ->
                     runOnUiThread {
                         Toast.makeText(this, "Erro na autenticação: ${error.message}", Toast.LENGTH_SHORT).show()
+
                     }
                 })
             } else {
@@ -64,5 +76,16 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-}
 
+    private fun isLoggedIn(): Boolean {
+        val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isLoggedIn", false)
+    }
+
+    private fun saveLoginState(isLoggedIn: Boolean) {
+        val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.apply()
+    }
+}
