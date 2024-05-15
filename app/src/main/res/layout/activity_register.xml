@@ -5,134 +5,170 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".activity.RegisterActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="460dp"
-        android:background="@drawable/triangle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textViewAppTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        android:fontFamily="@font/paytone_one"
-        android:text="@string/app_name"
-        android:textColor="@android:color/black"
-        android:textSize="66sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editTextFirstName"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginTop="50dp"
-        android:autofillHints=""
-        android:background="@drawable/input_border"
-        android:fontFamily="@font/kadwa_bold"
-        android:hint="@string/first_name"
-        android:inputType="text"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAppTitle" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="460dp"
+                android:background="@drawable/triangle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextLastName"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginTop="30dp"
-        android:autofillHints=""
-        android:background="@drawable/input_border"
-        android:fontFamily="@font/kadwa_bold"
-        android:hint="@string/last_name"
-        android:inputType="text"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFirstName" />
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
 
+            <EditText
+                android:id="@+id/editTextFirstName"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="45dp"
+                android:layout_marginTop="10dp"
+                android:autofillHints=""
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/kadwa_bold"
+                android:hint="@string/first_name"
+                android:inputType="text"
+                android:textColorHint="@color/white"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
 
-    <EditText
-        android:id="@+id/editTextUsername"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginTop="30dp"
-        android:autofillHints=""
-        android:background="@drawable/input_border"
-        android:fontFamily="@font/kadwa_bold"
-        android:hint="@string/username"
-        android:inputType="text"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLastName" />
+            <EditText
+                android:id="@+id/editTextLastName"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="45dp"
+                android:layout_marginTop="30dp"
+                android:autofillHints=""
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/kadwa_bold"
+                android:hint="@string/last_name"
+                android:inputType="text"
+                android:textColorHint="@color/white"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFirstName" />
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/input_border"
-        android:fontFamily="@font/kadwa_bold"
-        android:hint="@string/email"
-        android:inputType="text"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+            <EditText
+                android:id="@+id/editTextUsername"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="45dp"
+                android:layout_marginTop="30dp"
+                android:autofillHints=""
+                android:textColorHint="@color/white"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/kadwa_bold"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextLastName" />
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginTop="30dp"
-        android:autofillHints=""
-        android:background="@drawable/input_border"
-        android:fontFamily="@font/kadwa_bold"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="45dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/kadwa_bold"
+                android:hint="@string/email"
+                android:textColorHint="@color/white"
+                android:textColor="#FFFFFF"
+                android:inputType="text"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
 
-    <ImageButton
-        android:id="@+id/togglePasswordVisibility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:background="@android:color/transparent"
-        android:padding="10dp"
-        android:src="@drawable/eye1"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editTextPassword" />
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="45dp"
+                android:layout_marginTop="30dp"
+                android:autofillHints=""
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/kadwa_bold"
+                android:hint="@string/password"
+                android:textColorHint="@color/white"
+                android:textColor="#FFFFFF"
+                android:inputType="textPassword"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
-    <Button
-        android:id="@+id/buttonRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="#DC851F"
-        android:fontFamily="@font/kadwa_bold"
-        android:text="@string/register_button"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+            <ImageButton
+                android:id="@+id/togglePasswordVisibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:src="@drawable/eye1"
+                app:tint="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/editTextPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editTextPassword" />
 
+            <Button
+                android:id="@+id/buttonRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/kadwa_bold"
+                android:text="@string/register_button"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+            <TextView
+                android:id="@+id/link_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:autoLink="web"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="openLogin"
+                android:text="@string/acc"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

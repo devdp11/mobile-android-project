@@ -52,12 +52,21 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
 
+    // room
     implementation("androidx.room:room-common:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation ("androidx.room:room-runtime:2.6.1")
-    kapt ("androidx.room:room-compiler:2.6.1")
     testImplementation("androidx.room:room-testing:2.6.1")
 
+    // kapt
+    kapt ("androidx.room:room-compiler:2.6.1")
+
+    // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    // coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }

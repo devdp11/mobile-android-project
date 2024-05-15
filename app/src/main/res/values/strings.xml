@@ -23,4 +23,7 @@
     <string name="skip_intro_slider">Get Started</string>
     <string name="back_intro_slider">Back</string>
     <string name="next_intro_slider">Next</string>
+    <string name="no_acc">No account? Sign Up!</string>
+    <string name="acc">Login here!</string>
+
 </resources>
