@@ -10,10 +10,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
-=======
+
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +26,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var authService: AuthService
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -100,6 +99,5 @@ class RegisterActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)}
 }
-=======
-}
+
 
