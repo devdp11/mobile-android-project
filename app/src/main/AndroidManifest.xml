@@ -14,17 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidstudioproject"
         tools:targetApi="31">
-        <activity android:name=".activity.DashboardActivity"
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="false" />
-        <activity android:name=".activity.DisplayProfileActivity"
+        <activity
+            android:name=".activity.RegisterActivity"
             android:exported="false" />
-        <activity android:name=".activity.RegisterActivity"
-            android:exported="false" />
-        <activity android:name=".activity.IntroSliderActivity"
+        <activity
+            android:name=".activity.IntroSliderActivity"
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

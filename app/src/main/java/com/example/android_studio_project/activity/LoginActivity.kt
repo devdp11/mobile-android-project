@@ -60,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)}
 
     private fun navigateToDashboard() {
-        val intent = Intent(this, DashboardActivity::class.java);
+        val intent = Intent(this,MainActivity::class.java);
         startActivity(intent)
         finish()
     }
