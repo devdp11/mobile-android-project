@@ -25,5 +25,12 @@
     <string name="next_intro_slider">Next</string>
     <string name="no_acc">Sign Up!</string>
     <string name="acc">Create Account!</string>
-
+    <string name="add_trip">Add Trip</string>
+    <string name="trip_name">Trip Name</string>
+    <string name="trip_date">Trip Date</string>
+    <string name="add_photos">Add Photos</string>
+    <string name="save_trip">Save Trip</string>
+    <string name="rating">Rating</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

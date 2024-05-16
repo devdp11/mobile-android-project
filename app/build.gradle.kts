@@ -57,6 +57,13 @@ dependencies {
 
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    // nem sei se da é pra popup pra dar permissao ao adicionar img
+    implementation ("com.google.android.material:material:1.7.0")
+    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("androidx.activity:activity-ktx:1.4.0")
+    implementation ("androidx.fragment:fragment-ktx:1.4.0")
+
+
 
     // room
     implementation("androidx.room:room-common:2.6.1")

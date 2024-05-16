@@ -25,4 +25,10 @@
     <string name="next_intro_slider">Prox</string>
     <string name="no_acc">Sem conta? Regista-te aqui!</string>
     <string name="acc">Já tem conta? Entra aqui!</string>
+    <string name="add_trip">Adicionar Viagem</string>
+    <string name="trip_name">Nome Viagem</string>
+    <string name="trip_date">Data de Viagem</string>
+    <string name="add_photos">Adicionar Fotos</string>
+    <string name="save_trip">Guardar Viagem</string>
+    <string name="rating">Rating</string>
 </resources>

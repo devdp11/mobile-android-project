@@ -12,6 +12,12 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+    </style>
+    <style name="CustomDatePickerDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorAccent">@color/main</item>
+        <item name="android:textColorPrimary">@color/main</item>
+        <item name="android:textColorSecondary">@color/main</item>
     </style>
 
     <style name="nightmodeswitch" parent="Theme.AppCompat.Light" >
@@ -19,4 +25,10 @@
         <item name="colorSwitchThumbNormal" > @color/white </item>
         <item name="android:colorForeground" > #99FFFFFF </item>
     </style>
+
+    <style name="RatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="colorAccent">@color/primary_color</item>
+    </style>
+
+
 </resources>
