@@ -128,7 +128,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/mode"
                         android:text="@string/night_mode"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -163,7 +163,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/notifications"
                         android:text="@string/notification"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -209,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/security_privacy"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_toEndOf="@id/security" />
@@ -242,88 +242,10 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/language"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_toEndOf="@id/language" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/btn_forward"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:background="@drawable/round_back_20"
-                android:padding="15dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
-
-                    <ImageView
-                        android:id="@+id/security1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/btn_mode"
-                        android:background="@drawable/round_back_security"
-                        android:padding="12sp"/>
-
-                    <TextView
-                        android:layout_marginStart="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/security_privacy"
-                        android:textColor="@color/dark_gray"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:layout_toEndOf="@id/security1" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/btn_forward"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <ImageView
-                        android:id="@+id/language1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/btn_mode"
-                        android:background="@drawable/round_back_language"
-                        android:padding="12sp"/>
-
-                    <TextView
-                        android:layout_marginStart="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/language"
-                        android:textColor="@color/dark_gray"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:layout_toEndOf="@id/language1" />
 
                     <ImageView
                         android:layout_width="wrap_content"
