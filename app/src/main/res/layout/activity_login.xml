@@ -14,8 +14,8 @@
         tools:ignore="ExtraText">
 
         <ImageView
-            android:layout_width="163dp"
-            android:layout_height="735dp"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
             android:background="@drawable/mid_circle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

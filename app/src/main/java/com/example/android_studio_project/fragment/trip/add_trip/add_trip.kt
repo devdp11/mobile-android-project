@@ -1,12 +1,7 @@
 package com.example.android_studio_project.fragment.trip.add_trip
 
-import android.app.Activity
-import android.app.DatePickerDialog
-import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +9,11 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
+import com.example.android_studio_project.fragment.ot.display_home
+import com.google.android.material.button.MaterialButton
 import java.util.Calendar
 
-class AddTripFragment : Fragment(), CustomDatePickerFragment.OnDateSelectedListener {
+class add_trip : Fragment(), CustomDatePickerFragment.OnDateSelectedListener {
 
     private lateinit var tripNameEditText: EditText
     private lateinit var tripDateEditText: EditText
@@ -57,7 +54,25 @@ class AddTripFragment : Fragment(), CustomDatePickerFragment.OnDateSelectedListe
             saveTrip()
         }
 
+        val backButton: ImageView = view.findViewById(R.id.btn_back)
+        val cancelButton: MaterialButton = view.findViewById(R.id.cancel_trip_button)
+
+        backButton.setOnClickListener {
+            navigateToHome()
+        }
+
+        cancelButton.setOnClickListener {
+            navigateToHome()
+        }
+
         return view
+    }
+
+    private fun navigateToHome() {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, display_home())
+            .addToBackStack(null)
+            .commit()
     }
 
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->

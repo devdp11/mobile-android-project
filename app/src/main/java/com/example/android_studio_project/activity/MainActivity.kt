@@ -1,8 +1,6 @@
 package com.example.android_studio_project.activity
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -12,7 +10,6 @@ import com.example.android_studio_project.databinding.ActivityMainBinding
 import com.example.android_studio_project.fragment.ot.display_home
 import com.example.android_studio_project.fragment.ot.display_search
 import com.example.android_studio_project.fragment.profile.display.display_profile
-import com.example.android_studio_project.fragment.trip.add_trip.AddTripFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding;
@@ -38,10 +35,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        findViewById<ImageView>(R.id.image_button).setOnClickListener {
-            replaceFragment(AddTripFragment())
-        }
-
     }
 
     private fun replaceFragment(fragment: Fragment) {
