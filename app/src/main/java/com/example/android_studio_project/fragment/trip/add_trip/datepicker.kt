@@ -1,17 +1,14 @@
 package com.example.android_studio_project.fragment.trip.add_trip
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import com.example.android_studio_project.R
 import java.util.*
 
-class CustomDatePickerFragment : DialogFragment() {
+class CustomDatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     interface OnDateSelectedListener {
         fun onDateSelected(year: Int, month: Int, day: Int)
@@ -20,30 +17,17 @@ class CustomDatePickerFragment : DialogFragment() {
     var listener: OnDateSelectedListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.datepicker)
+        // Use the current date as the default date in the picker
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
 
-        val datePicker: DatePicker = dialog.findViewById(R.id.datePicker)
-        val buttonOk: Button = dialog.findViewById(R.id.button_ok)
-        val buttonCancel: Button = dialog.findViewById(R.id.button_cancel)
-
-        buttonOk.setOnClickListener {
-            val year = datePicker.year
-            val month = datePicker.month
-            val day = datePicker.dayOfMonth
-            listener?.onDateSelected(year, month, day)
-            dismiss()
-        }
-
-        buttonCancel.setOnClickListener {
-            dismiss()
-        }
-
-        return dialog
+        // Create a new instance of DatePickerDialog and return it
+        return DatePickerDialog(requireContext(), this, year, month, day)
     }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
+        listener?.onDateSelected(year, month, day)
     }
 }

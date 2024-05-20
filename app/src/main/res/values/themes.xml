@@ -12,8 +12,48 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
     </style>
+
+    <!-- Custom style for MaterialDatePicker -->
+
+
+    <!-- Customize the calendar view -->
+    <style name="CustomMaterialCalendar" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="dayStyle">@style/CustomCalendarDay</item>
+        <item name="dayInvalidStyle">@style/CustomCalendarDayInvalid</item>
+        <item name="daySelectedStyle">@style/CustomCalendarDaySelected</item>
+        <item name="dayTodayStyle">@style/CustomCalendarDayToday</item>
+    </style>
+
+    <!-- Customize the calendar fullscreen view -->
+
+
+    <!-- Customize the day style -->
+    <style name="CustomCalendarDay" parent="Widget.MaterialComponents.MaterialCalendar.Day">
+        <item name="android:textColor">@color/main</item>
+    </style>
+
+    <!-- Customize the invalid day style -->
+    <style name="CustomCalendarDayInvalid" parent="Widget.MaterialComponents.MaterialCalendar.Day.Invalid">
+        <item name="android:textColor">@color/main</item>
+    </style>
+
+    <!-- Customize the selected day style -->
+    <style name="CustomCalendarDaySelected" parent="Widget.MaterialComponents.MaterialCalendar.Day.Selected">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="itemFillColor">@color/dark_gray</item>
+    </style>
+
+    <!-- Customize the today day style -->
+    <style name="CustomCalendarDayToday" parent="Widget.MaterialComponents.MaterialCalendar.Day.Today">
+        <item name="android:textColor">@color/main</item>
+    </style>
+
+    <!-- Customize the header toggle button style -->
+    <style name="CustomCalendarHeaderToggle" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:backgroundTint">@color/dark_gray</item>
+    </style>
+
     <style name="CustomDatePickerDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="colorAccent">@color/main</item>
         <item name="android:textColorPrimary">@color/main</item>
@@ -21,14 +61,12 @@
     </style>
 
     <style name="nightmodeswitch" parent="Theme.AppCompat.Light" >
-        <item name="colorControlActivated" > @color/nightmode </item>
-        <item name="colorSwitchThumbNormal" > @color/white </item>
-        <item name="android:colorForeground" > #99FFFFFF </item>
+        <item name="colorControlActivated">@color/nightmode</item>
+        <item name="colorSwitchThumbNormal">@color/white</item>
+        <item name="android:colorForeground">#99FFFFFF</item>
     </style>
 
     <style name="RatingBar" parent="Widget.AppCompat.RatingBar">
         <item name="colorAccent">@color/primary_color</item>
     </style>
-
-
 </resources>
