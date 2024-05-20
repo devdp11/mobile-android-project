@@ -14,13 +14,7 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 class AddTripFragment : Fragment(), CustomDatePickerFragment.OnDateSelectedListener {
 
@@ -43,7 +37,9 @@ class AddTripFragment : Fragment(), CustomDatePickerFragment.OnDateSelectedListe
         tripNameEditText = view.findViewById(R.id.trip_name)
         tripDateEditText = view.findViewById(R.id.trip_date)
         tripDateEditText.setOnClickListener {
-            showDatePicker()
+            val datePickerFragment = CustomDatePickerFragment()
+            datePickerFragment.listener = this
+            datePickerFragment.show(parentFragmentManager, "datePicker")
         }
         tripRatingBar = view.findViewById(R.id.trip_rating)
         addPhotosButton = view.findViewById(R.id.add_photos_button)
@@ -98,25 +94,6 @@ class AddTripFragment : Fragment(), CustomDatePickerFragment.OnDateSelectedListe
             imageView.setImageURI(getItem(position))
             return imageView
         }
-    }
-
-    private fun showDatePicker() {
-        val constraintsBuilder = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointForward.now())
-
-        val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select trip date")
-            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-            .setCalendarConstraints(constraintsBuilder.build())
-            .build()
-
-        datePicker.addOnPositiveButtonClickListener { selection ->
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val date = dateFormat.format(Date(selection))
-            tripDateEditText.setText(date)
-        }
-
-        datePicker.show(parentFragmentManager, "datePicker")
     }
 
     override fun onDateSelected(year: Int, month: Int, day: Int) {
