@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.UserInterface
+import com.example.android_studio_project.data.retrofit.models.UpdateUserModel
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +43,8 @@ class UserService(private val context: Context) {
     fun updateUser(user: UserModel, onResponse: (UserModel?) -> Unit, onFailure: (Throwable) -> Unit) {
         val userEmail = user.email
         if (userEmail != null) {
-            val call = userApi.updateUser(userEmail, user)
+            val updateUserModel = UpdateUserModel(email = userEmail, userData = user)
+            val call = userApi.updateUser(updateUserModel)
             call.enqueue(object : Callback<UserModel> {
                 override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                     if (response.isSuccessful) {
