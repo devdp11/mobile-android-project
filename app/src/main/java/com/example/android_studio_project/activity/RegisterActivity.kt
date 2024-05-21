@@ -31,7 +31,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        authService = AuthService()
+        authService = AuthService(this)
 
         val btnVisibility: ImageButton = findViewById(R.id.togglePasswordVisibility)
         val passwordText: EditText = findViewById(R.id.editTextPassword)

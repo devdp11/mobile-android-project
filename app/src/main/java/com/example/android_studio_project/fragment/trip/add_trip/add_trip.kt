@@ -54,25 +54,7 @@ class add_trip : Fragment(), CustomDatePickerFragment.OnDateSelectedListener {
             saveTrip()
         }
 
-        val backButton: ImageView = view.findViewById(R.id.btn_back)
-        val cancelButton: MaterialButton = view.findViewById(R.id.cancel_trip_button)
-
-        backButton.setOnClickListener {
-            navigateToHome()
-        }
-
-        cancelButton.setOnClickListener {
-            navigateToHome()
-        }
-
         return view
-    }
-
-    private fun navigateToHome() {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, display_home())
-            .addToBackStack(null)
-            .commit()
     }
 
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->

@@ -2,14 +2,10 @@ package com.example.android_studio_project.activity
 
 import android.content.Intent
 import android.os.Bundle
-
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.AuthService
@@ -21,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        authService = AuthService()
+        authService = AuthService(this)
 
         val email: EditText = findViewById(R.id.editTextEmail)
         val password: EditText = findViewById(R.id.editTextPassword)
@@ -32,8 +28,8 @@ class LoginActivity : AppCompatActivity() {
             val passwordText = password.text.toString()
 
             if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
-                authService.verifyUser(emailText, passwordText, onResponse = { user ->
-                    if (user != null) {
+                authService.verifyUser(emailText, passwordText, onResponse = { success ->
+                    if (success) {
                         runOnUiThread {
                             Toast.makeText(this, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                         }
@@ -54,15 +50,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     fun openRegister(view: View) {
         val intent = Intent(this, RegisterActivity::class.java)
-        startActivity(intent)}
+        startActivity(intent)
+    }
 
     private fun navigateToDashboard() {
-        val intent = Intent(this,MainActivity::class.java);
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
 }
-
