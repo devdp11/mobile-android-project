@@ -25,7 +25,7 @@ class display_profile(private val userEmail: String) : Fragment() {
         val editProfile: Button = view.findViewById(R.id.btn_edit)
         editProfile.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, edit_profile())
+                .replace(R.id.frame_layout, edit_profile.newInstance(userEmail))
                 .addToBackStack(null)
                 .commit()
         }

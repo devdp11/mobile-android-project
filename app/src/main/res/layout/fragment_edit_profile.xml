@@ -65,6 +65,7 @@
                 app:cardElevation="0dp">
 
                 <ImageView
+                    android:id="@+id/user_avatar"
                     android:layout_width="125dp"
                     android:layout_height="125dp"
                     android:layout_gravity="center"
@@ -82,6 +83,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <TextView
+                android:id="@+id/user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="example@example.com"
@@ -99,6 +101,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <EditText
+                android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter First Name"
@@ -116,6 +119,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <EditText
+                android:id="@+id/last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Last Name"
@@ -133,6 +137,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <EditText
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Username"
