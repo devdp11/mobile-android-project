@@ -73,23 +73,18 @@ class RegisterActivity : AppCompatActivity() {
                 authService.createUser(newUser, onResponse = { responseMessage ->
                     runOnUiThread {
                         if (responseMessage == "success") {
-                            Toast.makeText(
-                                this,
-                                "Utilizador criado com sucesso",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this, getString(R.string.register_succe), Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(this, "Erro ao criar utilizador", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(this, getString(R.string.register_error), Toast.LENGTH_LONG).show()
                         }
                     }
                 }, onFailure = {
                     runOnUiThread {
-                        Toast.makeText(this, "Erro ao criar utilizador", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.register_error), Toast.LENGTH_LONG).show()
                     }
                 })
             } else {
-                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
             }
 
         }

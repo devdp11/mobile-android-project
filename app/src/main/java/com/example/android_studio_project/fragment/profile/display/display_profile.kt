@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.util.Base64
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.UserService
 import com.example.android_studio_project.fragment.profile.edit.edit_profile
@@ -42,22 +43,22 @@ class display_profile(private val userEmail: String) : Fragment() {
                     textViewName.text = userDetails.firstName ?: ""
                     textViewEmail.text = userDetails.email ?: ""
 
-                    val userAvatarUrl: String? = userDetails.avatar
+                    val userAvatarBytes: ByteArray? = userDetails.avatar
 
-                    if (!userAvatarUrl.isNullOrEmpty()) {
+                    if (userAvatarBytes != null) {
+                        val userAvatarUrl = Base64.encodeToString(userAvatarBytes, Base64.DEFAULT)
                         Glide.with(this)
                             .load(userAvatarUrl)
                             .into(imageViewAvatar)
                     } else {
                         imageViewAvatar.setImageResource(R.drawable.profile)
                     }
+
                 }
             },
             onFailure = { error ->
-                // Handle error
             }
         )
-
         return view
     }
 

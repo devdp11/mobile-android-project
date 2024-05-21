@@ -2,6 +2,7 @@ package com.example.android_studio_project.data.retrofit.services
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.UserInterface
 import com.example.android_studio_project.data.retrofit.models.UserModel
@@ -35,6 +36,33 @@ class UserService(private val context: Context) {
             })
         } else {
             onFailure(Throwable("User email not found in SharedPreferences"))
+        }
+    }
+
+    fun updateUser(user: UserModel, onResponse: (UserModel?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val userEmail = user.email
+        if (userEmail != null) {
+            val call = userApi.updateUser(userEmail, user)
+            call.enqueue(object : Callback<UserModel> {
+                override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                    if (response.isSuccessful) {
+                        val updatedUser = response.body()
+                        onResponse(updatedUser)
+                        Log.d("UserService", "User updated successfully")
+                    } else {
+                        onFailure(Throwable("Failed to update user: ${response.code()}"))
+                        Log.e("UserService", "Failed to update user: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                    onFailure(t)
+                    Log.e("UserService", "Failed to update user", t)
+                }
+            })
+        } else {
+            onFailure(Throwable("User email not provided"))
+            Log.e("UserService", "User email not provided")
         }
     }
 

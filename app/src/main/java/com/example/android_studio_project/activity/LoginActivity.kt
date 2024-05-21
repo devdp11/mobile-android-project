@@ -31,21 +31,21 @@ class LoginActivity : AppCompatActivity() {
                 authService.verifyUser(emailText, passwordText, onResponse = { success ->
                     if (success) {
                         runOnUiThread {
-                            Toast.makeText(this, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
                         }
                         navigateToDashboard()
                     } else {
                         runOnUiThread {
-                            Toast.makeText(this, "Login mal-sucedido", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_LONG).show()
                         }
                     }
                 }, onFailure = { error ->
                     runOnUiThread {
-                        Toast.makeText(this, "Erro na autenticação: ${error.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_LONG).show()
                     }
                 })
             } else {
-                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
             }
         }
     }

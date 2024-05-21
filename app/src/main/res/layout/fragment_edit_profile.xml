@@ -68,8 +68,7 @@
                     android:id="@+id/user_avatar"
                     android:layout_width="125dp"
                     android:layout_height="125dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/slider2" />
+                    android:layout_gravity="center" />
 
             </androidx.cardview.widget.CardView>
 
@@ -155,6 +154,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/cancel_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -164,6 +164,7 @@
             android:layout_margin="16dp"/>
 
         <Button
+            android:id="@+id/save_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
