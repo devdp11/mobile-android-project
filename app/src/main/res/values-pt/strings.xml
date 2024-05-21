@@ -32,4 +32,7 @@
     <string name="save_trip">Guardar Viagem</string>
     <string name="cancel">Cancelar</string>
     <string name="rating">Rating</string>
+    <string name="description">Descrição</string>
+    <string name="date">Data</string>
+    <string name="save">Salvar</string>
 </resources>
