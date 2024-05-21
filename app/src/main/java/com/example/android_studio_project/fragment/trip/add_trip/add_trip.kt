@@ -1,7 +1,12 @@
 package com.example.android_studio_project.fragment.trip.add_trip
 
+import android.app.Activity
+import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +14,9 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
-import com.example.android_studio_project.fragment.ot.display_home
-import com.google.android.material.button.MaterialButton
 import java.util.Calendar
 
-class add_trip : Fragment(), CustomDatePickerFragment.OnDateSelectedListener {
+class AddTripFragment : Fragment(), CustomDatePickerFragment.OnDateSelectedListener {
 
     private lateinit var tripNameEditText: EditText
     private lateinit var tripDateEditText: EditText

@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,6 +63,7 @@ dependencies {
     implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("androidx.activity:activity-ktx:1.4.0")
     implementation ("androidx.fragment:fragment-ktx:1.4.0")
+    implementation ("com.google.android.material:material:1.8.0")
 
 
 
@@ -85,4 +87,7 @@ dependencies {
 
     // coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    //fotos add_trip
+    implementation ("com.google.code.gson:gson:2.8.9") // Para o TypeConverter
 }
