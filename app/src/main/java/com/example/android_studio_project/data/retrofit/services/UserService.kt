@@ -68,6 +68,33 @@ class UserService(private val context: Context) {
         }
     }
 
+    fun updateUserPassword(newPassword: String, onResponse: () -> Unit, onFailure: (Throwable) -> Unit) {
+        val userEmail = getUserEmail()
+        if (userEmail != null) {
+            val call = userApi.updateUserPassword(userEmail, newPassword)
+            call.enqueue(object : Callback<UserModel> {
+                override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                    if (response.isSuccessful) {
+                        onResponse()
+                        Log.d("UserService", "User password updated successfully")
+                    } else {
+                        onFailure(Throwable("Failed to update user password: ${response.code()}"))
+                        Log.e("UserService", "Failed to update user password: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                    onFailure(t)
+                    Log.e("UserService", "Failed to update user password", t)
+                }
+            })
+        } else {
+            onFailure(Throwable("User email not found in SharedPreferences"))
+            Log.e("UserService", "User email not found in SharedPreferences")
+        }
+    }
+
+
     private fun getUserEmail(): String? {
         return sharedPreferences.getString("user_email", null)
     }

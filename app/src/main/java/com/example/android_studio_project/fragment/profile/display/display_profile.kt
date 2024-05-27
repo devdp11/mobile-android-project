@@ -13,6 +13,7 @@ import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.UserService
 import com.example.android_studio_project.fragment.profile.edit.edit_profile
 import com.bumptech.glide.Glide
+import com.example.android_studio_project.fragment.profile.password.edit_password
 
 class display_profile(private val userEmail: String) : Fragment() {
     private lateinit var userService: UserService
@@ -27,6 +28,14 @@ class display_profile(private val userEmail: String) : Fragment() {
         editProfile.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, edit_profile.newInstance(userEmail))
+                .addToBackStack(null)
+                .commit()
+        }
+
+        val editPassword: ImageView = view.findViewById(R.id.security_btn)
+        editPassword.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, edit_password.newInstance(userEmail))
                 .addToBackStack(null)
                 .commit()
         }

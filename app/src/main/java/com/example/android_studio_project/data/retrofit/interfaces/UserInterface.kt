@@ -14,4 +14,7 @@ interface UserInterface {
 
     @PUT("user/update")
     fun updateUser(@Body updateUserModel: UpdateUserModel): Call<UserModel>
+
+    @PUT("user/{email}/{password}")
+    fun updateUserPassword(@Path("email") email: String, @Path("password") password: String): Call<UserModel>
 }
