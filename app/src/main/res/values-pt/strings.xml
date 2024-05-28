@@ -62,7 +62,9 @@
     <string name="new_pass">Nova palavra-chave</string>
     <string name="conf_pass">Confirmar Palavra-Chave</string>
 
-    <string name="load_user_error">Erro ao carregar os dados do utilizador</string>
+    <string name="load_user_error">Erro ao carregar os dados do utilizador!</string>
+    <string name="load_trip_error">Erro ao carregar os dados da viagem!</string>
+
     <string name="update_password_error">Erro ao atualizar palavra-chave. Tente novamente!</string>
     <string name="update_password_succe">Palavra-chave atualizada com sucesso!</string>
     <string name="old_password_verify_error">Erro ao verificar palavra-chave antiga. Tente novamente!</string>

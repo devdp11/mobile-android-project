@@ -89,6 +89,7 @@ class LoginActivity : AppCompatActivity() {
     private fun openRegister() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun navigateToDashboard() {

@@ -12,7 +12,9 @@ import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.LocationTypeService
 import com.example.android_studio_project.data.retrofit.services.TripService
 import com.example.android_studio_project.fragment.trip.add_trip.AddTripFragment
+import com.example.android_studio_project.fragment.trip.edit_trip.edit_trip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.UUID
 
 class display_home(private val userEmail: String) : Fragment() {
 
@@ -28,7 +30,9 @@ class display_home(private val userEmail: String) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_display_home, container, false)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        displayHomeAdapter = display_home_adapter(emptyList())
+        displayHomeAdapter = display_home_adapter(emptyList()) { clickedTrip ->
+            openEditTripFragment(clickedTrip.uuid)
+        }
         recyclerView.adapter = displayHomeAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -47,6 +51,13 @@ class display_home(private val userEmail: String) : Fragment() {
         }
 
         return view
+    }
+
+    private fun openEditTripFragment(tripUuid: UUID) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, edit_trip.newInstance(tripUuid))
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun getTrips() {

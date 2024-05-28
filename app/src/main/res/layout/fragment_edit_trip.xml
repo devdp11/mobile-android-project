@@ -62,11 +62,12 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/trip_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
+                    android:editable="true"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/trip_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -177,6 +178,22 @@
                     style="?android:attr/buttonBarButtonStyle" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:id="@+id/uuid_teste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:fontFamily="@font/roboto"
+                tools:ignore="RelativeOverlap" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

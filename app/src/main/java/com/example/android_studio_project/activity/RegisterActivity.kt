@@ -58,12 +58,14 @@ class RegisterActivity : AppCompatActivity() {
             val lastNameText = findViewById<EditText>(R.id.editTextLastName).text.toString()
             val usernameText = findViewById<EditText>(R.id.editTextUsername).text.toString()
             val emailText = findViewById<EditText>(R.id.editTextEmail).text.toString()
-            val passwordText = passwordField.toString()
+            val passwordText = passwordField.text.toString()
 
-            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!])(?=\\S+\$).{6,}\$")
+
+            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{6,}$")
+            val isNewPasswordValid = passwordPattern.matches(passwordText)
 
             if (emailText.isNotEmpty() && passwordText.isNotEmpty() && firstNameText.isNotEmpty() && lastNameText.isNotEmpty() && usernameText.isNotEmpty()) {
-                if (passwordPattern.matches(passwordText)) {
+                if (isNewPasswordValid) {
                     val newUser = UserModel(
                         firstName = firstNameText,
                         lastName = lastNameText,
@@ -72,7 +74,6 @@ class RegisterActivity : AppCompatActivity() {
                         email = emailText,
                         password = passwordText
                     )
-
                     authService.createUser(newUser, onResponse = { responseMessage ->
                         runOnUiThread {
                             if (responseMessage == "success") {
@@ -112,6 +113,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun openLogin() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun navigateToDashboard() {

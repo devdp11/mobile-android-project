@@ -2,13 +2,13 @@ package com.example.android_studio_project.data.retrofit.services
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.TripInterface
 import com.example.android_studio_project.data.retrofit.models.TripModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.UUID
 
 class TripService(private val context: Context) {
     private val tripApi = API.getRetrofitInstance().create(TripInterface::class.java)
@@ -56,6 +56,24 @@ class TripService(private val context: Context) {
 
             override fun onFailure(call: Call<List<TripModel>>, t: Throwable) {
                 //Log.e("TripService", "Error: ${t.message}")
+                onFailure(t)
+            }
+        })
+    }
+
+    fun getTripById(uuid: UUID, onResponse: (TripModel?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = tripApi.getTripById(uuid)
+        call.enqueue(object : Callback<TripModel> {
+            override fun onResponse(call: Call<TripModel>, response: Response<TripModel>) {
+                if (response.isSuccessful) {
+                    val trip = response.body()
+                    onResponse(trip)
+                } else {
+                    onFailure(Throwable("Failed to get trip details: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<TripModel>, t: Throwable) {
                 onFailure(t)
             }
         })

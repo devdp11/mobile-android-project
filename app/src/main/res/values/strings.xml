@@ -63,6 +63,8 @@
     <string name="conf_pass">Confirm Password</string>
 
     <string name="load_user_error">Error loading user details!</string>
+    <string name="load_trip_error">Error loading trip details!</string>
+
     <string name="update_password_error">Error updating password. Try again.</string>
     <string name="update_password_succe">Password updated successfully!</string>
     <string name="old_password_verify_error">Error verifying old password. Try Again!</string>

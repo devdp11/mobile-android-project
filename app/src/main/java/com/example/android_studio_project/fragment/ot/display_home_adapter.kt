@@ -11,15 +11,27 @@ import com.example.android_studio_project.data.retrofit.models.TripModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class display_home_adapter(private var tripList: List<TripModel>) : RecyclerView.Adapter<display_home_adapter.ViewHolder>() {
+class display_home_adapter(private var tripList: List<TripModel>, private val onItemClick: (TripModel) -> Unit) : RecyclerView.Adapter<display_home_adapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val tripName: TextView = itemView.findViewById(R.id.trip_name)
         val tripDescription: TextView = itemView.findViewById(R.id.trip_description)
         val tripStartDate: TextView = itemView.findViewById(R.id.trip_start_date)
         val tripEndDate: TextView = itemView.findViewById(R.id.trip_end_date)
         val tripRating: TextView = itemView.findViewById(R.id.trip_rating)
         val rowLayout: ConstraintLayout = itemView.findViewById(R.id.rowLayout)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val clickedTrip = tripList[position]
+                onItemClick(clickedTrip)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,3 +69,4 @@ class display_home_adapter(private var tripList: List<TripModel>) : RecyclerView
         notifyDataSetChanged()
     }
 }
+
