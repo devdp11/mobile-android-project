@@ -1,4 +1,4 @@
-package com.example.android_studio_project.fragment.location.add
+package com.example.android_studio_project.fragment.location.add_location
 
 import android.app.DatePickerDialog
 import android.net.Uri
@@ -18,7 +18,6 @@ import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.models.LocationTypeModel
 import com.example.android_studio_project.data.retrofit.services.LocationTypeService
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
@@ -44,7 +43,7 @@ class add_location : Fragment() {
         val view = inflater.inflate(R.layout.fragment_add_location, container, false)
 
         locationTypeService = LocationTypeService(requireContext())
-        locationTypeSpinner = view.findViewById(R.id.location_type_spinner)
+        locationTypeSpinner = view.findViewById(R.id.location_type)
 
         val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -95,8 +94,7 @@ class add_location : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize the EditText here
-        dateEditText = view.findViewById(R.id.data)
+        dateEditText = view.findViewById(R.id.location_date)
 
         dateEditText.setOnClickListener {
             val year = calendar.get(Calendar.YEAR)

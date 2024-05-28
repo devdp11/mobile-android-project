@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    tools:context=".fragment.location.add_location.add_location">
+    tools:context=".fragment.location.edit_location.edit_location">
 
-<RelativeLayout
+    <RelativeLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto"
-            android:text="@string/add_location"
+            android:text="Edit location"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -179,7 +179,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/cancel_btn"
+                    android:id="@+id/delete_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
