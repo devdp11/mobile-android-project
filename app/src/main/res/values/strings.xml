@@ -31,6 +31,7 @@
     <string name="add_photos">Add Photos</string>
     <string name="save_trip">Save Trip</string>
     <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
     <string name="rating">Rating</string>
     <string name="description">Description</string>
     <string name="date">Date</string>
@@ -65,9 +66,17 @@
     <string name="load_user_error">Error loading user details!</string>
     <string name="load_trip_error">Error loading trip details!</string>
 
-    <string name="update_password_error">Error updating password. Try again.</string>
+    <string name="update_password_error">Error updating password. Try again!</string>
     <string name="update_password_succe">Password updated successfully!</string>
     <string name="old_password_verify_error">Error verifying old password. Try Again!</string>
     <string name="old_password_incorr">Old password is incorrect. Try Again!</string>
     <string name="new_password_error">New passwords do not match. Try Again!</string>
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="delete_title">Delete?</string>
+    <string name="delete_description">Are you sure you want to proceed?</string>
+    <string name="trip_delete_succ">Trip deleted successfully!</string>
+    <string name="trip_delete_error">Error deleting trip. Try Again!</string>
+
 </resources>

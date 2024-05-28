@@ -31,6 +31,7 @@
     <string name="add_photos">Adicionar Fotos</string>
     <string name="save_trip">Guardar Viagem</string>
     <string name="cancel">Cancelar</string>
+    <string name="delete">Apagar</string>
     <string name="rating">Rating</string>
     <string name="description">Descrição</string>
     <string name="date">Data</string>
@@ -70,5 +71,13 @@
     <string name="old_password_verify_error">Erro ao verificar palavra-chave antiga. Tente novamente!</string>
     <string name="old_password_incorr">Palavra-chave antiga está incorreta. Tente novamente!</string>
     <string name="new_password_error">Novas palavras-chave não são iguais. Tente Novamente!</string>
+
+
+    <string name="no">Não</string>
+    <string name="yes">Sim</string>
+    <string name="delete_title">Apagar?</string>
+    <string name="delete_description">Tens a certeza que desejas apagar?</string>
+    <string name="trip_delete_succ">Viagem apagada com sucesso!</string>
+    <string name="trip_delete_error">Erro ao apagar viagem. Tente novamente!</string>
 
 </resources>

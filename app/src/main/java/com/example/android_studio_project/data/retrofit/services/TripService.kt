@@ -79,6 +79,23 @@ class TripService(private val context: Context) {
         })
     }
 
+    fun deleteTripById(uuid: UUID, onResponse: () -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = tripApi.deleteTripById(uuid)
+        call.enqueue(object : Callback<TripModel> {
+            override fun onResponse(call: Call<TripModel>, response: Response<TripModel>) {
+                if (response.isSuccessful) {
+                    onResponse()
+                } else {
+                    onFailure(Throwable("Failed to delete trip: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<TripModel>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
     private fun getUserEmail(): String? {
         return sharedPreferences.getString("user_email", null)
     }

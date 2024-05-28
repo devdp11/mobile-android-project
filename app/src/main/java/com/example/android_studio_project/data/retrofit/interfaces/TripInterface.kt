@@ -4,6 +4,7 @@ import com.example.android_studio_project.data.retrofit.models.TripModel
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -19,6 +20,9 @@ interface TripInterface {
 
     @GET("trip/{uuid}")
     fun getTripById(@Path("uuid") uuid: UUID): Call<TripModel>
+
+    @DELETE("trip/delete/{uuid}")
+    fun deleteTripById(@Path("uuid") uuid: UUID): Call<TripModel>
 
     @PUT("userTrip/update/{tripUuid}")
     fun updateTrip(@Path("tripUuid") uuid: UUID): Call<TripModel>
