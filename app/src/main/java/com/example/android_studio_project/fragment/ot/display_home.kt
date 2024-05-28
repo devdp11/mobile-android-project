@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
+import com.example.android_studio_project.data.retrofit.services.LocationTypeService
 import com.example.android_studio_project.data.retrofit.services.TripService
 import com.example.android_studio_project.fragment.trip.add_trip.AddTripFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -16,6 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class display_home(private val userEmail: String) : Fragment() {
 
     private lateinit var tripService: TripService
+    private lateinit var locationTypeService: LocationTypeService
+
     private lateinit var displayHomeAdapter: display_home_adapter
 
     override fun onCreateView(
@@ -31,6 +34,9 @@ class display_home(private val userEmail: String) : Fragment() {
 
         tripService = TripService(requireContext())
         getTrips()
+
+        locationTypeService = LocationTypeService(requireContext())
+        getTypes()
 
         val addButton: FloatingActionButton = view.findViewById(R.id.btn_add)
         addButton.setOnClickListener {
@@ -55,6 +61,21 @@ class display_home(private val userEmail: String) : Fragment() {
             },
             onFailure = { error ->
                 Log.e("display_home", "Failed to get trips", error)
+            }
+        )
+    }
+
+    private fun getTypes() {
+        locationTypeService.getAllTypes(
+            onResponse = { types ->
+                if (types != null) {
+                    Log.d("display_home", "Types received: $types")
+                } else {
+                    Log.d("display_home", "No types received")
+                }
+            },
+            onFailure = { error ->
+                Log.e("display_home", "Failed to get types", error)
             }
         )
     }

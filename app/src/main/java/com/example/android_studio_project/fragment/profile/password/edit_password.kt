@@ -36,31 +36,33 @@ class edit_password(private val userEmail: String) : Fragment() {
             val oldPassword = oldPasswordEditText.text.toString()
             val newPassword = newPasswordEditText.text.toString()
             val confirmNewPassword = confirmNewPasswordEditText.text.toString()
-
-            if (newPassword == confirmNewPassword) {
-                authService.verifyUser(userEmail, oldPassword, { isOldPasswordCorrect ->
-                    if (isOldPasswordCorrect) {
-                        userService.updateUserPassword(newPassword, {
-                            Toast.makeText(
-                                requireContext(),
-                                "Password updated successfully",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }, { error ->
-                            Log.e("EditPasswordFragment", "Error updating password", error)
-                            Toast.makeText(requireContext(), "Error updating password", Toast.LENGTH_SHORT).show()
-                        })
-                    } else {
-                        Toast.makeText(requireContext(), "Old password is incorrect", Toast.LENGTH_SHORT).show()
-                    }
-                }, { error ->
-                    Log.e("EditPasswordFragment", "Error verifying old password", error)
-                    Toast.makeText(requireContext(), "Error verifying old password", Toast.LENGTH_SHORT).show()
-                })
+            if ( oldPassword.isNotEmpty() && newPassword.isNotEmpty() && confirmNewPassword.isNotEmpty()) {
+                if (newPassword == confirmNewPassword) {
+                    authService.verifyUser(userEmail, oldPassword, { isOldPasswordCorrect ->
+                        if (isOldPasswordCorrect) {
+                            userService.updateUserPassword(newPassword, {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Password updated successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }, { error ->
+                                Log.e("EditPasswordFragment", "Error updating password", error)
+                                Toast.makeText(requireContext(), "Error updating password", Toast.LENGTH_SHORT).show()
+                            })
+                        } else {
+                            Toast.makeText(requireContext(), "Old password is incorrect", Toast.LENGTH_SHORT).show()
+                        }
+                    }, { error ->
+                        Log.e("EditPasswordFragment", "Error verifying old password", error)
+                        Toast.makeText(requireContext(), "Error verifying old password", Toast.LENGTH_SHORT).show()
+                    })
+                } else {
+                    Toast.makeText(requireContext(), "New passwords do not match", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(requireContext(), "New passwords do not match", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
             }
-
         }
 
         return view
