@@ -23,8 +23,8 @@
     <string name="skip_intro_slider">Get Started</string>
     <string name="back_intro_slider">Back</string>
     <string name="next_intro_slider">Next</string>
-    <string name="no_acc">Sign Up!</string>
-    <string name="acc">Create Account!</string>
+    <string name="no_acc">No account? Create one now!</string>
+    <string name="acc">Have an account? Login!</string>
     <string name="add_trip">Add Trip</string>
     <string name="trip_name">Trip Name</string>
     <string name="trip_date">Trip Date</string>
@@ -35,4 +35,11 @@
     <string name="description">Description</string>
     <string name="date">Date</string>
     <string name="save">Save</string>
+    <string name="login_error">Error logging in. Please check your credentials and try again.</string>
+    <string name="login_succe">Login successful!</string>
+    <string name="register_error">Error registering. Try again.</string>
+    <string name="register_succe">Registration successful!</string>
+    <string name="fill_fields">Please, fill in all the fields!</string>
+    <string name="update_error">Error updating profile. Try again.</string>
+    <string name="update_succe">Profile updated successfully!</string>
 </resources>

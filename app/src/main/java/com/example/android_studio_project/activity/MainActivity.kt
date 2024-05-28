@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.home -> {
-                    val userEmail = authService.getUserEmail()
                     if (userEmail != null) {
                         replaceFragment(display_home(userEmail))
                     } else {
@@ -38,7 +37,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.search -> {
-                    val userEmail = authService.getUserEmail()
                     if (userEmail != null) {
                         replaceFragment(display_search(userEmail))
                     } else {
@@ -46,7 +44,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.profile -> {
-                    val userEmail = authService.getUserEmail()
                     if (userEmail != null) {
                         replaceFragment(display_profile(userEmail))
                     } else {
