@@ -1,134 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@drawable/gradient_background"
     android:padding="16dp">
 
-    <LinearLayout
+    <!-- Top bar -->
+    <RelativeLayout
+        android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="20dp">
 
-        <!-- Descrição -->
-        <EditText
-            android:id="@+id/descricao"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:padding="14dp"
+            android:src="@drawable/btn_backward" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/kadwa_bold"
-            android:background="@drawable/rounded_button"
-            android:hint="@string/description"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:padding="12dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/roboto"
+            android:text="@string/add_location"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <!-- Data -->
-        <EditText
-            android:id="@+id/data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:hint="@string/date"
-            android:focusable="false"
-            android:fontFamily="@font/kadwa_bold"
-            android:padding="12dp"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:layout_marginBottom="10dp"
-            android:drawableEnd="@drawable/baseline_calendar_month_24"
-            android:drawablePadding="10dp" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/logo" />
+    </RelativeLayout>
 
-        <!-- Tipo de Localização -->
-        <Spinner
-            android:id="@+id/location_type_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:layout_marginBottom="10dp"
-            android:padding="8dp"
-            android:spinnerMode="dropdown"
-            android:textColor="@color/white"
-            android:dropDownVerticalOffset="40dp"/>
+    <!-- Scrollable content -->
+    <ScrollView
+        android:id="@+id/scrollmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
 
-        <!-- Avaliação -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="10dp">
+            android:padding="16dp"
+            android:orientation="vertical">
 
-            <RatingBar
-                android:id="@+id/trip_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:stepSize="1.0"
-                android:theme="@style/RatingBar" />
-
-        </LinearLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_photos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add_photos"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_marginBottom="10dp"
-            />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="16dp">
-
-            <GridView
-                android:id="@+id/photos_grid"
+            <!-- Descrição -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numColumns="3"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"
-                android:stretchMode="columnWidth"
-                android:padding="5dp" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginBottom="10dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <!-- Botões -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/descricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/cancelar"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                android:fontFamily="@font/kadwa_bold"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/red"
-                android:layout_marginEnd="8dp"/>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <Button
-                android:id="@+id/salvar"
-                android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/white"
+                    android:focusable="false"
+                    android:drawableEnd="@drawable/baseline_calendar_month_24"
+                    android:clickable="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Tipo de Localização -->
+            <Spinner
+                android:id="@+id/location_type_spinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/kadwa_bold"
-                android:text="@string/save"
-                android:backgroundTint="@color/purple_dark"
+                android:background="@drawable/rounded_button"
+                android:layout_marginBottom="10dp"
+                android:padding="8dp"
+                android:spinnerMode="dropdown"
                 android:textColor="@color/white"
-                android:layout_marginStart="8dp" />
+                android:dropDownVerticalOffset="40dp"/>
 
+            <!-- Avaliação -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="10dp">
+
+                <RatingBar
+                    android:id="@+id/trip_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1.0"
+                    android:theme="@style/RatingBar" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_photos"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginBottom="10dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <GridView
+                    android:id="@+id/photos_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:verticalSpacing="10dp"
+                    android:horizontalSpacing="10dp"
+                    android:stretchMode="columnWidth"
+                    android:padding="5dp" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Botões -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancelar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cancel"
+                    android:fontFamily="@font/kadwa_bold"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/red"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/salvar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/kadwa_bold"
+                    android:text="@string/save"
+                    android:backgroundTint="@color/purple_dark"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>
