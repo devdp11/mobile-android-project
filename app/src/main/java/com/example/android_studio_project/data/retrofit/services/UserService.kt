@@ -50,21 +50,21 @@ class UserService(private val context: Context) {
                     if (response.isSuccessful) {
                         val updatedUser = response.body()
                         onResponse(updatedUser)
-                        Log.d("UserService", "User updated successfully")
+                        //Log.d("UserService", "User updated successfully")
                     } else {
                         onFailure(Throwable("Failed to update user: ${response.code()}"))
-                        Log.e("UserService", "Failed to update user: ${response.code()}")
+                        //Log.e("UserService", "Failed to update user: ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<UserModel>, t: Throwable) {
                     onFailure(t)
-                    Log.e("UserService", "Failed to update user", t)
+                    //Log.e("UserService", "Failed to update user", t)
                 }
             })
         } else {
             onFailure(Throwable("User email not provided"))
-            Log.e("UserService", "User email not provided")
+            //Log.e("UserService", "User email not provided")
         }
     }
 
@@ -76,21 +76,21 @@ class UserService(private val context: Context) {
                 override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                     if (response.isSuccessful) {
                         onResponse()
-                        Log.d("UserService", "User password updated successfully")
+                        //Log.d("UserService", "User password updated successfully")
                     } else {
                         onFailure(Throwable("Failed to update user password: ${response.code()}"))
-                        Log.e("UserService", "Failed to update user password: ${response.code()}")
+                        //Log.e("UserService", "Failed to update user password: ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<UserModel>, t: Throwable) {
                     onFailure(t)
-                    Log.e("UserService", "Failed to update user password", t)
+                    //Log.e("UserService", "Failed to update user password", t)
                 }
             })
         } else {
             onFailure(Throwable("User email not found in SharedPreferences"))
-            Log.e("UserService", "User email not found in SharedPreferences")
+            //Log.e("UserService", "User email not found in SharedPreferences")
         }
     }
 

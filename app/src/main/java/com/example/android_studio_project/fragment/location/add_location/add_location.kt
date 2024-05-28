@@ -76,13 +76,13 @@ class add_location : Fragment() {
                     adapter.clear()
                     adapter.addAll(typeNames)
                     adapter.notifyDataSetChanged()
-                    Log.d("display_home", "Types received: $typeNames")
+                    //Log.d("display_home", "Types received: $typeNames")
                 } else {
-                    Log.d("display_home", "No types received")
+                    //Log.d("display_home", "No types received")
                 }
             },
             onFailure = { error ->
-                Log.e("display_home", "Failed to get types", error)
+                //Log.e("display_home", "Failed to get types", error)
             }
         )
     }

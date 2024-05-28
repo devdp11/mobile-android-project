@@ -41,7 +41,7 @@ class AuthService(private val context: Context) {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     saveUserEmail(email)
-                    Log.d("AuthService", "User email saved: $email")
+                    // Log.d("AuthService", "User email saved: $email")
                     onResponse(true)
                 } else {
                     onResponse(false)

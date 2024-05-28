@@ -55,11 +55,17 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
 
-    <string name="password_invalid">Password invalid!</string>
+    <string name="password_invalid">Password invalid. Try Again!</string>
     <string name="edit_trip">Edit Trip</string>
     <string name="edit_location">Edit Location</string>
     <string name="old_pass">Old Password</string>
     <string name="new_pass">New Password</string>
     <string name="conf_pass">Confirm Password</string>
 
+    <string name="load_user_error">Error loading user details!</string>
+    <string name="update_password_error">Error updating password. Try again.</string>
+    <string name="update_password_succe">Password updated successfully!</string>
+    <string name="old_password_verify_error">Error verifying old password. Try Again!</string>
+    <string name="old_password_incorr">Old password is incorrect. Try Again!</string>
+    <string name="new_password_error">New passwords do not match. Try Again!</string>
 </resources>

@@ -67,8 +67,7 @@ class display_profile(private val userEmail: String) : Fragment() {
                 }
             },
             onFailure = { error ->
-                // Handle failure case
-                Toast.makeText(context, "Failed to load user details", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
             }
         )
         return view

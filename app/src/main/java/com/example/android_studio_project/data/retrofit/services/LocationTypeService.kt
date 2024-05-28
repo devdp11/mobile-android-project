@@ -18,17 +18,17 @@ class LocationTypeService(private val context: Context) {
             override fun onResponse(call: Call<List<LocationTypeModel>>, response: Response<List<LocationTypeModel>>) {
                 if (response.isSuccessful) {
                     val types = response.body()
-                    Log.d("LocationType", "Received types: $types")
+                    //Log.d("LocationType", "Received types: $types")
                     onResponse(types)
                 } else {
                     val error = "Failed to get trips: ${response.code()} ${response.message()}"
-                    Log.e("LocationType", error)
+                    //Log.e("LocationType", error)
                     onFailure(Throwable(error))
                 }
             }
 
             override fun onFailure(call: Call<List<LocationTypeModel>>, t: Throwable) {
-                Log.e("LocationType", "Error: ${t.message}")
+                //Log.e("LocationType", "Error: ${t.message}")
                 onFailure(t)
             }
         })

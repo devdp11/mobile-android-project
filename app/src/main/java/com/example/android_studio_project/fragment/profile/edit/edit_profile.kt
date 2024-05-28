@@ -68,7 +68,7 @@ class edit_profile(private val userEmail: String) : Fragment() {
                 }
             },
             onFailure = { error ->
-                Toast.makeText(context, "Failed to load user details", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
             }
         )
 
@@ -88,17 +88,17 @@ class edit_profile(private val userEmail: String) : Fragment() {
                 userService.updateUser(updatedUser,
                     onResponse = { updatedUser ->
                         if (updatedUser != null) {
-                            Toast.makeText(context, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.update_succe), Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(context, "Failed to update profile", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
                         }
                     },
                     onFailure = { error ->
-                        Toast.makeText(context, "Failed to update profile", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
                     }
                 )
             } else {
-                Toast.makeText(context, "All fields must be filled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -45,17 +45,17 @@ class TripService(private val context: Context) {
             override fun onResponse(call: Call<List<TripModel>>, response: Response<List<TripModel>>) {
                 if (response.isSuccessful) {
                     val trips = response.body()
-                    Log.d("TripService", "Received trips: $trips")
+                    //Log.d("TripService", "Received trips: $trips")
                     onResponse(trips)
                 } else {
                     val error = "Failed to get trips: ${response.code()} ${response.message()}"
-                    Log.e("TripService", error)
+                    //Log.e("TripService", error)
                     onFailure(Throwable(error))
                 }
             }
 
             override fun onFailure(call: Call<List<TripModel>>, t: Throwable) {
-                Log.e("TripService", "Error: ${t.message}")
+                //Log.e("TripService", "Error: ${t.message}")
                 onFailure(t)
             }
         })

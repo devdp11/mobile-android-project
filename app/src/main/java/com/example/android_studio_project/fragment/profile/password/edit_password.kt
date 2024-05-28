@@ -46,21 +46,21 @@ class edit_password(private val userEmail: String) : Fragment() {
                         authService.verifyUser(userEmail, oldPassword, { isOldPasswordCorrect ->
                             if (isOldPasswordCorrect) {
                                 userService.updateUserPassword(newPassword, {
-                                    Toast.makeText(requireContext(),"Password updated successfully", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(), getString(R.string.update_password_succe), Toast.LENGTH_SHORT).show()
                                 }, {
-                                    Toast.makeText(requireContext(), "Error updating password", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(), getString(R.string.update_password_error), Toast.LENGTH_SHORT).show()
                                 })
                             } else {
-                                Toast.makeText(requireContext(), "Old password is incorrect", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), getString(R.string.old_password_incorr), Toast.LENGTH_SHORT).show()
                             }
                         }, {
-                            Toast.makeText(requireContext(), "Error verifying old password", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), getString(R.string.old_password_verify_error), Toast.LENGTH_SHORT).show()
                         })
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.password_invalid), Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "New passwords do not match", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.new_password_error), Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(requireContext(), getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()

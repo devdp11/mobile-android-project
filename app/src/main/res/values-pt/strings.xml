@@ -49,17 +49,24 @@
     <string name="register_desc">Traga a sua aventura até nós!</string>
     <string name="login_desc">Entre com as suas credenciais, por favor!</string>
     <string name="name">Nome</string>
-    <string name="confirm_password">Confirme Palavra-Chave</string>
+    <string name="confirm_password">Confirme palavra-chave</string>
     <string name="remember_me">Lembrar-se de mim</string>
     <string name="forgot_password">Esqueceu-se da palavra-chave?</string>
     <string name="register">Registar</string>
     <string name="login">Login</string>
 
-    <string name="password_invalid">Palavra-Chave inválida!</string>
+    <string name="password_invalid">Palavra-chave inválida. Tente novamente!</string>
     <string name="edit_trip">Editar Viagem</string>
     <string name="edit_location">Editar Localização</string>
-    <string name="old_pass">Palavra-Chave Antiga</string>
-    <string name="new_pass">Nova Palavra-Chave</string>
+    <string name="old_pass">Palavra-chave Antiga</string>
+    <string name="new_pass">Nova palavra-chave</string>
     <string name="conf_pass">Confirmar Palavra-Chave</string>
+
+    <string name="load_user_error">Erro ao carregar os dados do utilizador</string>
+    <string name="update_password_error">Erro ao atualizar palavra-chave. Tente novamente!</string>
+    <string name="update_password_succe">Palavra-chave atualizada com sucesso!</string>
+    <string name="old_password_verify_error">Erro ao verificar palavra-chave antiga. Tente novamente!</string>
+    <string name="old_password_incorr">Palavra-chave antiga está incorreta. Tente novamente!</string>
+    <string name="new_password_error">Novas palavras-chave não são iguais. Tente Novamente!</string>
 
 </resources>
