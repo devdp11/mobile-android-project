@@ -3,6 +3,7 @@ package com.example.android_studio_project.fragment.location.add
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,8 @@ import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.android_studio_project.R
+import com.example.android_studio_project.data.retrofit.models.LocationTypeModel
+import com.example.android_studio_project.data.retrofit.services.LocationTypeService
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -31,6 +34,7 @@ class add_location : Fragment() {
     private lateinit var dateEditText: EditText
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var locationTypeSpinner: Spinner
+    private lateinit var locationTypeService: LocationTypeService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,11 +43,14 @@ class add_location : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_location, container, false)
 
-        val locationTypeSpinner : Spinner = view.findViewById(R.id.location_type_spinner)
-        val tiposLocalizacao = getTiposLocalizacaoFromDatabase()
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, tiposLocalizacao)
+        locationTypeService = LocationTypeService(requireContext())
+        locationTypeSpinner = view.findViewById(R.id.location_type_spinner)
+
+        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         locationTypeSpinner.adapter = adapter
+
+        getTypes(adapter)
 
         val addPhotosButton : Button = view.findViewById(R.id.add_photos)
         photosGridView = view.findViewById(R.id.photos_grid)
@@ -62,15 +69,29 @@ class add_location : Fragment() {
         photosAdapter.notifyDataSetChanged()
     }
 
-    private fun getTiposLocalizacaoFromDatabase(): List<String> {
-        // Implemente a lógica para buscar os tipos de localização do banco de dados aqui
-        // e retorne uma lista de strings com os tipos de localização
-        return listOf("Tipo 1", "Tipo 2", "Tipo 3") // Substitua isto com a sua lógica de busca real
+    private fun getTypes(adapter: ArrayAdapter<String>) {
+        locationTypeService.getAllTypes(
+            onResponse = { types ->
+                if (types != null) {
+                    val typeNames = types.map { it.name ?: "Unknown" }
+                    adapter.clear()
+                    adapter.addAll(typeNames)
+                    adapter.notifyDataSetChanged()
+                    Log.d("display_home", "Types received: $typeNames")
+                } else {
+                    Log.d("display_home", "No types received")
+                }
+            },
+            onFailure = { error ->
+                Log.e("display_home", "Failed to get types", error)
+            }
+        )
     }
 
     private fun openGallery() {
         selectPhotosLauncher.launch("image/*")
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -123,6 +144,4 @@ class add_location : Fragment() {
 
         datePicker.show(parentFragmentManager, "datePicker")
     }
-
 }
-
