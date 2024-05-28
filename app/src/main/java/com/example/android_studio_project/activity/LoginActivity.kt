@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android_studio_project.R
@@ -22,6 +23,11 @@ class LoginActivity : AppCompatActivity() {
         val email: EditText = findViewById(R.id.editTextEmail)
         val password: EditText = findViewById(R.id.editTextPassword)
         val btnLogin: Button = findViewById(R.id.buttonLogin)
+        val linkRegister: TextView = findViewById(R.id.link_register)
+
+        linkRegister.setOnClickListener {
+            openRegister()
+        }
 
         btnLogin.setOnClickListener {
             val emailText = email.text.toString()
@@ -50,10 +56,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun openRegister(view: View) {
+    private fun openRegister() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
     }
+
 
     private fun navigateToDashboard() {
         val intent = Intent(this, MainActivity::class.java)

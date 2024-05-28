@@ -24,7 +24,7 @@
     <string name="back_intro_slider">Voltar</string>
     <string name="next_intro_slider">Prox</string>
     <string name="no_acc">Sem conta? Cria uma agora!</string>
-    <string name="acc">Já tem conta? Entra aqui!</string>
+    <string name="yes_acc">Já tem conta? Entra aqui!</string>
     <string name="add_trip">Adicionar Viagem</string>
     <string name="trip_name">Nome Viagem</string>
     <string name="trip_date">Data de Viagem</string>
@@ -43,4 +43,15 @@
     <string name="update_error">Erro ao atualizar perfil. Tente novamente.</string>
     <string name="update_succe">Perfil atualizado com sucesso!</string>
     <string name="add_location">Adicionar Local</string>
+    <string name="home">Painel Principal</string>
+
+    <string name="welcome">Bem-vindo</string>
+    <string name="register_desc">Traga a sua aventura até nós!</string>
+    <string name="login_desc">Entre com as suas credenciais, por favor!</string>
+    <string name="name">Nome</string>
+    <string name="confirm_password">Confirme password</string>
+    <string name="remember_me">Lembrar-se de mim</string>
+    <string name="forgot_password">Esqueceu-se da password?</string>
+    <string name="register">Registar</string>
+    <string name="login">Login</string>
 </resources>

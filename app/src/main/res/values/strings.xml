@@ -24,7 +24,7 @@
     <string name="back_intro_slider">Back</string>
     <string name="next_intro_slider">Next</string>
     <string name="no_acc">No account? Create one now!</string>
-    <string name="acc">Have an account? Login!</string>
+    <string name="yes_acc">Have an account? Login!</string>
     <string name="add_trip">Add Trip</string>
     <string name="trip_name">Trip Name</string>
     <string name="trip_date">Trip Date</string>
@@ -43,4 +43,15 @@
     <string name="update_error">Error updating profile. Try again.</string>
     <string name="update_succe">Profile updated successfully!</string>
     <string name="add_location">Add Location</string>
+    <string name="home">Dashboard</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="register_desc">Bring your adventure to us!</string>
+    <string name="login_desc">Please login with your credential!</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
 </resources>
