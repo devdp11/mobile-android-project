@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,11 +53,12 @@ class edit_profile(private val userEmail: String) : Fragment() {
                     ViewUsername.text = userDetails.username?.toEditable()
                     textViewEmail.text = userDetails.email ?: ""
 
-                    val userAvatarBytes: ByteArray? = userDetails.avatar
+                    val userAvatarBase64: String? = userDetails.avatar
 
-                    if (userAvatarBytes != null) {
-                        val userAvatarUrl = Base64.encodeToString(userAvatarBytes, Base64.DEFAULT)
+                    if (!userAvatarBase64.isNullOrEmpty()) {
+                        val userAvatarUrl = Base64.decode(userAvatarBase64, Base64.DEFAULT)
                         Glide.with(this)
+                            .asBitmap()
                             .load(userAvatarUrl)
                             .into(imageViewAvatar)
                     } else {
@@ -80,8 +82,8 @@ class edit_profile(private val userEmail: String) : Fragment() {
             val username = ViewUsername.text.toString()
 
             if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
-                val avatarBytes = convertBitmapToBytes(selectedImageBitmap)
-                val updatedUser = UserModel(firstName, lastName, avatarBytes, username, null, userEmail, false)
+                val avatarBase64 = convertBitmapToBase64(selectedImageBitmap)
+                val updatedUser = UserModel(firstName, lastName, avatarBase64, username, null, userEmail, false)
 
                 userService.updateUser(updatedUser,
                     onResponse = { updatedUser ->
@@ -119,11 +121,12 @@ class edit_profile(private val userEmail: String) : Fragment() {
 
     private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
-    private fun convertBitmapToBytes(bitmap: Bitmap?): ByteArray? {
+    private fun convertBitmapToBase64(bitmap: Bitmap?): String? {
         bitmap?.let {
             val outputStream = ByteArrayOutputStream()
-            it.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            return outputStream.toByteArray()
+            it.compress(Bitmap.CompressFormat.JPEG, 20, outputStream)
+            val byteArray = outputStream.toByteArray()
+            return Base64.encodeToString(byteArray, Base64.DEFAULT)
         }
         return null
     }
