@@ -18,7 +18,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.services.LocationTypeService
+import com.example.android_studio_project.data.retrofit.services.LocationService
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -33,7 +33,7 @@ class edit_location : Fragment() {
     private lateinit var dateEditText: EditText
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var locationTypeSpinner: Spinner
-    private lateinit var locationTypeService: LocationTypeService
+    private lateinit var locationService: LocationService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +42,7 @@ class edit_location : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_location, container, false)
 
-        locationTypeService = LocationTypeService(requireContext())
+        locationService = LocationService(requireContext())
         locationTypeSpinner = view.findViewById(R.id.location_type)
 
         val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
@@ -69,7 +69,7 @@ class edit_location : Fragment() {
     }
 
     private fun getTypes(adapter: ArrayAdapter<String>) {
-        locationTypeService.getAllTypes(
+        locationService.getAllTypes(
             onResponse = { types ->
                 if (types != null) {
                     val typeNames = types.map { it.name ?: "Unknown" }

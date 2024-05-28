@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.services.LocationTypeService
+import com.example.android_studio_project.data.retrofit.services.LocationService
 import com.example.android_studio_project.data.retrofit.services.TripService
 import com.example.android_studio_project.fragment.trip.add_trip.AddTripFragment
 import com.example.android_studio_project.fragment.trip.edit_trip.edit_trip
@@ -19,7 +19,7 @@ import java.util.UUID
 class display_home(private val userEmail: String) : Fragment() {
 
     private lateinit var tripService: TripService
-    private lateinit var locationTypeService: LocationTypeService
+    private lateinit var locationService: LocationService
 
     private lateinit var displayHomeAdapter: display_home_adapter
 
@@ -39,7 +39,7 @@ class display_home(private val userEmail: String) : Fragment() {
         tripService = TripService(requireContext())
         getTrips()
 
-        locationTypeService = LocationTypeService(requireContext())
+        locationService = LocationService(requireContext())
         getTypes()
 
         val addButton: FloatingActionButton = view.findViewById(R.id.btn_add)
@@ -77,7 +77,7 @@ class display_home(private val userEmail: String) : Fragment() {
     }
 
     private fun getTypes() {
-        locationTypeService.getAllTypes(
+        locationService.getAllTypes(
             onResponse = { types ->
                 if (types != null) {
                     Log.d("display_home", "Types received: $types")

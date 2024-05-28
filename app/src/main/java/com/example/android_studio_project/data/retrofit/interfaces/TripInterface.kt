@@ -21,12 +21,12 @@ interface TripInterface {
     @GET("trip/{uuid}")
     fun getTripById(@Path("uuid") uuid: UUID): Call<TripModel>
 
-    @DELETE("trip/delete/{uuid}")
-    fun deleteTripById(@Path("uuid") uuid: UUID): Call<TripModel>
-
     @PUT("userTrip/update/{tripUuid}")
     fun updateTrip(@Path("tripUuid") uuid: UUID): Call<TripModel>
 
     @POST("userTrip/create")
     fun createTrip(@Body tripData: TripModel): Call<TripModel>
+
+    @DELETE("trip/delete/{uuid}")
+    fun deleteTripById(@Path("uuid") uuid: UUID): Call<TripModel>
 }
