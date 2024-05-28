@@ -20,25 +20,28 @@
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
             android:src="@drawable/btn_backward"
-            android:padding="14dp" />
+            android:padding="14dp"
+            android:importantForAccessibility="no" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit trip"
+            android:text="@string/edit_trip"
             android:layout_centerInParent="true"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="24sp"
-            android:fontFamily="@font/roboto" />
+            android:fontFamily="@font/roboto"
+            tools:ignore="RelativeOverlap" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+            android:importantForAccessibility="no" />
     </RelativeLayout>
 
     <ScrollView
@@ -158,7 +161,8 @@
                     android:fontFamily="@font/kadwa_bold"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/security"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/save_trip_button"
@@ -169,7 +173,8 @@
                     android:text="@string/save_trip"
                     android:backgroundTint="@color/purple_dark"
                     android:textColor="@color/white"
-                    android:layout_marginStart="8dp" />
+                    android:layout_marginStart="8dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
             </LinearLayout>
         </LinearLayout>

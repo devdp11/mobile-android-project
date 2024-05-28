@@ -75,7 +75,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:drawableEnd="@drawable/done_icon"
-                android:autofillHints="Enter email"
                 tools:ignore="LabelFor" />
 
             <View
@@ -95,7 +94,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:drawableEnd="@drawable/password_icon"
-                android:autofillHints="Enter password"
                 tools:ignore="LabelFor" />
 
             <RelativeLayout

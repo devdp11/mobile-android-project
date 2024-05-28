@@ -56,5 +56,10 @@
     <string name="login">Login</string>
 
     <string name="password_invalid">Password invalid!</string>
+    <string name="edit_trip">Edit Trip</string>
+    <string name="edit_location">Edit Location</string>
+    <string name="old_pass">Old Password</string>
+    <string name="new_pass">New Password</string>
+    <string name="conf_pass">Confirm Password</string>
 
 </resources>

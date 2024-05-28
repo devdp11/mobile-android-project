@@ -49,12 +49,17 @@
     <string name="register_desc">Traga a sua aventura até nós!</string>
     <string name="login_desc">Entre com as suas credenciais, por favor!</string>
     <string name="name">Nome</string>
-    <string name="confirm_password">Confirme password</string>
+    <string name="confirm_password">Confirme Palavra-Chave</string>
     <string name="remember_me">Lembrar-se de mim</string>
-    <string name="forgot_password">Esqueceu-se da password?</string>
+    <string name="forgot_password">Esqueceu-se da palavra-chave?</string>
     <string name="register">Registar</string>
     <string name="login">Login</string>
 
-    <string name="password_invalid">Password inválida!</string>
+    <string name="password_invalid">Palavra-Chave inválida!</string>
+    <string name="edit_trip">Editar Viagem</string>
+    <string name="edit_location">Editar Localização</string>
+    <string name="old_pass">Palavra-Chave Antiga</string>
+    <string name="new_pass">Nova Palavra-Chave</string>
+    <string name="conf_pass">Confirmar Palavra-Chave</string>
 
 </resources>
