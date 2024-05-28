@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.util.Base64
+import android.widget.Toast
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.UserService
 import com.example.android_studio_project.fragment.profile.edit.edit_profile
@@ -52,12 +53,12 @@ class display_profile(private val userEmail: String) : Fragment() {
                     textViewName.text = userDetails.firstName ?: ""
                     textViewEmail.text = userDetails.email ?: ""
 
-                    val userAvatarBytes: ByteArray? = userDetails.avatar
+                    val userAvatarBase64: String? = userDetails.avatar
 
-                    if (userAvatarBytes != null) {
-                        val userAvatarUrl = Base64.encodeToString(userAvatarBytes, Base64.DEFAULT)
+                    if (!userAvatarBase64.isNullOrEmpty()) {
+                        val userAvatarBytes = Base64.decode(userAvatarBase64, Base64.DEFAULT)
                         Glide.with(this)
-                            .load(userAvatarUrl)
+                            .load(userAvatarBytes)
                             .into(imageViewAvatar)
                     } else {
                         imageViewAvatar.setImageResource(R.drawable.profile)
@@ -66,6 +67,8 @@ class display_profile(private val userEmail: String) : Fragment() {
                 }
             },
             onFailure = { error ->
+                // Handle failure case
+                Toast.makeText(context, "Failed to load user details", Toast.LENGTH_SHORT).show()
             }
         )
         return view
@@ -77,4 +80,3 @@ class display_profile(private val userEmail: String) : Fragment() {
         }
     }
 }
-
