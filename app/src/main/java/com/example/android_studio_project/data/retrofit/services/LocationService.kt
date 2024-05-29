@@ -23,7 +23,6 @@ class LocationService(private val context: Context) {
                     onResponse(types)
                 } else {
                     val error = "Failed to get trips: ${response.code()} ${response.message()}"
-                    //Log.e("LocationType", error)
                     onFailure(Throwable(error))
                 }
             }
@@ -40,13 +39,10 @@ class LocationService(private val context: Context) {
             override fun onResponse(call: Call<LocationModel>, response: Response<LocationModel>) {
                 if (response.isSuccessful) {
                     onResponse("success")
-                    Log.d("add_location", "Response successful: ${response.body()}")
                 } else {
                     onFailure(Throwable("Error creating location: ${response.code()}"))
-                    Log.e("add_location", "Error creating location. Response code: ${response.code()}")
                 }
             }
-
 
             override fun onFailure(call: Call<LocationModel>, t: Throwable) {
                 onFailure(t)

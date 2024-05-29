@@ -1,40 +1,48 @@
 package com.example.android_studio_project.fragment.location.add_location
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.GridView
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.services.LocationTypeService
-import com.google.android.material.datepicker.MaterialDatePicker
+import com.example.android_studio_project.data.retrofit.models.LocationModel
+import com.example.android_studio_project.data.retrofit.services.LocationService
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
+import java.util.UUID
 
-class add_location : Fragment() {
+class add_location(private val tripUuid: UUID) : Fragment() {
 
     private lateinit var photosGridView: GridView
     private val photosList = mutableListOf<Uri>()
     private lateinit var photosAdapter: PhotosAdapter
-    private lateinit var dateEditText: EditText
-    private val calendar: Calendar = Calendar.getInstance()
     private lateinit var locationTypeSpinner: Spinner
-    private lateinit var locationTypeService: LocationTypeService
+    private lateinit var locationService: LocationService
+    private val locationTypeMap = mutableMapOf<String, UUID>()
+    private lateinit var uuidTextView: TextView
+    private lateinit var dateTextInput : EditText
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +50,10 @@ class add_location : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_location, container, false)
 
-        locationTypeService = LocationTypeService(requireContext())
+        uuidTextView = view.findViewById(R.id.uuid_teste)
+        uuidTextView.text = tripUuid.toString()
+
+        locationService = LocationService(requireContext())
         locationTypeSpinner = view.findViewById(R.id.location_type)
 
         val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
@@ -51,7 +62,19 @@ class add_location : Fragment() {
 
         getTypes(adapter)
 
-        val addPhotosButton : Button = view.findViewById(R.id.add_photos)
+        locationTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedTypeName = parent.getItemAtPosition(position) as String
+                val selectedTypeUuid = locationTypeMap[selectedTypeName]
+                uuidTextView.text = selectedTypeUuid.toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                uuidTextView.text = tripUuid.toString()
+            }
+        }
+
+        val addPhotosButton: Button = view.findViewById(R.id.add_photos)
         photosGridView = view.findViewById(R.id.photos_grid)
 
         photosAdapter = PhotosAdapter()
@@ -60,7 +83,46 @@ class add_location : Fragment() {
         addPhotosButton.setOnClickListener {
             openGallery()
         }
+
+        val saveBtn: Button = view.findViewById(R.id.save_btn)
+        saveBtn.setOnClickListener {
+            saveLocation()
+        }
+
+        dateTextInput = view.findViewById(R.id.location_date)
+        dateTextInput.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = 2
+                if (event.rawX >= (dateTextInput.right - dateTextInput.compoundDrawables[drawableEnd].bounds.width())) {
+                    showDatePicker()
+                    return@setOnTouchListener true
+                }
+            }
+            false
+        }
+
         return view
+    }
+
+    private fun showDatePicker() {
+        val currentCalendar = Calendar.getInstance()
+        val currentYear = currentCalendar.get(Calendar.YEAR)
+        val currentMonth = currentCalendar.get(Calendar.MONTH)
+        val currentDay = currentCalendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
+            val selectedCalendar = Calendar.getInstance().apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, day)
+            }
+
+            val selectedDateFormatted = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(selectedCalendar.time)
+
+            dateTextInput.setText(selectedDateFormatted)
+        }, currentYear, currentMonth, currentDay)
+
+        datePickerDialog.show()
     }
 
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->
@@ -69,22 +131,57 @@ class add_location : Fragment() {
     }
 
     private fun getTypes(adapter: ArrayAdapter<String>) {
-        locationTypeService.getAllTypes(
+        locationService.getAllTypes(
             onResponse = { types ->
                 if (types != null) {
                     val typeNames = types.map { it.name ?: "Unknown" }
                     adapter.clear()
                     adapter.addAll(typeNames)
                     adapter.notifyDataSetChanged()
-                    //Log.d("display_home", "Types received: $typeNames")
-                } else {
-                    //Log.d("display_home", "No types received")
+
+                    types.forEach { type ->
+                        if (type.name != null) {
+                            locationTypeMap[type.name] = type.uuid
+                        }
+                    }
                 }
             },
-            onFailure = { error ->
-                //Log.e("display_home", "Failed to get types", error)
+            onFailure = {
             }
         )
+    }
+
+    private fun saveLocation() {
+        val selectedTypeName = locationTypeSpinner.selectedItem as? String
+        val selectedTypeUuid = locationTypeMap[selectedTypeName]
+        val locationName = view?.findViewById<EditText>(R.id.location_name)?.text.toString()
+        val locationDescription = view?.findViewById<EditText>(R.id.location_description)?.text.toString()
+        val locationRating = view?.findViewById<RatingBar>(R.id.location_rating)?.rating ?: 0.0f
+        val locationDate = dateTextInput.text.toString()
+
+        if (selectedTypeUuid != null && locationName.isNotEmpty() && locationDescription.isNotEmpty() && locationDate.isNotBlank()) {
+            val location = LocationModel(
+                uuid = UUID.randomUUID(),
+                name = locationName,
+                description = locationDescription,
+                typeId = selectedTypeUuid,
+                rating = locationRating,
+                latitude = null,
+                longitude = null,
+                date = locationDate
+            )
+
+            locationService.createLocation(location,
+                onResponse = { message ->
+                    Log.d("add_location", "Uploaded location successfully. Response: $message")
+                },
+                onFailure = { error ->
+                    Log.e("add_location", "Failed to upload location. Error: ${error.message}", error)
+                }
+            )
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun openGallery() {
@@ -93,20 +190,6 @@ class add_location : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        dateEditText = view.findViewById(R.id.location_date)
-
-        dateEditText.setOnClickListener {
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-            val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                dateEditText.setText(selectedDate)
-            }, year, month, day)
-            datePickerDialog.show()
-        }
     }
 
     inner class PhotosAdapter : BaseAdapter() {
@@ -127,19 +210,9 @@ class add_location : Fragment() {
         }
     }
 
-    private fun showDatePicker() {
-        val datePicker = MaterialDatePicker.Builder.dateRangePicker()
-            .setTitleText("Select date range")
-            .setTheme(R.style.ThemeOverlay_App_DatePicker)
-            .build()
-
-        datePicker.addOnPositiveButtonClickListener { selection ->
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val startDate = dateFormat.format(Date(selection.first ?: 0))
-            val endDate = dateFormat.format(Date(selection.second ?: 0))
-            val dateRange = "$startDate - $endDate"
+    companion object {
+        fun newInstance(tripUuid: UUID): add_location {
+            return add_location(tripUuid)
         }
-
-        datePicker.show(parentFragmentManager, "datePicker")
     }
 }

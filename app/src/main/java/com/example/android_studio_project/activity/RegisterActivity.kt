@@ -60,7 +60,6 @@ class RegisterActivity : AppCompatActivity() {
             val emailText = findViewById<EditText>(R.id.editTextEmail).text.toString()
             val passwordText = passwordField.text.toString()
 
-
             val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{6,}$")
             val isNewPasswordValid = passwordPattern.matches(passwordText)
 

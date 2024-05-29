@@ -13,10 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
-import com.example.android_studio_project.activity.MainActivity
 import com.example.android_studio_project.data.retrofit.services.TripService
-import com.example.android_studio_project.fragment.ot.display_home
-import com.google.android.material.textfield.TextInputEditText
+import com.example.android_studio_project.fragment.location.add_location.add_location
 import java.util.UUID
 
 class edit_trip(private val tripUuid: UUID) : Fragment() {
@@ -34,6 +32,11 @@ class edit_trip(private val tripUuid: UUID) : Fragment() {
         val deleteButton: Button = view.findViewById(R.id.delete_btn)
         deleteButton.setOnClickListener {
             showDeleteConfirmationDialog(tripUuid)
+        }
+
+        val locationButton: Button = view.findViewById(R.id.add_location_btn)
+        locationButton.setOnClickListener {
+            openAddLocationFragment(tripUuid)
         }
 
         tripService = TripService(requireContext())
@@ -87,6 +90,12 @@ class edit_trip(private val tripUuid: UUID) : Fragment() {
         dialog.show()
     }
 
+    private fun openAddLocationFragment(tripUuid: UUID) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, add_location.newInstance(tripUuid))
+            .addToBackStack(null)
+            .commit()
+    }
 
     companion object {
         fun newInstance(tripUuid: UUID): edit_trip {

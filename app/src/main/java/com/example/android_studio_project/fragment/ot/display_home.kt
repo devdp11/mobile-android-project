@@ -64,14 +64,11 @@ class display_home(private val userEmail: String) : Fragment() {
         tripService.getAllTrips(
             onResponse = { trips ->
                 if (trips != null) {
-                    Log.d("display_home", "Trips received: $trips")
                     displayHomeAdapter.setData(trips)
                 } else {
-                    Log.d("display_home", "No trips received")
                 }
             },
             onFailure = { error ->
-                Log.e("display_home", "Failed to get trips", error)
             }
         )
     }
@@ -80,13 +77,10 @@ class display_home(private val userEmail: String) : Fragment() {
         locationService.getAllTypes(
             onResponse = { types ->
                 if (types != null) {
-                    Log.d("display_home", "Types received: $types")
                 } else {
-                    Log.d("display_home", "No types received")
                 }
             },
-            onFailure = { error ->
-                Log.e("display_home", "Failed to get types", error)
+            onFailure = {
             }
         )
     }
