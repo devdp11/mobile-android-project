@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.LocationModel
+import com.example.android_studio_project.data.retrofit.models.TripLocationModel
 import com.example.android_studio_project.data.retrofit.services.LocationService
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -61,18 +62,6 @@ class add_location(private val tripUuid: UUID) : Fragment() {
         locationTypeSpinner.adapter = adapter
 
         getTypes(adapter)
-
-        locationTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedTypeName = parent.getItemAtPosition(position) as String
-                val selectedTypeUuid = locationTypeMap[selectedTypeName]
-                uuidTextView.text = selectedTypeUuid.toString()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                uuidTextView.text = tripUuid.toString()
-            }
-        }
 
         val addPhotosButton: Button = view.findViewById(R.id.add_photos)
         photosGridView = view.findViewById(R.id.photos_grid)
@@ -172,13 +161,19 @@ class add_location(private val tripUuid: UUID) : Fragment() {
             )
 
             locationService.createLocation(location,
-                onResponse = { message ->
-                    Log.d("add_location", "Uploaded location successfully. Response: $message")
+                onResponse = { _, locationUuid  ->
+                    val tripLocation = locationUuid?.let { TripLocationModel(tripId = tripUuid, locationId = it) }
+                    if (tripLocation != null) {
+                        locationService.createTripLocation(tripLocation,
+                            onResponse = { _ -> },
+                            onFailure = {}
+                        )
+                    }
+                    uuidTextView.text = locationUuid.toString()
                 },
-                onFailure = { error ->
-                    Log.e("add_location", "Failed to upload location. Error: ${error.message}", error)
-                }
+                onFailure = {}
             )
+
         } else {
             Toast.makeText(requireContext(), getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
         }
