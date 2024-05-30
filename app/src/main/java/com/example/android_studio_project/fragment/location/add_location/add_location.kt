@@ -2,8 +2,11 @@ package com.example.android_studio_project.fragment.location.add_location
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,19 +30,24 @@ import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.TripLocationModel
 import com.example.android_studio_project.data.retrofit.services.LocationService
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.UUID
+import android.util.Base64
+import com.example.android_studio_project.data.retrofit.models.PhotoModel
 
 class add_location(private val tripUuid: UUID) : Fragment() {
 
     private lateinit var photosGridView: GridView
     private val photosList = mutableListOf<Uri>()
     private lateinit var photosAdapter: PhotosAdapter
-    private lateinit var locationTypeSpinner: Spinner
+
     private lateinit var locationService: LocationService
+    private lateinit var locationTypeSpinner: Spinner
     private val locationTypeMap = mutableMapOf<String, UUID>()
+
     private lateinit var uuidTextView: TextView
     private lateinit var dateTextInput : EditText
 
@@ -165,13 +173,34 @@ class add_location(private val tripUuid: UUID) : Fragment() {
                     val tripLocation = locationUuid?.let { TripLocationModel(tripId = tripUuid, locationId = it) }
                     if (tripLocation != null) {
                         locationService.createTripLocation(tripLocation,
-                            onResponse = { _ -> },
-                            onFailure = {}
+                            onResponse = { _ ->
+                                photosList.forEach { uri ->
+                                    val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                                    val image = convertBitmapToBase64(bitmap)
+                                    if (image != null) {
+                                        val photo = PhotoModel(uuid = UUID.randomUUID(), data = image, locationId = locationUuid.toString())
+                                        locationService.createPhoto(photo,
+                                            onResponse = {
+                                                Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                                            },
+                                            onFailure = {
+                                                Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
+                                            }
+                                        )
+                                    }
+                                }
+                                Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                            },
+                            onFailure = {
+                                Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
+                            }
                         )
                     }
                     uuidTextView.text = locationUuid.toString()
                 },
-                onFailure = {}
+                onFailure = {
+                    Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
+                }
             )
 
         } else {
@@ -181,10 +210,6 @@ class add_location(private val tripUuid: UUID) : Fragment() {
 
     private fun openGallery() {
         selectPhotosLauncher.launch("image/*")
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     inner class PhotosAdapter : BaseAdapter() {
@@ -203,6 +228,26 @@ class add_location(private val tripUuid: UUID) : Fragment() {
             imageView.setImageURI(getItem(position))
             return imageView
         }
+    }
+
+    private fun uriToBitmap(uri: Uri): Bitmap? {
+        return try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun convertBitmapToBase64(bitmap: Bitmap?): String? {
+        bitmap?.let {
+            val outputStream = ByteArrayOutputStream()
+            it.compress(Bitmap.CompressFormat.JPEG, 20, outputStream)
+            val byteArray = outputStream.toByteArray()
+            return Base64.encodeToString(byteArray, Base64.DEFAULT)
+        }
+        return null
     }
 
     companion object {

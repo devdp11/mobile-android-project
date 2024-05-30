@@ -6,6 +6,7 @@ import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.LocationInterface
 import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.LocationTypeModel
+import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.example.android_studio_project.data.retrofit.models.TripLocationModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -66,6 +67,23 @@ class LocationService(private val context: Context) {
             }
 
             override fun onFailure(call: Call<TripLocationModel>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+    fun createPhoto(photo: PhotoModel, onResponse: (String) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = locationApi.createPhoto(photo)
+        call.enqueue(object : Callback<PhotoModel> {
+            override fun onResponse(call: Call<PhotoModel>, response: Response<PhotoModel>) {
+                if (response.isSuccessful) {
+                    onResponse("success")
+                } else {
+                    onFailure(Throwable("Error creating photo: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<PhotoModel>, t: Throwable) {
                 onFailure(t)
             }
         })

@@ -19,8 +19,6 @@ import java.util.UUID
 class display_home(private val userEmail: String, private val userUUID: String?) : Fragment() {
 
     private lateinit var tripService: TripService
-    private lateinit var locationService: LocationService
-
     private lateinit var displayHomeAdapter: display_home_adapter
 
     override fun onCreateView(
@@ -37,9 +35,6 @@ class display_home(private val userEmail: String, private val userUUID: String?)
 
         tripService = TripService(requireContext())
         getTrips()
-
-        locationService = LocationService(requireContext())
-        getTypes()
 
         val addButton: FloatingActionButton = view.findViewById(R.id.btn_add)
         addButton.setOnClickListener {
@@ -69,18 +64,6 @@ class display_home(private val userEmail: String, private val userUUID: String?)
             }
         ) {
         }
-    }
-
-    private fun getTypes() {
-        locationService.getAllTypes(
-            onResponse = { types ->
-                if (types != null) {
-                } else {
-                }
-            },
-            onFailure = {
-            }
-        )
     }
 
     companion object {

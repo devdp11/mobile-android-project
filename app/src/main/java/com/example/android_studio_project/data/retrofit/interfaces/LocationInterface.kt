@@ -2,6 +2,7 @@ package com.example.android_studio_project.data.retrofit.interfaces
 
 import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.LocationTypeModel
+import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.example.android_studio_project.data.retrofit.models.TripLocationModel
 import com.example.android_studio_project.data.retrofit.models.TripModel
 import retrofit2.Call
@@ -18,4 +19,7 @@ interface LocationInterface {
 
     @POST("tripLocation/create")
     fun createTripLocation(@Body tripLocationData: TripLocationModel): Call<TripLocationModel>
+
+    @POST("photo/create")
+    fun createPhoto(@Body photoData: PhotoModel): Call<PhotoModel>
 }
