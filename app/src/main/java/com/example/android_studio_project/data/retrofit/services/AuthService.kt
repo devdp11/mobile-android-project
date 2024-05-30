@@ -10,8 +10,10 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.UUID
 
 class AuthService(private val context: Context) {
+    private val userService = UserService(context)
     private val authApi = API.getRetrofitInstance().create(AuthInterface::class.java)
     private val sharedPreferences: SharedPreferences by lazy {
         context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
@@ -22,7 +24,8 @@ class AuthService(private val context: Context) {
         call.enqueue(object : Callback<UserModel> {
             override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                 if (response.isSuccessful) {
-                    user.email?.let { saveUserEmail(it) }
+                    val userUUID = response.body()?.uuid
+                    userUUID?.let { user.email?.let { it1 -> saveUserData(it1, it) } }
                     onResponse("success")
                 } else {
                     onFailure(Throwable("Error creating account: ${response.code()}"))
@@ -40,9 +43,18 @@ class AuthService(private val context: Context) {
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    saveUserEmail(email)
-                    // Log.d("AuthService", "User email saved: $email")
-                    onResponse(true)
+                    userService.getUserDetails(
+                        userEmail = email,
+                        onResponse = { userModel ->
+                            val userUUID = userModel?.uuid
+                            if (userUUID != null) {
+                                saveUserData(email, userUUID)
+                                onResponse(true)
+                            }
+                        },
+                        onFailure = {
+                        }
+                    )
                 } else {
                     onResponse(false)
                 }
@@ -54,15 +66,24 @@ class AuthService(private val context: Context) {
         })
     }
 
-    private fun saveUserEmail(email: String) {
-        sharedPreferences.edit().putString("user_email", email).apply()
+    private fun saveUserData(email: String, uuid: UUID) {
+        sharedPreferences.edit().apply {
+            putString("user_email", email)
+            putString("user_uuid", uuid.toString())
+            apply()
+        }
     }
 
     fun getUserEmail(): String? {
         return sharedPreferences.getString("user_email", null)
     }
 
-    fun clearUserEmail() {
-        sharedPreferences.edit().remove("user_email").apply()
+    fun getUserUUID(): String? {
+        return sharedPreferences.getString("user_uuid", null)
+    }
+
+    fun clearUserData() {
+        sharedPreferences.edit().remove("user_email").remove("user_uuid").apply()
     }
 }
+

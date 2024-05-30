@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.AuthService
+import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -66,6 +67,7 @@ class RegisterActivity : AppCompatActivity() {
             if (emailText.isNotEmpty() && passwordText.isNotEmpty() && firstNameText.isNotEmpty() && lastNameText.isNotEmpty() && usernameText.isNotEmpty()) {
                 if (isNewPasswordValid) {
                     val newUser = UserModel(
+                        uuid = UUID.randomUUID(),
                         firstName = firstNameText,
                         lastName = lastNameText,
                         avatar = null,

@@ -16,7 +16,7 @@ import com.example.android_studio_project.fragment.trip.edit_trip.edit_trip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.UUID
 
-class display_home(private val userEmail: String) : Fragment() {
+class display_home(private val userEmail: String, private val userUUID: String?) : Fragment() {
 
     private lateinit var tripService: TripService
     private lateinit var locationService: LocationService
@@ -28,10 +28,9 @@ class display_home(private val userEmail: String) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_display_home, container, false)
-
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         displayHomeAdapter = display_home_adapter(emptyList()) { clickedTrip ->
-            openEditTripFragment(clickedTrip.uuid)
+            openEditTripFragment(clickedTrip.uuid, userUUID)
         }
         recyclerView.adapter = displayHomeAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -53,24 +52,23 @@ class display_home(private val userEmail: String) : Fragment() {
         return view
     }
 
-    private fun openEditTripFragment(tripUuid: UUID) {
+    private fun openEditTripFragment(tripUuid: UUID, userUUID: String?) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, edit_trip.newInstance(tripUuid))
+            .replace(R.id.frame_layout, edit_trip.newInstance(tripUuid, userUUID))
             .addToBackStack(null)
             .commit()
     }
 
     private fun getTrips() {
-        tripService.getAllTrips(
+        tripService.getUserTrips(userUUID,
             onResponse = { trips ->
                 if (trips != null) {
                     displayHomeAdapter.setData(trips)
                 } else {
                 }
-            },
-            onFailure = { error ->
             }
-        )
+        ) {
+        }
     }
 
     private fun getTypes() {
@@ -86,8 +84,8 @@ class display_home(private val userEmail: String) : Fragment() {
     }
 
     companion object {
-        fun newInstance(userEmail: String): display_home {
-            return display_home(userEmail)
+        fun newInstance(userEmail: String, userUUID: String): display_home {
+            return display_home(userEmail, userUUID)
         }
     }
 }

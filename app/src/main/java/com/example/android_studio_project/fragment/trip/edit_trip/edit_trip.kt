@@ -17,7 +17,7 @@ import com.example.android_studio_project.data.retrofit.services.TripService
 import com.example.android_studio_project.fragment.location.add_location.add_location
 import java.util.UUID
 
-class edit_trip(private val tripUuid: UUID) : Fragment() {
+class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fragment() {
     private lateinit var tripService: TripService
 
     override fun onCreateView(
@@ -27,7 +27,8 @@ class edit_trip(private val tripUuid: UUID) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_edit_trip, container, false)
 
         val uuidTextView: TextView = view.findViewById(R.id.uuid_teste)
-        uuidTextView.text = tripUuid.toString()
+        val combinedUuids = "Trip UUID: $tripUuid\nUser UUID: $userUUID"
+        uuidTextView.text = combinedUuids
 
         val deleteButton: Button = view.findViewById(R.id.delete_btn)
         deleteButton.setOnClickListener {
@@ -71,7 +72,7 @@ class edit_trip(private val tripUuid: UUID) : Fragment() {
         builder.setTitle(getString(R.string.delete_title))
         builder.setMessage(getString(R.string.delete_description))
         builder.setPositiveButton(getString(R.string.yes)) { dialog, _ ->
-            tripService.deleteTripById(uuid,
+            tripService.deleteTrip(userUUID, uuid,
                 onResponse = {
                     Toast.makeText(requireContext(), getString(R.string.trip_delete_succ), Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
@@ -98,8 +99,8 @@ class edit_trip(private val tripUuid: UUID) : Fragment() {
     }
 
     companion object {
-        fun newInstance(tripUuid: UUID): edit_trip {
-            return edit_trip(tripUuid)
+        fun newInstance(tripUuid: UUID, userUUID: String?): edit_trip {
+            return edit_trip(tripUuid, userUUID)
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.android_studio_project.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
@@ -23,15 +24,17 @@ class MainActivity : AppCompatActivity() {
         authService = AuthService(this)
 
         val userEmail = authService.getUserEmail()
-        if (userEmail != null) {
-            replaceFragment(display_home(userEmail))
+        val userUUID = authService.getUserUUID()
+
+        if (userEmail != null && userUUID != null) {
+            replaceFragment(display_home(userEmail, userUUID))
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.home -> {
-                    if (userEmail != null) {
-                        replaceFragment(display_home(userEmail))
+                    if (userEmail != null && userUUID != null) {
+                        replaceFragment(display_home(userEmail, userUUID))
                     } else {
                         redirectToLogin()
                     }

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +82,7 @@ class edit_profile(private val userEmail: String) : Fragment() {
 
             if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
                 val avatarBase64 = convertBitmapToBase64(selectedImageBitmap)
-                val updatedUser = UserModel(firstName, lastName, avatarBase64, username, null, userEmail, false)
+                val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
 
                 userService.updateUser(updatedUser,
                     onResponse = { updatedUser ->

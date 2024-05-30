@@ -17,10 +17,10 @@ class UserService(private val context: Context) {
         context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
     }
 
-    fun getUserDetails(onResponse: (UserModel?) -> Unit, onFailure: (Throwable) -> Unit) {
-        val userEmail = getUserEmail()
-        if (userEmail != null) {
-            val call = userApi.getUser(userEmail)
+    fun getUserDetails(userEmail: String? = null, onResponse: (UserModel?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val finalUserEmail = userEmail ?: getUserEmail()
+        if (finalUserEmail != null) {
+            val call = userApi.getUser(finalUserEmail)
             call.enqueue(object : Callback<UserModel> {
                 override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                     if (response.isSuccessful) {
