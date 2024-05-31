@@ -24,8 +24,9 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 
-class edit_location : Fragment() {
+class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) : Fragment() {
 
     private lateinit var photosGridView: GridView
     private val photosList = mutableListOf<Uri>()
@@ -141,5 +142,11 @@ class edit_location : Fragment() {
         }
 
         datePicker.show(parentFragmentManager, "datePicker")
+    }
+
+    companion object {
+        fun newInstance(locationUuid: UUID, tripUuid: UUID): edit_location {
+            return edit_location(locationUuid, tripUuid)
+        }
     }
 }

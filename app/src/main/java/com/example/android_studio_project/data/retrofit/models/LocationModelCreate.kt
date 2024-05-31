@@ -3,7 +3,7 @@ package com.example.android_studio_project.data.retrofit.models
 import java.util.Date
 import java.util.UUID
 
-data class LocationModel(
+data class LocationModelCreate(
     val uuid: UUID,
     val name: String?,
     val description: String?,
@@ -11,5 +11,5 @@ data class LocationModel(
     val rating: Float?,
     val latitude: Number?,
     val longitude: Number?,
-    val date: Date
+    val date: String?
 )

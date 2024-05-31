@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.LocationInterface
 import com.example.android_studio_project.data.retrofit.models.LocationModel
+import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.LocationTypeModel
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.example.android_studio_project.data.retrofit.models.TripLocationModel
@@ -35,21 +36,20 @@ class LocationService(private val context: Context) {
         })
     }
 
-    fun createLocation(location: LocationModel, onResponse: (String, UUID?) -> Unit, onFailure: (Throwable) -> Unit) {
+    fun createLocation(location: LocationModelCreate, onResponse: (String, UUID?) -> Unit, onFailure: (Throwable) -> Unit) {
         val call = locationApi.createLocation(location)
-        call.enqueue(object : Callback<LocationModel> {
-            override fun onResponse(call: Call<LocationModel>, response: Response<LocationModel>) {
+        call.enqueue(object : Callback<LocationModelCreate> {
+            override fun onResponse(call: Call<LocationModelCreate>, response: Response<LocationModelCreate>) {
                 if (response.isSuccessful) {
                     val locationResponse = response.body()
                     val locationUUID = locationResponse?.uuid
-                    Log.d("createLocation", "Location created successfully. UUID: $locationUUID")
                     onResponse("success", locationUUID)
                 } else {
                     onFailure(Throwable("Error creating location: ${response.code()}"))
                 }
             }
 
-            override fun onFailure(call: Call<LocationModel>, t: Throwable) {
+            override fun onFailure(call: Call<LocationModelCreate>, t: Throwable) {
                 onFailure(t)
             }
         })

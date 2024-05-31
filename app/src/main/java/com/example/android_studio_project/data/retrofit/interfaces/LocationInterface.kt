@@ -1,6 +1,7 @@
 package com.example.android_studio_project.data.retrofit.interfaces
 
 import com.example.android_studio_project.data.retrofit.models.LocationModel
+import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.LocationTypeModel
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.example.android_studio_project.data.retrofit.models.TripLocationModel
@@ -15,7 +16,7 @@ interface LocationInterface {
     fun getTypes(): Call<List<LocationTypeModel>>
 
     @POST("location/create")
-    fun createLocation(@Body locationData: LocationModel): Call<LocationModel>
+    fun createLocation(@Body locationData: LocationModelCreate): Call<LocationModelCreate>
 
     @POST("tripLocation/create")
     fun createTripLocation(@Body tripLocationData: TripLocationModel): Call<TripLocationModel>

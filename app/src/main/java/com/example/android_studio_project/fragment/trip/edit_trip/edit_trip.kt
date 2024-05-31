@@ -12,23 +12,24 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.TripService
 import com.example.android_studio_project.fragment.location.add_location.add_location
+import com.example.android_studio_project.fragment.location.edit_location.edit_location
+import com.example.android_studio_project.fragment.location.list_location.list_location_adapter
 import java.util.UUID
 
 class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fragment() {
     private lateinit var tripService: TripService
+    private lateinit var listLocationAdapter: list_location_adapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_trip, container, false)
-
-        val uuidTextView: TextView = view.findViewById(R.id.uuid_teste)
-        val combinedUuids = "Trip UUID: $tripUuid\nUser UUID: $userUUID"
-        uuidTextView.text = combinedUuids
 
         val deleteButton: Button = view.findViewById(R.id.delete_btn)
         deleteButton.setOnClickListener {
@@ -39,6 +40,13 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         locationButton.setOnClickListener {
             openAddLocationFragment(tripUuid)
         }
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        listLocationAdapter = list_location_adapter(emptyList()) { clickedLocation ->
+            openEditLocationFragment(clickedLocation.uuid, tripUuid)
+        }
+        recyclerView.adapter = listLocationAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         tripService = TripService(requireContext())
         getLocations()
@@ -68,11 +76,18 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         return view
     }
 
+    private fun openEditLocationFragment(locationUuid: UUID, tripUuid: UUID) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, edit_location.newInstance(locationUuid, tripUuid))
+            .addToBackStack(null)
+            .commit()
+    }
+
     private fun getLocations() {
         tripService.getTripLocations(tripUuid,
-            onResponse = { trips ->
-                if (trips != null) {
-                    Log.d("edit_trip", trips.toString())
+            onResponse = { locations ->
+                if (locations != null) {
+                    listLocationAdapter.setData(locations)
                     Toast.makeText(requireContext(), getString(R.string.app_name), Toast.LENGTH_SHORT).show()
                 }
             }

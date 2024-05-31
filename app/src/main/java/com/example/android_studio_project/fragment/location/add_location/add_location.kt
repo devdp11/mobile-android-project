@@ -7,14 +7,12 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.Button
@@ -27,7 +25,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.TripLocationModel
 import com.example.android_studio_project.data.retrofit.services.LocationService
 import java.io.ByteArrayOutputStream
@@ -36,6 +33,7 @@ import java.util.Calendar
 import java.util.Locale
 import java.util.UUID
 import android.util.Base64
+import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
 
 class add_location(private val tripUuid: UUID) : Fragment() {
@@ -49,13 +47,12 @@ class add_location(private val tripUuid: UUID) : Fragment() {
     private val locationTypeMap = mutableMapOf<String, UUID>()
 
     private lateinit var uuidTextView: TextView
-    private lateinit var dateTextInput : EditText
+    private lateinit var dateTextInput: EditText
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_location, container, false)
 
@@ -154,10 +151,10 @@ class add_location(private val tripUuid: UUID) : Fragment() {
         val locationName = view?.findViewById<EditText>(R.id.location_name)?.text.toString()
         val locationDescription = view?.findViewById<EditText>(R.id.location_description)?.text.toString()
         val locationRating = view?.findViewById<RatingBar>(R.id.location_rating)?.rating ?: 0.0f
-        val locationDate = dateTextInput.text.toString()
+        val locationDateStr = dateTextInput.text.toString()
 
-        if (selectedTypeUuid != null && locationName.isNotEmpty() && locationDescription.isNotEmpty() && locationDate.isNotBlank()) {
-            val location = LocationModel(
+        if (selectedTypeUuid != null && locationName.isNotEmpty() && locationDescription.isNotEmpty() && locationDateStr.isNotEmpty()) {
+            val location = LocationModelCreate(
                 uuid = UUID.randomUUID(),
                 name = locationName,
                 description = locationDescription,
@@ -165,11 +162,11 @@ class add_location(private val tripUuid: UUID) : Fragment() {
                 rating = locationRating,
                 latitude = null,
                 longitude = null,
-                date = locationDate
+                date = locationDateStr
             )
 
             locationService.createLocation(location,
-                onResponse = { _, locationUuid  ->
+                onResponse = { _, locationUuid ->
                     val tripLocation = locationUuid?.let { TripLocationModel(tripId = tripUuid, locationId = it) }
                     if (tripLocation != null) {
                         locationService.createTripLocation(tripLocation,
