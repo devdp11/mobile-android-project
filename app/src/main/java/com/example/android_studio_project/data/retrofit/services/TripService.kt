@@ -3,6 +3,7 @@ package com.example.android_studio_project.data.retrofit.services
 import android.content.Context
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.TripInterface
+import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.TripModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -82,6 +83,24 @@ class TripService(private val context: Context) {
             }
 
             override fun onFailure(call: Call<TripModel>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+    fun getTripLocations(tripId: UUID?, onResponse: (List<LocationModel>?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = tripId?.let { tripApi.getTripsLocations(it) }
+        call?.enqueue(object : Callback<List<LocationModel>> {
+            override fun onResponse(call: Call<List<LocationModel>>, response: Response<List<LocationModel>>) {
+                if (response.isSuccessful) {
+                    val trips = response.body()
+                    onResponse(trips)
+                } else {
+                    onFailure(Throwable("Failed to get user trips: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<List<LocationModel>>, t: Throwable) {
                 onFailure(t)
             }
         })

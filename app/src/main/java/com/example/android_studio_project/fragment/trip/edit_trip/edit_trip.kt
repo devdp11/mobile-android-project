@@ -41,6 +41,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         }
 
         tripService = TripService(requireContext())
+        getLocations()
 
         val textViewName: TextView = view.findViewById(R.id.trip_name)
         val textViewDescription: TextView = view.findViewById(R.id.trip_description)
@@ -65,6 +66,18 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         )
 
         return view
+    }
+
+    private fun getLocations() {
+        tripService.getTripLocations(tripUuid,
+            onResponse = { trips ->
+                if (trips != null) {
+                    Log.d("edit_trip", trips.toString())
+                    Toast.makeText(requireContext(), getString(R.string.app_name), Toast.LENGTH_SHORT).show()
+                }
+            }
+        ) {
+        }
     }
 
     private fun showDeleteConfirmationDialog(uuid: UUID) {
