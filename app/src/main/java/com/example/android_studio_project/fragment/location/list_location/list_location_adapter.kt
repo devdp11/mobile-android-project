@@ -26,8 +26,8 @@ class list_location_adapter(private var locationList: List<LocationModel>, priva
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                val clickedTrip = locationList[position]
-                onItemClick(clickedTrip)
+                val clickedLocation = locationList[position]
+                onItemClick(clickedLocation)
             }
         }
     }

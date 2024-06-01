@@ -1,5 +1,6 @@
 package com.example.android_studio_project.fragment.location.edit_location
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +17,8 @@ import android.widget.EditText
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.LocationService
@@ -35,6 +38,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var locationTypeSpinner: Spinner
     private lateinit var locationService: LocationService
+    private lateinit var uuidTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +46,14 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
 
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_location, container, false)
+
+        uuidTextView = view.findViewById(R.id.uuid_teste)
+        uuidTextView.text = locationUuid.toString()
+
+        val deleteButton: Button = view.findViewById(R.id.delete_btn)
+        deleteButton.setOnClickListener {
+            showDeleteConfirmationDialog(tripUuid, locationUuid)
+        }
 
         locationService = LocationService(requireContext())
         locationTypeSpinner = view.findViewById(R.id.location_type)
@@ -62,6 +74,29 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             openGallery()
         }
         return view
+    }
+
+    private fun showDeleteConfirmationDialog(tripUuid: UUID, locationUuid: UUID) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.delete_title))
+        builder.setMessage(getString(R.string.delete_description))
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+            locationService.deleteLocation(tripUuid, locationUuid,
+                onResponse = {
+                    Toast.makeText(requireContext(), getString(R.string.trip_delete_succ), Toast.LENGTH_SHORT).show()
+                    parentFragmentManager.popBackStack()
+                },
+                onFailure = {
+                    Toast.makeText(requireContext(), getString(R.string.trip_delete_error), Toast.LENGTH_SHORT).show()
+                }
+            )
+            dialog.dismiss()
+        }
+        builder.setNegativeButton(getString(R.string.no)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->

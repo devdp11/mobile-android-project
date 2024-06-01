@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/cancel"
+                    android:text="@string/delete"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/red"
                     android:layout_marginEnd="10dp" />
@@ -199,6 +199,18 @@
                     android:layout_marginStart="10dp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/uuid_teste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:layout_gravity="center"
+                android:text="uuid_teste"
+                android:fontFamily="@font/roboto"
+                tools:ignore="RelativeOverlap" />
 
         </LinearLayout>
 

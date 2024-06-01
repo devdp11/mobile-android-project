@@ -1,10 +1,8 @@
 package com.example.android_studio_project.data.retrofit.services
 
 import android.content.Context
-import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.LocationInterface
-import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.LocationTypeModel
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
@@ -84,6 +82,23 @@ class LocationService(private val context: Context) {
             }
 
             override fun onFailure(call: Call<PhotoModel>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+    fun deleteLocation(tripUuid: UUID, locationUuid: UUID, onResponse: () -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = locationApi.deleteLocation(tripUuid, locationUuid)
+        call.enqueue(object : Callback<TripLocationModel> {
+            override fun onResponse(call: Call<TripLocationModel>, response: Response<TripLocationModel>) {
+                if (response.isSuccessful) {
+                    onResponse()
+                } else {
+                    onFailure(Throwable("Failed to delete location: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<TripLocationModel>, t: Throwable) {
                 onFailure(t)
             }
         })
