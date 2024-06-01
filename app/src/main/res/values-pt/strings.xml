@@ -27,6 +27,7 @@
     <string name="yes_acc">Já tem conta? Entra aqui!</string>
     <string name="add_trip">Adicionar Viagem</string>
     <string name="trip_name">Nome Viagem</string>
+    <string name="trip_description">Descrição da Viagem</string>
     <string name="trip_date">Data de Viagem</string>
     <string name="add_photos">Adicionar Fotos</string>
     <string name="save_trip">Guardar Viagem</string>

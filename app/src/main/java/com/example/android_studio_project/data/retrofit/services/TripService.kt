@@ -105,4 +105,23 @@ class TripService(private val context: Context) {
             }
         })
     }
+
+    fun createTrip(trip: TripModel, onResponse: (String) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = tripApi.createTrip(trip)
+        call.enqueue(object : Callback<TripModel> {
+            override fun onResponse(call: Call<TripModel>, response: Response<TripModel>) {
+                if (response.isSuccessful) {
+                    onResponse("success")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    onFailure(Throwable("Failed to create trip: ${response.code()} ${response.message()} - $errorBody"))
+                }
+            }
+
+            override fun onFailure(call: Call<TripModel>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
 }

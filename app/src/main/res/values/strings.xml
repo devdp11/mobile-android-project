@@ -28,6 +28,7 @@
     <string name="add_trip">Add Trip</string>
     <string name="trip_name">Trip Name</string>
     <string name="trip_date">Trip Date</string>
+    <string name="trip_description">Trip Description</string>
     <string name="add_photos">Add Photos</string>
     <string name="save_trip">Save Trip</string>
     <string name="cancel">Cancel</string>

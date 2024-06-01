@@ -28,7 +28,7 @@ class display_home(private val userEmail: String, private val userUUID: String?)
         val view = inflater.inflate(R.layout.fragment_display_home, container, false)
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         displayHomeAdapter = display_home_adapter(emptyList()) { clickedTrip ->
-            openEditTripFragment(clickedTrip.uuid, userUUID)
+            clickedTrip.uuid?.let { openEditTripFragment(it, userUUID) }
         }
         recyclerView.adapter = displayHomeAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

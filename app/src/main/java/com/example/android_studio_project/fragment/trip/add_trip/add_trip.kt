@@ -2,6 +2,7 @@ package com.example.android_studio_project.fragment.trip.add_trip
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 
 class AddTripFragment : Fragment() {
 
@@ -25,8 +27,8 @@ class AddTripFragment : Fragment() {
     private lateinit var saveTripButton: Button
     private lateinit var tripService: TripService
 
-    private lateinit var tripStartDate: Date
-    private lateinit var tripEndDate: Date
+    private var tripStartDate: Date? = null
+    private var tripEndDate: Date? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +47,7 @@ class AddTripFragment : Fragment() {
         saveTripButton.setOnClickListener {
             saveTrip()
         }
-        tripService = TripService()
+        tripService = TripService(requireContext())
 
         return view
     }
@@ -61,18 +63,20 @@ class AddTripFragment : Fragment() {
 
         if (tripName.isNotEmpty() && tripDate.isNotEmpty() && tripStartDate != null && tripEndDate != null) {
             val trip = TripModel(
-                description = tripDescription,
                 name = tripName,
+                description = tripDescription,
                 startDate = tripStartDate,
                 endDate = tripEndDate,
-                rating = tripRating,
+                rating = tripRating
             )
+
+            // Logar os dados do trip para verificação
+            Log.d("AddTripFragment", "Trip Data: $trip")
 
             tripService.createTrip(trip, onResponse = { responseMessage ->
                 requireActivity().runOnUiThread {
                     if (responseMessage == "success") {
                         Toast.makeText(context, "Trip Saved", Toast.LENGTH_LONG).show()
-                        // Optionally, navigate back or clear the form
                     } else {
                         Toast.makeText(context, "Error saving trip", Toast.LENGTH_LONG).show()
                     }
@@ -80,6 +84,7 @@ class AddTripFragment : Fragment() {
             }, onFailure = { throwable ->
                 requireActivity().runOnUiThread {
                     Toast.makeText(context, "Error: ${throwable.message}", Toast.LENGTH_LONG).show()
+                    Log.e("AddTripFragment", "Error creating trip", throwable)
                 }
             })
         } else {
