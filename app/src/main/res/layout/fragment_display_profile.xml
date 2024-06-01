@@ -63,29 +63,29 @@
                 app:cardElevation="0dp">
 
                 <ImageView
+                    android:id="@+id/user_avatar"
                     android:layout_width="125dp"
                     android:layout_height="125dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/slider2" />
+                    android:layout_gravity="center" />
 
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="NAME"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/dark_gray" />
 
             <TextView
+                android:id="@+id/user_mail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:text="EMAIL"
                 android:textSize="14sp"
                 android:textColor="@color/dark_gray" />
 
@@ -216,6 +216,7 @@
                         android:layout_toEndOf="@id/security" />
 
                     <ImageView
+                        android:id="@+id/security_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/btn_forward"

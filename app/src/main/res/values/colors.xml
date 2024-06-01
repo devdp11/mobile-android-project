@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="purple_prim">#351431</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_50">#aa7bc3</color>
     <color name="purple_500">#FF6200EE</color>
@@ -22,4 +24,5 @@
     <color name="primary_color">#6200EE</color>
     <color name="primary_text_color">#212121</color>
     <color name="secondary_text_color">#757575</color>
+    <color name="red">#FF0000</color>
 </resources>

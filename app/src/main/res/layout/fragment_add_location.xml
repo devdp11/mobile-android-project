@@ -1,13 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    tools:context=".fragment.trip.edit_trip.edit_trip">
+    tools:context=".fragment.location.add_location.add_location">
 
-    <RelativeLayout
+<RelativeLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,42 +20,37 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/btn_backward"
             android:padding="14dp"
-            android:importantForAccessibility="no" />
+            android:src="@drawable/btn_backward" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_trip"
             android:layout_centerInParent="true"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="24sp"
             android:fontFamily="@font/roboto"
-            tools:ignore="RelativeOverlap" />
+            android:text="@string/add_location"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/logo"
-            android:importantForAccessibility="no" />
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/logo" />
     </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollmain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:padding="20dp"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -61,12 +58,12 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <EditText
-                    android:id="@+id/trip_name"
+                    android:id="@+id/location_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
-                    android:editable="true"
                     android:inputType="text" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
@@ -79,11 +76,12 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <EditText
-                    android:id="@+id/trip_description"
+                    android:id="@+id/location_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description"
                     android:inputType="text" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
@@ -95,16 +93,31 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/trip_date"
+                <EditText
+                    android:id="@+id/location_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date"
-                    android:textColorHint="@color/white"
+                    android:textColor="@color/white"
                     android:focusable="true"
                     android:drawableEnd="@drawable/baseline_calendar_month_24"
                     android:clickable="true" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="15dp" />
+
+            <Spinner
+                android:id="@+id/location_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:padding="8dp"
+                android:spinnerMode="dropdown"
+                android:textColor="@color/white"
+                android:dropDownVerticalOffset="40dp"/>
 
             <View
                 android:layout_width="wrap_content"
@@ -129,25 +142,50 @@
                     android:layout_height="10dp" />
 
                 <RatingBar
-                    android:id="@+id/trip_rating"
+                    android:id="@+id/location_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:stepSize="1.0"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:theme="@style/RatingBar" />
+
             </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="15dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_photos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/custom_row_locations" />
+                android:layout_height="wrap_content"
+                android:text="@string/add_photos"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="4dp" >
+
+                <GridView
+                    android:id="@+id/photos_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:horizontalSpacing="10dp"
+                    android:stretchMode="columnWidth"
+                    android:padding="5dp"
+                    tools:ignore="NestedScrolling" />
+
+            </androidx.cardview.widget.CardView>
 
             <View
                 android:layout_width="wrap_content"
@@ -159,46 +197,26 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/add_location_btn"
-                    android:layout_width="0dp"
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/add_location"
-                    android:fontFamily="@font/kadwa_bold"
+                    android:text="@string/cancel"
                     android:textColor="@color/white"
-                    android:backgroundTint="@color/green"
-                    android:layout_marginEnd="8dp"
-                    style="?android:attr/buttonBarButtonStyle" />
+                    android:backgroundTint="@color/red"
+                    android:layout_marginEnd="10dp" />
 
                 <Button
-                    android:id="@+id/delete_btn"
-                    android:layout_width="0dp"
+                    android:id="@+id/save_btn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/delete"
-                    android:fontFamily="@font/kadwa_bold"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/security"
-                    android:layout_marginEnd="8dp"
-                    style="?android:attr/buttonBarButtonStyle" />
-
-                <Button
-                    android:id="@+id/save_trip_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/kadwa_bold"
-                    android:text="@string/save_trip"
+                    android:text="@string/save"
                     android:backgroundTint="@color/purple_dark"
                     android:textColor="@color/white"
-                    android:layout_marginStart="8dp"
-                    style="?android:attr/buttonBarButtonStyle" />
+                    android:layout_marginStart="10dp" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="15dp" />
 
             <TextView
                 android:id="@+id/uuid_teste"
@@ -207,10 +225,13 @@
                 android:layout_centerInParent="true"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:layout_gravity="center"
                 android:textSize="24sp"
                 android:fontFamily="@font/roboto"
                 tools:ignore="RelativeOverlap" />
 
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>
