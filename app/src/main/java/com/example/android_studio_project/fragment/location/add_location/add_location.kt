@@ -179,6 +179,7 @@ class add_location(private val tripUuid: UUID) : Fragment() {
                                         locationService.createPhoto(photo,
                                             onResponse = {
                                                 Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                                                parentFragmentManager.popBackStack()
                                             },
                                             onFailure = {
                                                 Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()

@@ -1,6 +1,5 @@
 package com.example.android_studio_project.data.retrofit.models
 
-import java.util.Date
 import java.util.UUID
 
 data class TripModelCreate(

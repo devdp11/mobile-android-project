@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.services.LocationService
 import com.example.android_studio_project.data.retrofit.services.TripService
-import com.example.android_studio_project.fragment.trip.add_trip.AddTripFragment
+import com.example.android_studio_project.fragment.trip.add_trip.add_trip
 import com.example.android_studio_project.fragment.trip.edit_trip.edit_trip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.UUID
@@ -39,7 +38,7 @@ class display_home(private val userEmail: String, private val userUUID: String?)
         val addButton: FloatingActionButton = view.findViewById(R.id.btn_add)
         addButton.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, AddTripFragment())
+                .replace(R.id.frame_layout, add_trip(userUUID))
                 .addToBackStack(null)
                 .commit()
         }

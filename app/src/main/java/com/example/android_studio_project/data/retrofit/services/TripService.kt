@@ -1,13 +1,12 @@
 package com.example.android_studio_project.data.retrofit.services
 
 import android.content.Context
-import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.TripInterface
 import com.example.android_studio_project.data.retrofit.models.LocationModel
-import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.TripModel
 import com.example.android_studio_project.data.retrofit.models.TripModelCreate
+import com.example.android_studio_project.data.retrofit.models.UserTripModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -123,6 +122,23 @@ class TripService(private val context: Context) {
             }
 
             override fun onFailure(call: Call<TripModelCreate>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+    fun createUserTrip(userTrip: UserTripModel, onResponse: (String) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = tripApi.createUserTrip(userTrip)
+        call.enqueue(object : Callback<UserTripModel> {
+            override fun onResponse(call: Call<UserTripModel>, response: Response<UserTripModel>) {
+                if (response.isSuccessful) {
+                    onResponse("success")
+                } else {
+                    onFailure(Throwable("Error creating trip location: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<UserTripModel>, t: Throwable) {
                 onFailure(t)
             }
         })

@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
+import com.example.android_studio_project.data.retrofit.models.TripLocationModel
 import com.example.android_studio_project.data.retrofit.models.TripModelCreate
+import com.example.android_studio_project.data.retrofit.models.UserTripModel
 import com.example.android_studio_project.data.retrofit.services.TripService
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
@@ -18,7 +20,7 @@ import java.util.Locale
 import java.util.TimeZone
 import java.util.UUID
 
-class AddTripFragment : Fragment() {
+class add_trip(private val userUUID: String?) : Fragment() {
 
     private lateinit var tripNameEditText: EditText
     private lateinit var tripDateEditText: EditText
@@ -71,9 +73,23 @@ class AddTripFragment : Fragment() {
 
             tripService.createTrip(trip, onResponse = { responseMessage, tripUUID ->
                 requireActivity().runOnUiThread {
-                    if (responseMessage == "success") {
-                        Toast.makeText(context, "Trip $tripName Saved.", Toast.LENGTH_LONG).show()
-                        clearFields()
+                    if (responseMessage == "success" && tripUUID != null) {
+                        val userTrip = UserTripModel(userId = userUUID, tripId = tripUUID.toString())
+                        tripService.createUserTrip(userTrip, onResponse = { userTripResponse ->
+                            requireActivity().runOnUiThread {
+                                if (userTripResponse == "success") {
+                                    Toast.makeText(context, "Trip $tripName Saved and Linked to User.", Toast.LENGTH_LONG).show()
+                                    parentFragmentManager.popBackStack()
+                                    clearFields()
+                                } else {
+                                    Toast.makeText(context, "Error linking trip to user", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }, onFailure = { userTripThrowable ->
+                            requireActivity().runOnUiThread {
+                                Toast.makeText(context, "Error linking trip to user: ${userTripThrowable.message}", Toast.LENGTH_LONG).show()
+                            }
+                        })
                     } else {
                         Toast.makeText(context, "Error saving trip", Toast.LENGTH_LONG).show()
                     }
@@ -87,8 +103,6 @@ class AddTripFragment : Fragment() {
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
         }
     }
-
-
 
     private fun showDatePicker() {
         val datePicker = MaterialDatePicker.Builder.dateRangePicker()
