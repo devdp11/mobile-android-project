@@ -1,10 +1,13 @@
 package com.example.android_studio_project.data.retrofit.services
 
 import android.content.Context
+import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.TripInterface
 import com.example.android_studio_project.data.retrofit.models.LocationModel
+import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.TripModel
+import com.example.android_studio_project.data.retrofit.models.TripModelCreate
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -106,19 +109,20 @@ class TripService(private val context: Context) {
         })
     }
 
-    fun createTrip(trip: TripModel, onResponse: (String) -> Unit, onFailure: (Throwable) -> Unit) {
+    fun createTrip(trip: TripModelCreate, onResponse: (String, UUID?) -> Unit, onFailure: (Throwable) -> Unit) {
         val call = tripApi.createTrip(trip)
-        call.enqueue(object : Callback<TripModel> {
-            override fun onResponse(call: Call<TripModel>, response: Response<TripModel>) {
+        call.enqueue(object : Callback<TripModelCreate> {
+            override fun onResponse(call: Call<TripModelCreate>, response: Response<TripModelCreate>) {
                 if (response.isSuccessful) {
-                    onResponse("success")
+                    val tripResponse = response.body()
+                    val tripUUID = tripResponse?.uuid
+                    onResponse("success", tripUUID)
                 } else {
-                    val errorBody = response.errorBody()?.string()
-                    onFailure(Throwable("Failed to create trip: ${response.code()} ${response.message()} - $errorBody"))
+                    onFailure(Throwable("Error creating location: ${response.code()}"))
                 }
             }
 
-            override fun onFailure(call: Call<TripModel>, t: Throwable) {
+            override fun onFailure(call: Call<TripModelCreate>, t: Throwable) {
                 onFailure(t)
             }
         })

@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.models.TripModel
+import com.example.android_studio_project.data.retrofit.models.TripModelCreate
 import com.example.android_studio_project.data.retrofit.services.TripService
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 import java.util.UUID
 
 class AddTripFragment : Fragment() {
@@ -27,8 +28,8 @@ class AddTripFragment : Fragment() {
     private lateinit var saveTripButton: Button
     private lateinit var tripService: TripService
 
-    private var tripStartDate: Date? = null
-    private var tripEndDate: Date? = null
+    private var tripStartDate: String? = null
+    private var tripEndDate: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,11 +59,9 @@ class AddTripFragment : Fragment() {
         val tripDescription = tripDescriptionEditText.text.toString()
         val tripRating = tripRatingBar.rating
 
-        val tripStartDate = this.tripStartDate
-        val tripEndDate = this.tripEndDate
-
         if (tripName.isNotEmpty() && tripDate.isNotEmpty() && tripStartDate != null && tripEndDate != null) {
-            val trip = TripModel(
+            val trip = TripModelCreate(
+                uuid = UUID.randomUUID(),
                 name = tripName,
                 description = tripDescription,
                 startDate = tripStartDate,
@@ -70,13 +69,11 @@ class AddTripFragment : Fragment() {
                 rating = tripRating
             )
 
-            // Logar os dados do trip para verificação
-            Log.d("AddTripFragment", "Trip Data: $trip")
-
-            tripService.createTrip(trip, onResponse = { responseMessage ->
+            tripService.createTrip(trip, onResponse = { responseMessage, tripUUID ->
                 requireActivity().runOnUiThread {
                     if (responseMessage == "success") {
-                        Toast.makeText(context, "Trip Saved", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Trip $tripName Saved.", Toast.LENGTH_LONG).show()
+                        clearFields()
                     } else {
                         Toast.makeText(context, "Error saving trip", Toast.LENGTH_LONG).show()
                     }
@@ -84,13 +81,14 @@ class AddTripFragment : Fragment() {
             }, onFailure = { throwable ->
                 requireActivity().runOnUiThread {
                     Toast.makeText(context, "Error: ${throwable.message}", Toast.LENGTH_LONG).show()
-                    Log.e("AddTripFragment", "Error creating trip", throwable)
                 }
             })
         } else {
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
         }
     }
+
+
 
     private fun showDatePicker() {
         val datePicker = MaterialDatePicker.Builder.dateRangePicker()
@@ -99,20 +97,33 @@ class AddTripFragment : Fragment() {
             .build()
 
         datePicker.addOnPositiveButtonClickListener { selection ->
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            tripStartDate = Date(selection.first ?: 0)
-            tripEndDate = Date(selection.second ?: 0)
-            val startDate = dateFormat.format(tripStartDate)
-            val endDate = dateFormat.format(tripEndDate)
-            val dateRange = "$startDate - $endDate"
+            val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+            tripStartDate = isoDateFormat.format(Date(selection.first ?: 0))
+            tripEndDate = isoDateFormat.format(Date(selection.second ?: 0))
+
+            val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val startDisplay = displayFormat.format(Date(selection.first ?: 0))
+            val endDisplay = displayFormat.format(Date(selection.second ?: 0))
+            val dateRange = "$startDisplay - $endDisplay"
             tripDateEditText.setText(dateRange)
         }
 
         datePicker.show(parentFragmentManager, "datePicker")
     }
 
+    private fun clearFields(){
+        tripNameEditText.text.clear()
+        tripDateEditText.text.clear()
+        tripDescriptionEditText.text.clear()
+        tripRatingBar.rating = 0.0f
+    }
+
+
     private fun getLoggedUserId(): Int {
         val sharedPreferences = requireActivity().getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getInt("userId", -1)
     }
+
 }
+
