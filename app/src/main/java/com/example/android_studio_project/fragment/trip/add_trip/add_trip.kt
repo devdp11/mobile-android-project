@@ -1,5 +1,6 @@
 package com.example.android_studio_project.fragment.trip.add_trip
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +21,7 @@ import java.util.Locale
 import java.util.TimeZone
 import java.util.UUID
 
-class add_trip(private val userUUID: String?) : Fragment() {
+class add_trip(private val userUUID: String) : Fragment() {
 
     private lateinit var tripNameEditText: EditText
     private lateinit var tripDateEditText: EditText
@@ -79,7 +80,7 @@ class add_trip(private val userUUID: String?) : Fragment() {
                             requireActivity().runOnUiThread {
                                 if (userTripResponse == "success") {
                                     Toast.makeText(context, "Trip $tripName Saved and Linked to User.", Toast.LENGTH_LONG).show()
-                                    parentFragmentManager.popBackStack()
+                                    showConfirmationDialog()
                                     clearFields()
                                 } else {
                                     Toast.makeText(context, "Error linking trip to user", Toast.LENGTH_LONG).show()
@@ -131,6 +132,18 @@ class add_trip(private val userUUID: String?) : Fragment() {
         tripDateEditText.text.clear()
         tripDescriptionEditText.text.clear()
         tripRatingBar.rating = 0.0f
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Success")
+        builder.setMessage("Trip added successfully.")
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+            parentFragmentManager.popBackStack()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
 

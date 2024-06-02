@@ -15,7 +15,7 @@ import com.example.android_studio_project.fragment.trip.edit_trip.edit_trip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.UUID
 
-class display_home(private val userEmail: String, private val userUUID: String?) : Fragment() {
+class display_home(private val userEmail: String, private val userUUID: String) : Fragment() {
 
     private lateinit var tripService: TripService
     private lateinit var displayHomeAdapter: display_home_adapter

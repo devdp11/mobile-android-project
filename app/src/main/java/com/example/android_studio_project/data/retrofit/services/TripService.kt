@@ -6,6 +6,7 @@ import com.example.android_studio_project.data.retrofit.interfaces.TripInterface
 import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.TripModel
 import com.example.android_studio_project.data.retrofit.models.TripModelCreate
+import com.example.android_studio_project.data.retrofit.models.TripModelEdit
 import com.example.android_studio_project.data.retrofit.models.UserTripModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -143,5 +144,32 @@ class TripService(private val context: Context) {
             }
         })
     }
+
+    fun updateTrip(tripUuid: UUID, trip: TripModelEdit, onResponse: (String?, TripModelEdit?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = tripApi.updateTrip(tripUuid, trip)
+        call.enqueue(object : Callback<TripModelEdit> {
+            override fun onResponse(call: Call<TripModelEdit>, response: Response<TripModelEdit>) {
+                if (response.isSuccessful) {
+                    val tripResponse = response.body()
+                    onResponse("success", tripResponse)
+                } else {
+                    onFailure(Throwable("Error updating trip: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<TripModelEdit>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
 
 }
