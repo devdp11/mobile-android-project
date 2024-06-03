@@ -26,7 +26,8 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activity.RegisterActivity"
             android:exported="false" />
