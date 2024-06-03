@@ -19,6 +19,7 @@ import com.example.android_studio_project.data.retrofit.services.TripService
 import com.example.android_studio_project.fragment.location.add_location.add_location
 import com.example.android_studio_project.fragment.location.edit_location.edit_location
 import com.example.android_studio_project.fragment.location.list_location.list_location_adapter
+import com.example.android_studio_project.fragment.trip.list_user.list_user_adapter
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +27,7 @@ import java.util.*
 class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fragment() {
     private lateinit var tripService: TripService
     private lateinit var listLocationAdapter: list_location_adapter
+    private lateinit var listUserAdapter: list_user_adapter
 
     private lateinit var tripNameEditText: TextView
     private lateinit var tripDescriptionEditText: TextView
@@ -72,8 +74,14 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         recyclerView.adapter = listLocationAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        val recyclerViewUsers: RecyclerView = view.findViewById(R.id.recycler_view_users)
+        listUserAdapter = list_user_adapter(emptyList())
+        recyclerViewUsers.adapter = listUserAdapter
+        recyclerViewUsers.layoutManager = LinearLayoutManager(requireContext())
+
         tripService = TripService(requireContext())
         getLocations()
+        getUsers()
 
         tripService.getTripById(tripUuid,
             onResponse = { tripDetails ->
@@ -105,8 +113,6 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
             }
         )
-
-
         return view
     }
 
@@ -127,6 +133,18 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             onFailure = { error ->
                 Toast.makeText(requireContext(), getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
                 Log.e("EditTrip", "Error loading locations: $error")
+            }
+        )
+    }
+
+    private fun getUsers() {
+        tripService.getTripUser(tripUuid,
+            onResponse = { users ->
+                listUserAdapter.setData(users)
+            },
+            onFailure = { error ->
+                Toast.makeText(requireContext(), getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
+                Log.e("EditTrip", "Error loading users: $error")
             }
         )
     }
@@ -202,7 +220,6 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
         }
     }
-
 
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())

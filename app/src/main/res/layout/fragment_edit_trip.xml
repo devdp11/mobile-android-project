@@ -1,9 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
     tools:context=".fragment.trip.edit_trip.edit_trip">
 
@@ -46,7 +45,8 @@
         android:id="@+id/scrollmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_below="@id/topbar"
+        android:layout_above="@+id/bottom_buttons">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,7 +113,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -153,64 +153,60 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15dp" />
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_users"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/add_location_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/add_location"
-                    android:fontFamily="@font/kadwa_bold"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/green"
-                    android:layout_marginEnd="8dp"
-                    style="?android:attr/buttonBarButtonStyle" />
-
-                <Button
-                    android:id="@+id/delete_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/delete"
-                    android:fontFamily="@font/kadwa_bold"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/security"
-                    android:layout_marginEnd="8dp"
-                    style="?android:attr/buttonBarButtonStyle" />
-
-                <Button
-                    android:id="@+id/save_trip_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/kadwa_bold"
-                    android:text="@string/save_trip"
-                    android:backgroundTint="@color/purple_dark"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="8dp"
-                    style="?android:attr/buttonBarButtonStyle" />
-
-            </LinearLayout>
+                android:layout_height="match_parent"
+                tools:listitem="@layout/custom_row_users" />
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="15dp" />
-
-            <TextView
-                android:id="@+id/uuid_teste"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:fontFamily="@font/roboto"
-                tools:ignore="RelativeOverlap" />
-
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/add_location_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_location"
+            android:fontFamily="@font/kadwa_bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green"
+            android:layout_marginEnd="8dp"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/delete"
+            android:fontFamily="@font/kadwa_bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/security"
+            android:layout_marginEnd="8dp"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:id="@+id/save_trip_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/kadwa_bold"
+            android:text="@string/save_trip"
+            android:backgroundTint="@color/purple_dark"
+            android:textColor="@color/white"
+            android:layout_marginStart="8dp"
+            style="?android:attr/buttonBarButtonStyle" />
+    </LinearLayout>
+</RelativeLayout>
