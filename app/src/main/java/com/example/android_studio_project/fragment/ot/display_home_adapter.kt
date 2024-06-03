@@ -35,7 +35,7 @@ class display_home_adapter(private var tripList: List<TripModel>, private val on
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_row, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_row_trips, parent, false)
         return ViewHolder(view)
     }
 

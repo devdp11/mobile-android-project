@@ -29,6 +29,9 @@ interface TripInterface {
     @GET("userTrip/{userId}/trips")
     fun getUserTrips(@Path("userId") userId: String?): Call<List<TripModel>>
 
+    @GET("userTrip/{tripId}")
+    fun getTripUser(@Path("tripId") tripId: UUID): Call<List<UserModel>>
+
     @POST("userTrip/create")
     fun createUserTrip(@Body tripData: UserTripModel): Call<UserTripModel>
 

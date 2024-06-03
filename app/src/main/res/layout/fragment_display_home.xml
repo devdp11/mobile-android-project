@@ -37,7 +37,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/topbar"
         android:padding="16dp"
-        tools:listitem="@layout/custom_row" />
+        tools:listitem="@layout/custom_row_trips" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add"

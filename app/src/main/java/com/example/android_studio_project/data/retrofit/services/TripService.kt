@@ -7,6 +7,7 @@ import com.example.android_studio_project.data.retrofit.models.LocationModel
 import com.example.android_studio_project.data.retrofit.models.TripModel
 import com.example.android_studio_project.data.retrofit.models.TripModelCreate
 import com.example.android_studio_project.data.retrofit.models.TripModelEdit
+import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.models.UserTripModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,28 +16,6 @@ import java.util.UUID
 
 class TripService(private val context: Context) {
     private val tripApi = API.getRetrofitInstance().create(TripInterface::class.java)
-
-    fun getAllTrips(onResponse: (List<TripModel>?) -> Unit, onFailure: (Throwable) -> Unit) {
-        val call = tripApi.getTrips()
-        call.enqueue(object : Callback<List<TripModel>> {
-            override fun onResponse(call: Call<List<TripModel>>, response: Response<List<TripModel>>) {
-                if (response.isSuccessful) {
-                    val trips = response.body()
-                    //Log.d("TripService", "Received trips: $trips")
-                    onResponse(trips)
-                } else {
-                    val error = "Failed to get trips: ${response.code()} ${response.message()}"
-                    //Log.e("TripService", error)
-                    onFailure(Throwable(error))
-                }
-            }
-
-            override fun onFailure(call: Call<List<TripModel>>, t: Throwable) {
-                //Log.e("TripService", "Error: ${t.message}")
-                onFailure(t)
-            }
-        })
-    }
 
     fun getTripById(uuid: UUID, onResponse: (TripModel?) -> Unit, onFailure: (Throwable) -> Unit) {
         val call = tripApi.getTripById(uuid)
@@ -163,13 +142,26 @@ class TripService(private val context: Context) {
         })
     }
 
+    fun getTripUser(tripId: UUID, onResponse: (List<UserModel>) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = tripApi.getTripUser(tripId)
+        call.enqueue(object : Callback<List<UserModel>> {
+            override fun onResponse(call: Call<List<UserModel>>, response: Response<List<UserModel>>) {
+                if (response.isSuccessful) {
+                    val userList = response.body()
+                    if (userList != null) {
+                        onResponse(userList)
+                    } else {
+                        onFailure(Throwable("Empty response"))
+                    }
+                } else {
+                    onFailure(Throwable("Error fetching users: ${response.code()}"))
+                }
+            }
 
-
-
-
-
-
-
-
+            override fun onFailure(call: Call<List<UserModel>>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
 
 }
