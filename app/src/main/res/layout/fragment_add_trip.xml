@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    tools:context=".fragment.trip.add_trip.AddTripFragment">
+    tools:context=".fragment.trip.add_trip.add_trip">
 
     <RelativeLayout
         android:id="@+id/topbar"
@@ -114,8 +114,6 @@
                 android:stepSize="1.0"
                 android:layout_marginBottom="10dp"
                 android:theme="@style/RatingBar" />
-
-
 
 
             <!-- Botões -->
