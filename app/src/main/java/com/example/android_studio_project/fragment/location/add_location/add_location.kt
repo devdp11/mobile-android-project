@@ -53,9 +53,6 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_location, container, false)
 
-        uuidTextView = view.findViewById(R.id.uuid_teste)
-        uuidTextView.text = tripUuid.toString()
-
         locationService = LocationService(requireContext())
         locationTypeSpinner = view.findViewById(R.id.location_type)
 
