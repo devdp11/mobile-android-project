@@ -34,6 +34,26 @@ class LocationService(private val context: Context) {
         })
     }
 
+    fun updateLocation(locationUuid: UUID, location: LocationModelCreate, onResponse: (String, UUID?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = locationApi.updateLocation(locationUuid, location)
+        call.enqueue(object : Callback<LocationModelCreate> {
+            override fun onResponse(call: Call<LocationModelCreate>, response: Response<LocationModelCreate>) {
+                if (response.isSuccessful) {
+                    val locationResponse = response.body()
+                    val locationUUID = locationResponse?.uuid
+                    onResponse("success", locationUUID)
+                } else {
+                    onFailure(Throwable("Error updating location: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<LocationModelCreate>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+
     fun createLocation(location: LocationModelCreate, onResponse: (String, UUID?) -> Unit, onFailure: (Throwable) -> Unit) {
         val call = locationApi.createLocation(location)
         call.enqueue(object : Callback<LocationModelCreate> {
@@ -52,6 +72,45 @@ class LocationService(private val context: Context) {
             }
         })
     }
+
+    fun getLocationById(locationUuid: UUID, onResponse: (LocationModelCreate?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = locationApi.getLocationById(locationUuid)
+        call.enqueue(object : Callback<LocationModelCreate> {
+            override fun onResponse(call: Call<LocationModelCreate>, response: Response<LocationModelCreate>) {
+                if (response.isSuccessful) {
+                    val locationDetails = response.body()
+                    onResponse(locationDetails)
+                } else {
+                    val error = "Failed to get location details: ${response.code()} ${response.message()}"
+                    onFailure(Throwable(error))
+                }
+            }
+
+            override fun onFailure(call: Call<LocationModelCreate>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+    fun getPhotoByLocationId(locationUuid: UUID, onResponse: (List<PhotoModel>?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = locationApi.getPhotoByLocationId(locationUuid)
+        call.enqueue(object : Callback<List<PhotoModel>> {
+            override fun onResponse(call: Call<List<PhotoModel>>, response: Response<List<PhotoModel>>) {
+                if (response.isSuccessful) {
+                    val photoList = response.body()
+                    onResponse(photoList)
+                } else {
+                    val error = "Failed to get photos: ${response.code()} ${response.message()}"
+                    onFailure(Throwable(error))
+                }
+            }
+
+            override fun onFailure(call: Call<List<PhotoModel>>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
 
     fun createTripLocation(tripLocation: TripLocationModel, onResponse: (String) -> Unit, onFailure: (Throwable) -> Unit) {
         val call = locationApi.createTripLocation(tripLocation)
@@ -86,6 +145,7 @@ class LocationService(private val context: Context) {
             }
         })
     }
+
 
     fun deleteLocation(tripUuid: UUID, locationUuid: UUID, onResponse: () -> Unit, onFailure: (Throwable) -> Unit) {
         val call = locationApi.deleteLocation(tripUuid, locationUuid)

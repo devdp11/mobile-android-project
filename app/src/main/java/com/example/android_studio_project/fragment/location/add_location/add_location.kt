@@ -1,5 +1,3 @@
-package com.example.android_studio_project.fragment.location.add_location
-
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Bitmap
@@ -33,8 +31,12 @@ import java.util.Calendar
 import java.util.Locale
 import java.util.UUID
 import android.util.Base64
+import android.util.Log
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.util.Date
+import java.util.TimeZone
 
 class add_location(private val tripUuid: UUID) : Fragment() {
 
@@ -84,40 +86,31 @@ class add_location(private val tripUuid: UUID) : Fragment() {
         }
 
         dateTextInput = view.findViewById(R.id.location_date)
-        dateTextInput.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                val drawableEnd = 2
-                if (event.rawX >= (dateTextInput.right - dateTextInput.compoundDrawables[drawableEnd].bounds.width())) {
-                    showDatePicker()
-                    return@setOnTouchListener true
-                }
-            }
-            false
+        dateTextInput.setOnClickListener {
+            showDatePicker()
         }
 
         return view
     }
 
     private fun showDatePicker() {
-        val currentCalendar = Calendar.getInstance()
-        val currentYear = currentCalendar.get(Calendar.YEAR)
-        val currentMonth = currentCalendar.get(Calendar.MONTH)
-        val currentDay = currentCalendar.get(Calendar.DAY_OF_MONTH)
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setTheme(R.style.ThemeOverlay_App_DatePicker)
+            .build()
 
-        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
-            val selectedCalendar = Calendar.getInstance().apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, month)
-                set(Calendar.DAY_OF_MONTH, day)
-            }
+        datePicker.addOnPositiveButtonClickListener { selection ->
+            val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
 
-            val selectedDateFormatted = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(selectedCalendar.time)
+            val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val dateDisplay = displayFormat.format(Date(selection ?: 0))
+            dateTextInput.setText(dateDisplay)
+        }
 
-            dateTextInput.setText(selectedDateFormatted)
-        }, currentYear, currentMonth, currentDay)
-
-        datePickerDialog.show()
+        datePicker.show(parentFragmentManager, "datePicker")
     }
+
 
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->
         photosList.addAll(uris)
@@ -153,6 +146,10 @@ class add_location(private val tripUuid: UUID) : Fragment() {
         val locationRating = view?.findViewById<RatingBar>(R.id.location_rating)?.rating ?: 0.0f
         val locationDateStr = dateTextInput.text.toString()
 
+        val isoDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val selectedCalendar = isoDateFormat.parse(locationDateStr)
+        val formattedDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(selectedCalendar)
+
         if (selectedTypeUuid != null && locationName.isNotEmpty() && locationDescription.isNotEmpty() && locationDateStr.isNotEmpty()) {
             val location = LocationModelCreate(
                 uuid = UUID.randomUUID(),
@@ -162,7 +159,7 @@ class add_location(private val tripUuid: UUID) : Fragment() {
                 rating = locationRating,
                 latitude = null,
                 longitude = null,
-                date = locationDateStr
+                date = formattedDate
             )
 
             locationService.createLocation(location,
@@ -228,15 +225,6 @@ class add_location(private val tripUuid: UUID) : Fragment() {
         }
     }
 
-    private fun uriToBitmap(uri: Uri): Bitmap? {
-        return try {
-            val inputStream = requireContext().contentResolver.openInputStream(uri)
-            BitmapFactory.decodeStream(inputStream)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
 
     private fun convertBitmapToBase64(bitmap: Bitmap?): String? {
         bitmap?.let {
