@@ -12,31 +12,22 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.android_studio_project.R
-import com.example.android_studio_project.data.retrofit.models.TripLocationModel
+import com.example.android_studio_project.data.retrofit.models.*
 import com.example.android_studio_project.data.retrofit.services.LocationService
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
-import java.util.UUID
+import java.util.*
 import android.util.Base64
-import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
-import com.example.android_studio_project.data.retrofit.models.PhotoModel
 
-class add_location(private val tripUuid: UUID) : Fragment() {
+class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback {
 
     private lateinit var photosGridView: GridView
     private val photosList = mutableListOf<Uri>()
@@ -48,6 +39,12 @@ class add_location(private val tripUuid: UUID) : Fragment() {
 
     private lateinit var uuidTextView: TextView
     private lateinit var dateTextInput: EditText
+
+    private lateinit var mapView: MapView
+    private lateinit var googleMap: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var selectedLatLng: LatLng? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -95,7 +92,54 @@ class add_location(private val tripUuid: UUID) : Fragment() {
             false
         }
 
+        mapView = view.findViewById(R.id.mapView)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         return view
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isMyLocationButtonEnabled = true
+        googleMap.setOnMapClickListener { latLng ->
+            googleMap.clear()
+            googleMap.addMarker(MarkerOptions().position(latLng).title("Selected Location"))
+            selectedLatLng = latLng
+        }
+
+        getCurrentLocation()
+    }
+
+    private fun getCurrentLocation() {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            googleMap.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnCompleteListener { task ->
+                if (task.isSuccessful && task.result != null) {
+                    val currentLocation = task.result
+                    val currentLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                    googleMap.addMarker(MarkerOptions().position(currentLatLng).title("Current Location"))
+                    selectedLatLng = currentLatLng
+                }
+            }
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation()
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun showDatePicker() {
@@ -160,8 +204,8 @@ class add_location(private val tripUuid: UUID) : Fragment() {
                 description = locationDescription,
                 typeId = selectedTypeUuid,
                 rating = locationRating,
-                latitude = null,
-                longitude = null,
+                latitude = selectedLatLng?.latitude,
+                longitude = selectedLatLng?.longitude,
                 date = locationDateStr
             )
 
@@ -248,7 +292,29 @@ class add_location(private val tripUuid: UUID) : Fragment() {
         return null
     }
 
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
     companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
         fun newInstance(tripUuid: UUID): add_location {
             return add_location(tripUuid)
         }
