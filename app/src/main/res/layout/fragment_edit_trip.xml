@@ -143,26 +143,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15dp" />
 
+            <Button
+                android:id="@+id/change_recycler_view"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Toogle Users" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="15dp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/custom_row_locations" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="15dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_users"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/custom_row_users" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="15dp" />
         </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
@@ -179,7 +177,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/add_location"
-            android:fontFamily="@font/kadwa_bold"
             android:textColor="@color/white"
             android:backgroundTint="@color/green"
             android:layout_marginEnd="8dp"
@@ -191,7 +188,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/delete"
-            android:fontFamily="@font/kadwa_bold"
             android:textColor="@color/white"
             android:backgroundTint="@color/security"
             android:layout_marginEnd="8dp"
@@ -202,7 +198,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/kadwa_bold"
             android:text="@string/save_trip"
             android:backgroundTint="@color/purple_dark"
             android:textColor="@color/white"

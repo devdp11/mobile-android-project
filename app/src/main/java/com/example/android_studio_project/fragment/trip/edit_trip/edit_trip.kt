@@ -34,6 +34,10 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
     private lateinit var tripDateEditText: TextView
     private lateinit var tripRatingBar: RatingBar
     private lateinit var saveTripButton: Button
+    private lateinit var changeRecyclerViewButton: Button
+    private lateinit var recyclerView: RecyclerView
+
+    private var isLocationView = true
 
     private var tripStartDate: String? = null
     private var tripEndDate: String? = null
@@ -49,6 +53,8 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         tripDateEditText = view.findViewById(R.id.trip_date)
         tripRatingBar = view.findViewById(R.id.trip_rating)
         saveTripButton = view.findViewById(R.id.save_trip_button)
+        changeRecyclerViewButton = view.findViewById(R.id.change_recycler_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
 
         saveTripButton.setOnClickListener {
             saveTrip()
@@ -67,17 +73,17 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             openAddLocationFragment(tripUuid)
         }
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         listLocationAdapter = list_location_adapter(emptyList()) { clickedLocation ->
             openEditLocationFragment(clickedLocation.uuid, tripUuid)
         }
-        recyclerView.adapter = listLocationAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        val recyclerViewUsers: RecyclerView = view.findViewById(R.id.recycler_view_users)
         listUserAdapter = list_user_adapter(emptyList())
-        recyclerViewUsers.adapter = listUserAdapter
-        recyclerViewUsers.layoutManager = LinearLayoutManager(requireContext())
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = listLocationAdapter // Default to locations view
+
+        changeRecyclerViewButton.setOnClickListener {
+            toggleRecyclerView()
+        }
 
         tripService = TripService(requireContext())
         getLocations()
@@ -114,6 +120,19 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             }
         )
         return view
+    }
+
+    private fun toggleRecyclerView() {
+        if (isLocationView) {
+            recyclerView.adapter = listUserAdapter
+            changeRecyclerViewButton.text = "Toogle Users"
+            getUsers()
+        } else {
+            recyclerView.adapter = listLocationAdapter
+            getLocations()
+            changeRecyclerViewButton.text = "Toogle Locations"
+        }
+        isLocationView = !isLocationView
     }
 
     private fun openEditLocationFragment(locationUuid: UUID, tripUuid: UUID) {
