@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.TripModelEdit
 import com.example.android_studio_project.data.retrofit.services.TripService
-import com.example.android_studio_project.fragment.location.add_location.add_location
 import com.example.android_studio_project.fragment.location.edit_location.edit_location
 import com.example.android_studio_project.fragment.location.list_location.list_location_adapter
 import com.example.android_studio_project.fragment.trip.list_user.list_user_adapter
@@ -107,7 +106,10 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
 
                     tripStartDate?.let { startDateString ->
                         tripEndDate?.let { endDateString ->
-                            tripDateEditText.text = "$startDateString - $endDateString"
+                            val displayFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                            val startDateDisplay = displayFormat.format(isoDateFormat.parse(startDateString))
+                            val endDateDisplay = displayFormat.format(isoDateFormat.parse(endDateString))
+                            tripDateEditText.text = "$startDateDisplay - $endDateDisplay"
                         }
                     }
                     tripDetails.rating?.let { rating ->
@@ -137,7 +139,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
 
     private fun openEditLocationFragment(locationUuid: UUID, tripUuid: UUID) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, edit_location.newInstance(locationUuid, tripUuid))
+            .replace(R.id.frame_layout, edit_location.newInstance(locationUuid, tripUuid ))
             .addToBackStack(null)
             .commit()
     }
@@ -192,7 +194,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         dialog.show()
     }
 
-    private fun openAddLocationFragment(tripUuid: UUID) {
+    private fun openAddLocationFragment(tripUuid: UUID, ) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, add_location.newInstance(tripUuid))
             .addToBackStack(null)
