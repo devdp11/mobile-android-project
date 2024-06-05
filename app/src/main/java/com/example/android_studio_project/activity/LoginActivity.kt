@@ -1,5 +1,8 @@
 package com.example.android_studio_project.activity
-
+import android.util.Log
+import android.view.View
+import androidx.activity.enableEdgeToEdge
+import android.content.SharedPreferences
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -25,6 +28,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        if (isLoggedIn()) {
+            navigateToDashboard()
+            return
+        }
+
         setContentView(R.layout.activity_login)
 
         authService = AuthService(this)
@@ -40,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
             }
             false
         }
+
 
         val email: EditText = findViewById(R.id.editTextEmail)
         val password = passwordField
@@ -60,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
                         runOnUiThread {
                             Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
                         }
+                        saveLoginState(true)
                         navigateToDashboard()
                     } else {
                         runOnUiThread {
@@ -101,5 +111,17 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
+
+    private fun isLoggedIn(): Boolean {
+        val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isLoggedIn", false)
+    }
+
+    private fun saveLoginState(isLoggedIn: Boolean) {
+        val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.apply()
+    }
 
 }

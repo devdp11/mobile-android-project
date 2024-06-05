@@ -92,6 +92,7 @@ class RegisterActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this, getString(R.string.password_invalid), Toast.LENGTH_LONG).show()
                 }
+
             } else {
                 Toast.makeText(this, getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
             }
@@ -123,5 +124,4 @@ class RegisterActivity : AppCompatActivity() {
         finish()
     }
 }
-
 
