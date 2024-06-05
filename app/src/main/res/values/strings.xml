@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Journeys</string>
+    <string name="app_name" translatable="false">Journeys</string>
     <string name="email" translatable="false">Email</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -23,7 +23,64 @@
     <string name="skip_intro_slider">Get Started</string>
     <string name="back_intro_slider">Back</string>
     <string name="next_intro_slider">Next</string>
-    <string name="no_acc">No account? Sign Up!</string>
-    <string name="acc">Login here!</string>
+    <string name="no_acc">No account? Create one now!</string>
+    <string name="yes_acc">Have an account? Login!</string>
+    <string name="add_trip">Add Trip</string>
+    <string name="trip_name">Trip Name</string>
+    <string name="trip_date">Trip Date</string>
+    <string name="trip_description">Trip Description</string>
+    <string name="add_photos">Add Photos</string>
+    <string name="save_trip">Save Trip</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="rating">Rating</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="save">Save</string>
+    <string name="login_error">Error logging in. Please check your credentials and try again.</string>
+    <string name="login_succe">Login successful!</string>
+    <string name="register_error">Error registering. Try again.</string>
+    <string name="register_succe">Registration successful!</string>
+    <string name="fill_fields">Please, fill in all the fields!</string>
+    <string name="update_error">Error updating profile. Try again.</string>
+    <string name="update_succe">Profile updated successfully!</string>
+    <string name="add_location">Add Location</string>
+    <string name="home">Dashboard</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="register_desc">Bring your adventure to us!</string>
+    <string name="login_desc">Please login with your credential!</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+
+    <string name="password_invalid">Password invalid. Try Again!</string>
+    <string name="edit_trip">Edit Trip</string>
+    <string name="edit_location">Edit Location</string>
+    <string name="old_pass">Old Password</string>
+    <string name="new_pass">New Password</string>
+    <string name="conf_pass">Confirm Password</string>
+
+    <string name="load_user_error">Error loading user details!</string>
+    <string name="load_trip_error">Error loading trip details!</string>
+
+    <string name="update_password_error">Error updating password. Try again!</string>
+    <string name="update_password_succe">Password updated successfully!</string>
+    <string name="old_password_verify_error">Error verifying old password. Try Again!</string>
+    <string name="old_password_incorr">Old password is incorrect. Try Again!</string>
+    <string name="new_password_error">New passwords do not match. Try Again!</string>
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="delete_title">Delete?</string>
+    <string name="delete_description">Are you sure you want to proceed?</string>
+    <string name="trip_delete_succ">Trip deleted successfully!</string>
+    <string name="trip_delete_error">Error deleting trip. Try Again!</string>
+
+    <string name="location_add_succ">Added location successfully!</string>
+    <string name="location_add_error">Error adding location. Try Again!</string>
 
 </resources>

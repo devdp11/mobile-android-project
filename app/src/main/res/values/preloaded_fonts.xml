@@ -4,5 +4,7 @@
         <item>@font/kadwa</item>
         <item>@font/kadwa_bold</item>
         <item>@font/paytone_one</item>
+        <item>@font/roboto</item>
+        <item>@font/roboto_thin</item>
     </array>
 </resources>
