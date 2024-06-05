@@ -61,7 +61,7 @@ class edit_profile(private val userEmail: String) : Fragment() {
                             .load(userAvatarUrl)
                             .into(imageViewAvatar)
                     } else {
-                        imageViewAvatar.setImageResource(R.drawable.profile)
+                        imageViewAvatar.setImageResource(R.drawable.default_image)
                     }
 
                 }
