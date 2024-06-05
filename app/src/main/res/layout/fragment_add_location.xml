@@ -9,7 +9,7 @@
     android:background="@drawable/gradient_background"
     tools:context=".fragment.location.add_location.add_location">
 
-<RelativeLayout
+    <RelativeLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,8 @@
     <ScrollView
         android:id="@+id/scrollmain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +69,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -86,7 +87,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -107,7 +108,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <Spinner
                 android:id="@+id/location_type"
@@ -127,19 +128,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/rating"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp" />
 
                 <RatingBar
                     android:id="@+id/location_rating"
@@ -187,51 +175,52 @@
 
             </androidx.cardview.widget.CardView>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/cancel_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cancel"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/red"
-                    android:layout_marginEnd="10dp" />
-
-                <Button
-                    android:id="@+id/save_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/save"
-                    android:backgroundTint="@color/purple_dark"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="10dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/uuid_teste"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:textSize="24sp"
-                android:fontFamily="@font/roboto"
-                tools:ignore="RelativeOverlap" />
-
         </LinearLayout>
-
     </ScrollView>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:layout_marginEnd="10dp" />
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save"
+            android:backgroundTint="@color/purple_dark"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="15dp" />
 
 </LinearLayout>
