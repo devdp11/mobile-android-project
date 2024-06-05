@@ -58,10 +58,10 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/location_description"
+                    android:id="@+id/location_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/description"
+                    android:hint="@string/name"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -76,13 +76,31 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/location_date"
+                    android:id="@+id/location_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="15dp" />
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/date_text_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date"
-                    android:textColor="@color/white"
-                    android:focusable="true"
-                    android:drawableEnd="@drawable/baseline_calendar_month_24"
+                    android:focusable="false"
                     android:clickable="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -134,9 +152,6 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="15dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_photos"
@@ -199,18 +214,6 @@
                     android:layout_marginStart="10dp" />
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/uuid_teste"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:layout_gravity="center"
-                android:text="uuid_teste"
-                android:fontFamily="@font/roboto"
-                tools:ignore="RelativeOverlap" />
 
         </LinearLayout>
 

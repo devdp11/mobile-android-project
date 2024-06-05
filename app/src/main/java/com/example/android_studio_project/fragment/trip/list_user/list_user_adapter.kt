@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import android.util.Base64
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
 
@@ -27,15 +30,28 @@ class list_user_adapter(private var userList: List<UserModel>) : RecyclerView.Ad
         val currentUser = userList[position]
         holder.userName.text = currentUser.username ?: "No username"
 
-        Glide.with(holder.itemView.context)
-            .load(currentUser.avatar)
-            .placeholder(R.drawable.logo)
-            .into(holder.userAvatar)
+        holder.userAvatar.loadBase64Image(currentUser.avatar)
 
         if (position % 2 == 0) {
             holder.rowLayoutUsers.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
         } else {
             holder.rowLayoutUsers.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
+        }
+    }
+
+    private fun ImageView.loadBase64Image(base64String: String?) {
+        if (base64String.isNullOrEmpty()) {
+            Glide.with(this.context)
+                .load(R.drawable.default_image)
+                .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                .into(this)
+        } else {
+            val imageBytes = Base64.decode(base64String, Base64.DEFAULT)
+            Glide.with(this.context)
+                .load(imageBytes)
+                .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                .placeholder(R.drawable.default_image)
+                .into(this)
         }
     }
 

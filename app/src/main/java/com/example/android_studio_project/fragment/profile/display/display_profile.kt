@@ -61,12 +61,12 @@ class display_profile(private val userEmail: String) : Fragment() {
                             .load(userAvatarBytes)
                             .into(imageViewAvatar)
                     } else {
-                        imageViewAvatar.setImageResource(R.drawable.profile)
+                        imageViewAvatar.setImageResource(R.drawable.default_image)
                     }
 
                 }
             },
-            onFailure = { error ->
+            onFailure = {
                 Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
             }
         )
