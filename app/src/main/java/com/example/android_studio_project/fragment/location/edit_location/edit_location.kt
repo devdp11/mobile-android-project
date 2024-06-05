@@ -28,7 +28,7 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, ) : Fragment() {
+class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) : Fragment() {
     private lateinit var locationService: LocationService
 
     private lateinit var photosGridView: GridView
@@ -44,6 +44,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
     private val locationTypeMap = mutableMapOf<String, UUID>()
 
     private var locationDate: String? = null
+    private var displayDate: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,11 +95,10 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
 
                     locationDetails.date?.let { locationDate ->
                         val formattedDate = isoDateFormat.parse(locationDate)
+                        this.locationDate = locationDate
                         val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                        val dateDisplay = displayFormat.format(formattedDate)
-                        dateTextInput.text = dateDisplay
-
-
+                        this.displayDate = formattedDate?.let { it1 -> displayFormat.format(it1) }
+                        dateTextInput.text = displayDate
                     }
 
                     locationDetails.rating?.let { rating ->
@@ -110,7 +110,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
                 Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
             }
         )
-
 
         locationService.getPhotoByLocationId(locationUuid,
             onResponse = { photoDetails ->
@@ -132,8 +131,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
         )
 
         return view
-
-
     }
 
     private fun decodeBase64ToBitmap(encodedString: String?): Bitmap? {
@@ -175,11 +172,11 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
         val selectedTypeName = locationTypeSpinner.selectedItem as? String
         val selectedTypeUuid = locationTypeMap[selectedTypeName]
 
-        if (locationName.isNotEmpty()) {
+        if (locationName.isNotEmpty() && locationDescription.isNotEmpty()) {
             val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
             isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
 
-            val formattedDate = isoDateFormat.format(isoDateFormat.parse(locationDate!!))
+            val formattedDate = locationDate ?: ""
 
             val updatedLocation = LocationModelCreate(
                 name = locationName,
@@ -212,7 +209,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
         }
     }
-
 
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->
         photosList.addAll(uris)
@@ -249,7 +245,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
         }
     }
 
-
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Success")
@@ -261,7 +256,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
         val dialog = builder.create()
         dialog.show()
     }
-
 
     private fun getTypes() {
         locationService.getAllTypes(
@@ -293,13 +287,12 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID, 
             locationDate = isoDateFormat.format(Date(selection ?: 0))
 
             val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val dateDisplay = displayFormat.format(Date(selection ?: 0))
-            dateTextInput.setText(dateDisplay)
+            displayDate = displayFormat.format(Date(selection ?: 0))
+            dateTextInput.text = displayDate
         }
 
         datePicker.show(parentFragmentManager, "datePicker")
     }
-
 
     companion object {
         fun newInstance(locationUuid: UUID, tripUuid: UUID): edit_location {

@@ -146,16 +146,17 @@ class add_location(private val tripUuid: UUID) : Fragment() {
         val locationRating = view?.findViewById<RatingBar>(R.id.location_rating)?.rating ?: 0.0f
         val locationDateStr = dateTextInput.text.toString()
 
-        val isoDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val selectedCalendar = isoDateFormat.parse(locationDateStr)
-        val formattedDate =
-            selectedCalendar?.let {
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(
-                    it
-                )
-            }
-
         if (selectedTypeUuid != null && locationName.isNotEmpty() && locationDescription.isNotEmpty() && locationDateStr.isNotEmpty()) {
+
+            val isoDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val selectedCalendar = isoDateFormat.parse(locationDateStr)
+            val formattedDate =
+                selectedCalendar?.let {
+                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(
+                        it
+                    )
+                }
+
             val location = LocationModelCreate(
                 uuid = UUID.randomUUID(),
                 name = locationName,
