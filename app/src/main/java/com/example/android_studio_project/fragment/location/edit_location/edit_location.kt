@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,15 +14,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.example.android_studio_project.data.retrofit.services.LocationService
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.TextInputEditText
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,7 +27,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
     private lateinit var locationService: LocationService
 
     private lateinit var photosGridView: GridView
-    private val photosList = mutableListOf<Uri>()
+    private val photosList = mutableListOf<Bitmap>()
     private lateinit var photosAdapter: PhotosAdapter
 
     private lateinit var locationNameEditText: TextView
@@ -124,10 +119,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                     photosAdapter.setData(bitmapList)
                 }
             },
-            onFailure = {
-                Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
-                Log.e("FOTOS", "Error deleting location")
-            }
+            onFailure = {}
         )
 
         return view
@@ -195,24 +187,49 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                         showConfirmationDialog()
                     } else {
                         Toast.makeText(context, "Error updating location", Toast.LENGTH_LONG).show()
-                        Log.e("LOCATION", "$updatedLocation")
                     }
                 }
             }, onFailure = { throwable ->
                 requireActivity().runOnUiThread {
                     Toast.makeText(context, "Error: ${throwable.message}", Toast.LENGTH_LONG).show()
                     Log.e("EditLocationFragment", "Error updating location", throwable)
-                    Log.e("LOCATION", "$updatedLocation")
                 }
             })
+
+            photosList.forEach { photo ->
+                val base64Photo = encodeBitmapToBase64(photo)
+                val photoModel = PhotoModel(
+                    uuid = UUID.randomUUID(),
+                    data = base64Photo,
+                    locationId = locationUuid.toString()
+                )
+
+                locationService.createPhoto(photoModel,
+                    onResponse = {
+                        Log.d("PhotoUpload", "Photo added successfully")
+                    },
+                    onFailure = { error ->
+                        Log.e("PhotoUpload", "Error adding photo: $error")
+                    })
+            }
         } else {
-            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_LONG).show()
         }
     }
 
+    private fun encodeBitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->
-        photosList.addAll(uris)
-        photosAdapter.notifyDataSetChanged()
+        uris.forEach { uri ->
+            val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+            photosList.add(bitmap)
+        }
+        photosAdapter.setData(photosList)
     }
 
     private fun openGallery() {
