@@ -1,13 +1,12 @@
+package com.example.android_studio_project.fragment.location.add_location
+
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -24,7 +23,6 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import android.util.Base64
-import android.util.Log
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -42,7 +40,6 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
     private lateinit var locationTypeSpinner: Spinner
     private val locationTypeMap = mutableMapOf<String, UUID>()
 
-    private lateinit var uuidTextView: TextView
     private lateinit var dateTextInput: EditText
 
     private lateinit var mapView: MapView
@@ -218,30 +215,41 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
                     if (tripLocation != null) {
                         locationService.createTripLocation(tripLocation,
                             onResponse = { _ ->
+                                var photosProcessed = 0
+                                val totalPhotos = photosList.size
                                 photosList.forEach { uri ->
-                                    val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
-                                    val image = convertBitmapToBase64(bitmap)
-                                    if (image != null) {
-                                        val photo = PhotoModel(uuid = UUID.randomUUID(), data = image, locationId = locationUuid.toString())
-                                        locationService.createPhoto(photo,
-                                            onResponse = {
-                                                Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
-                                                parentFragmentManager.popBackStack()
-                                            },
-                                            onFailure = {
-                                                Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
-                                            }
-                                        )
+                                    if (isAdded) {
+                                        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                                        val image = convertBitmapToBase64(bitmap)
+                                        if (image != null) {
+                                            val photo = PhotoModel(uuid = UUID.randomUUID(), data = image, locationId = locationUuid.toString())
+                                            locationService.createPhoto(photo,
+                                                onResponse = {
+                                                    photosProcessed++
+                                                    if (photosProcessed == totalPhotos) {
+                                                        Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                                                        parentFragmentManager.popBackStack()
+                                                    }
+                                                },
+                                                onFailure = {
+                                                    Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
+                                                }
+                                            )
+                                        }
                                     }
                                 }
-                                Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                                // Verificar se não há fotos para processar
+                                if (totalPhotos == 0) {
+                                    // Nenhuma foto para processar, podemos retornar imediatamente
+                                    Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                                    parentFragmentManager.popBackStack()
+                                }
                             },
                             onFailure = {
                                 Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
                             }
                         )
                     }
-                    uuidTextView.text = locationUuid.toString()
                 },
                 onFailure = {
                     Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()

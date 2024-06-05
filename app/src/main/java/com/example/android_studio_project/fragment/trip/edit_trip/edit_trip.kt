@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.TripModelEdit
 import com.example.android_studio_project.data.retrofit.services.TripService
+import com.example.android_studio_project.fragment.location.add_location.add_location
 import com.example.android_studio_project.fragment.location.edit_location.edit_location
 import com.example.android_studio_project.fragment.location.list_location.list_location_adapter
 import com.example.android_studio_project.fragment.trip.list_user.list_user_adapter

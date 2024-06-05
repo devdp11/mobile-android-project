@@ -1,8 +1,4 @@
 package com.example.android_studio_project.activity
-import android.util.Log
-import android.view.View
-import androidx.activity.enableEdgeToEdge
-import android.content.SharedPreferences
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent

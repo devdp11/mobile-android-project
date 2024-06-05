@@ -146,7 +146,6 @@ class LocationService(private val context: Context) {
         })
     }
 
-
     fun deleteLocation(tripUuid: UUID, locationUuid: UUID, onResponse: () -> Unit, onFailure: (Throwable) -> Unit) {
         val call = locationApi.deleteLocation(tripUuid, locationUuid)
         call.enqueue(object : Callback<TripLocationModel> {
