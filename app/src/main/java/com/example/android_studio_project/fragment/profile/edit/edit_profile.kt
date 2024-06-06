@@ -44,6 +44,16 @@ class edit_profile(private val userEmail: String) : Fragment() {
 
         userService = UserService(requireContext())
 
+        val backButton: ImageView = view.findViewById(R.id.btn_back)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        val cancelButton: Button = view.findViewById(R.id.cancel_btn)
+        cancelButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         userService.getUserDetails(
             onResponse = { userDetails ->
                 userDetails?.let {
