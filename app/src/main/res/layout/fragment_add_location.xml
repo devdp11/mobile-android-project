@@ -99,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:focusable="true"
                     android:drawableEnd="@drawable/baseline_calendar_month_24"
                     android:clickable="true" />
