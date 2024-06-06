@@ -73,13 +73,13 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             openAddLocationFragment(tripUuid)
         }
 
-        listLocationAdapter = list_location_adapter(emptyList()) { clickedLocation ->
+        listLocationAdapter = list_location_adapter(requireContext(), emptyList()) { clickedLocation ->
             openEditLocationFragment(clickedLocation.uuid, tripUuid)
         }
         listUserAdapter = list_user_adapter(emptyList())
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = listLocationAdapter // Default to locations view
+        recyclerView.adapter = listLocationAdapter
 
         changeRecyclerViewButton.setOnClickListener {
             toggleRecyclerView()

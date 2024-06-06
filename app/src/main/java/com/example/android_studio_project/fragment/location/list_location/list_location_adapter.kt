@@ -1,23 +1,37 @@
 package com.example.android_studio_project.fragment.location.list_location
 
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.LocationModel
+import com.example.android_studio_project.data.retrofit.services.LocationService
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class list_location_adapter(private var locationList: List<LocationModel>, private val onItemClick: (LocationModel) -> Unit) : RecyclerView.Adapter<list_location_adapter.ViewHolder>() {
+class list_location_adapter(
+    private val context: Context,
+    private var locationList: List<LocationModel>,
+    private val onItemClick: (LocationModel) -> Unit
+) : RecyclerView.Adapter<list_location_adapter.ViewHolder>() {
+
+    private val locationService = LocationService(context)
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val rowLayoutLocations: ConstraintLayout = itemView.findViewById(R.id.rowLayoutLocations)
         val locationName: TextView = itemView.findViewById(R.id.location_name)
-        val locationDescription: TextView = itemView.findViewById(R.id.location_description)
         val locationDate: TextView = itemView.findViewById(R.id.location_date)
-        val locationRating: TextView = itemView.findViewById(R.id.location_rating)
+        val locationRating: RatingBar = itemView.findViewById(R.id.location_rating)
+        val locationImage: ImageView = itemView.findViewById(R.id.location_image)
 
         init {
             itemView.setOnClickListener(this)
@@ -32,27 +46,31 @@ class list_location_adapter(private var locationList: List<LocationModel>, priva
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): list_location_adapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_row_locations, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: list_location_adapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentLocation = locationList[position]
         holder.locationName.text = currentLocation.name ?: "No name"
-        holder.locationDescription.text = currentLocation.description ?: "No description"
 
         val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val dateFormatted = currentLocation.date?.let { dateFormatter.format(it) } ?: "No date"
 
         holder.locationDate.text = dateFormatted
+        holder.locationRating.rating = currentLocation.rating ?: 0f
 
-        holder.locationRating.text = currentLocation.rating?.toString() ?: "No rating"
-
-        if (position % 2 == 0) {
-            holder.rowLayoutLocations.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
-        } else {
-            holder.rowLayoutLocations.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
+        currentLocation.uuid?.let { locationId ->
+            locationService.getPhotoByLocationId(locationId, { photoList ->
+                photoList?.firstOrNull()?.let { photo ->
+                    val imageBytes = Base64.decode(photo.data, Base64.DEFAULT)
+                    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    holder.locationImage.setImageBitmap(bitmap)
+                }
+            }, { error ->
+                Log.e("Error", "Failed to load image: ${error.message}")
+            })
         }
     }
 
