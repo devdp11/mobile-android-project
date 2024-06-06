@@ -10,15 +10,15 @@ import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.TripModel
 import java.text.SimpleDateFormat
 import java.util.Locale
+import android.widget.RatingBar
 
 class display_home_adapter(private var tripList: List<TripModel>, private val onItemClick: (TripModel) -> Unit) : RecyclerView.Adapter<display_home_adapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val tripName: TextView = itemView.findViewById(R.id.trip_name)
-        val tripDescription: TextView = itemView.findViewById(R.id.trip_description)
         val tripStartDate: TextView = itemView.findViewById(R.id.trip_start_date)
         val tripEndDate: TextView = itemView.findViewById(R.id.trip_end_date)
-        val tripRating: TextView = itemView.findViewById(R.id.trip_rating)
+        val tripRating: RatingBar = itemView.findViewById(R.id.trip_rating)
         val rowLayout: ConstraintLayout = itemView.findViewById(R.id.rowLayout)
 
         init {
@@ -42,7 +42,6 @@ class display_home_adapter(private var tripList: List<TripModel>, private val on
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentTrip = tripList[position]
         holder.tripName.text = currentTrip.name ?: "No name"
-        holder.tripDescription.text = currentTrip.description ?: "No description"
 
         val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val startDateFormatted = currentTrip.startDate?.let { dateFormatter.format(it) } ?: "No start date"
@@ -51,13 +50,9 @@ class display_home_adapter(private var tripList: List<TripModel>, private val on
         holder.tripStartDate.text = startDateFormatted
         holder.tripEndDate.text = endDateFormatted
 
-        holder.tripRating.text = currentTrip.rating?.toString() ?: "No rating"
+        holder.tripRating.rating = currentTrip.rating ?: 0f
 
-        if (position % 2 == 0) {
-            holder.rowLayout.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
-        } else {
-            holder.rowLayout.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
-        }
+
     }
 
     override fun getItemCount(): Int {
@@ -69,4 +64,3 @@ class display_home_adapter(private var tripList: List<TripModel>, private val on
         notifyDataSetChanged()
     }
 }
-
