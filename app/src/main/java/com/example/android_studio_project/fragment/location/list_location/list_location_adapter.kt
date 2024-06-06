@@ -57,22 +57,28 @@ class list_location_adapter(
 
         val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val dateFormatted = currentLocation.date?.let { dateFormatter.format(it) } ?: "No date"
-
         holder.locationDate.text = dateFormatted
+
         holder.locationRating.rating = currentLocation.rating ?: 0f
 
         currentLocation.uuid?.let { locationId ->
             locationService.getPhotoByLocationId(locationId, { photoList ->
-                photoList?.firstOrNull()?.let { photo ->
-                    val imageBytes = Base64.decode(photo.data, Base64.DEFAULT)
+                if (!photoList.isNullOrEmpty()) {
+                    val photo = photoList.firstOrNull()
+                    val imageBytes = Base64.decode(photo?.data ?: "", Base64.DEFAULT)
                     val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                     holder.locationImage.setImageBitmap(bitmap)
+                    holder.locationImage.visibility = View.VISIBLE
+                } else {
+                    holder.locationImage.visibility = View.GONE
                 }
             }, { error ->
                 Log.e("Error", "Failed to load image: ${error.message}")
+                holder.locationImage.visibility = View.GONE
             })
         }
     }
+
 
     override fun getItemCount(): Int {
         return locationList.size
