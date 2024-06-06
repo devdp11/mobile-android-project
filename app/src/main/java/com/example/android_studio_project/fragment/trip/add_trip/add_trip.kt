@@ -51,7 +51,13 @@ class add_trip(private val userUUID: String) : Fragment() {
         saveTripButton.setOnClickListener {
             saveTrip()
         }
+
         tripService = TripService(requireContext())
+
+        val backButton: ImageView = view.findViewById(R.id.btn_back)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
 
         return view
     }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
@@ -88,6 +89,11 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         tripService = TripService(requireContext())
         getLocations()
         getUsers()
+
+        val backButton: ImageView = view.findViewById(R.id.btn_back)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
 
         tripService.getTripById(tripUuid,
             onResponse = { tripDetails ->
