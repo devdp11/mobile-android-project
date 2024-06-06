@@ -72,6 +72,11 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             openGallery()
         }
 
+        val backButton: ImageView = view.findViewById(R.id.btn_back)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         photosGridView = view.findViewById(R.id.photos_grid)
         photosAdapter = PhotosAdapter()
         photosGridView.adapter = photosAdapter

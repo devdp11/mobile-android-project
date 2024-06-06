@@ -79,6 +79,11 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
             saveLocation()
         }
 
+        val backButton: ImageView = view.findViewById(R.id.btn_back)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         dateTextInput = view.findViewById(R.id.location_date)
         dateTextInput.setOnClickListener {
             showDatePicker()
