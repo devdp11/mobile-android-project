@@ -10,6 +10,7 @@ import com.example.android_studio_project.data.retrofit.models.UserModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.UUID
 
 class UserService(private val context: Context) {
     private val userApi = API.getRetrofitInstance().create(UserInterface::class.java)
@@ -38,6 +39,25 @@ class UserService(private val context: Context) {
         } else {
             onFailure(Throwable("User email not found in SharedPreferences"))
         }
+    }
+
+    fun findUser(identifier: String, onResponse: (UUID?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val call = userApi.getUserUuid(identifier)
+        call.enqueue(object : Callback<UserModel> {
+            override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    val userUUID = user?.uuid
+                    onResponse(userUUID)
+                } else {
+                    onFailure(Throwable("Failed to get user details: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                onFailure(t)
+            }
+        })
     }
 
     fun updateUser(user: UserModel, onResponse: (UserModel?) -> Unit, onFailure: (Throwable) -> Unit) {

@@ -12,6 +12,9 @@ interface UserInterface {
     @GET("user/{email}")
     fun getUser(@Path("email") email: String): Call<UserModel>
 
+    @GET("user/{identifier}")
+    fun getUserUuid(@Path("identifier") identifier: String): Call<UserModel>
+
     @PUT("user/update")
     fun updateUser(@Body updateUserModel: UpdateUserModel): Call<UserModel>
 
