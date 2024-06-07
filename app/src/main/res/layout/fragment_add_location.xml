@@ -213,7 +213,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/save"
-            android:backgroundTint="@color/purple_dark"
+            android:backgroundTint="@color/green"
             android:textColor="@color/white"
             android:layout_marginStart="10dp" />
 

@@ -67,7 +67,7 @@ class display_profile(private val userEmail: String) : Fragment() {
                 }
             },
             onFailure = {
-                Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
             }
         )
         return view

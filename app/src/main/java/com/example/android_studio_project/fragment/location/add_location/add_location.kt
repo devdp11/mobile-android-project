@@ -1,6 +1,7 @@
 package com.example.android_studio_project.fragment.location.add_location
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -232,38 +233,48 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
                                                 onResponse = {
                                                     photosProcessed++
                                                     if (photosProcessed == totalPhotos) {
-                                                        Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                                                        showConfirmationDialog()
                                                         parentFragmentManager.popBackStack()
                                                     }
                                                 },
                                                 onFailure = {
-                                                    Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
+                                                    Toast.makeText(requireContext(), getString(R.string.save_error), Toast.LENGTH_LONG).show()
                                                 }
                                             )
                                         }
                                     }
                                 }
-                                // Verificar se não há fotos para processar
                                 if (totalPhotos == 0) {
-                                    // Nenhuma foto para processar, podemos retornar imediatamente
-                                    Toast.makeText(requireContext(), getString(R.string.location_add_succ), Toast.LENGTH_LONG).show()
+                                    showConfirmationDialog()
                                     parentFragmentManager.popBackStack()
                                 }
                             },
                             onFailure = {
-                                Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(), getString(R.string.save_error), Toast.LENGTH_LONG).show()
                             }
                         )
                     }
                 },
                 onFailure = {
-                    Toast.makeText(requireContext(), getString(R.string.location_add_error), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.save_error), Toast.LENGTH_LONG).show()
                 }
             )
 
         } else {
             Toast.makeText(requireContext(), getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.succe))
+        builder.setMessage(getString(R.string.save_succe))
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+            parentFragmentManager.popBackStack()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun openGallery() {

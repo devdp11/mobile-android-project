@@ -107,7 +107,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                 }
             },
             onFailure = {
-                Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
             }
         )
 
@@ -145,11 +145,11 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
         builder.setPositiveButton(getString(R.string.yes)) { dialog, _ ->
             locationService.deleteLocation(tripUuid, uuid,
                 onResponse = {
-                    Toast.makeText(requireContext(), getString(R.string.trip_delete_succ), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.location_delete_succ), Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
                 },
                 onFailure = { error ->
-                    Toast.makeText(requireContext(), getString(R.string.trip_delete_error), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.location_delete_error), Toast.LENGTH_SHORT).show()
                     Log.e("DeleteLocation", "Error deleting location: $error")
                 }
             )
@@ -191,7 +191,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                     if (responseMessage == "success") {
                         showConfirmationDialog()
                     } else {
-                        Toast.makeText(context, "Error updating location", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_LONG).show()
                     }
                 }
             }, onFailure = { throwable ->
@@ -269,8 +269,8 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
 
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Success")
-        builder.setMessage("Location updated successfully.")
+        builder.setTitle(getString(R.string.succe))
+        builder.setMessage(getString(R.string.save_succe))
         builder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
             parentFragmentManager.popBackStack()

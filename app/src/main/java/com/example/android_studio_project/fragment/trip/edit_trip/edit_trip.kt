@@ -125,7 +125,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 }
             },
             onFailure = {
-                Toast.makeText(context, getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
             }
         )
         return view
@@ -134,12 +134,12 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
     private fun toggleRecyclerView() {
         if (isLocationView) {
             recyclerView.adapter = listUserAdapter
-            changeRecyclerViewButton.text = "Toogle Users"
+            changeRecyclerViewButton.text = getString(R.string.toogle_locations)
             getUsers()
         } else {
             recyclerView.adapter = listLocationAdapter
             getLocations()
-            changeRecyclerViewButton.text = "Toogle Locations"
+            changeRecyclerViewButton.text = getString(R.string.toogle_users)
         }
         isLocationView = !isLocationView
     }
@@ -159,7 +159,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 }
             },
             onFailure = { error ->
-                Toast.makeText(requireContext(), getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT).show()
                 Log.e("EditTrip", "Error loading locations: $error")
             }
         )
@@ -171,10 +171,22 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 listUserAdapter.setData(users)
             },
             onFailure = { error ->
-                Toast.makeText(requireContext(), getString(R.string.load_user_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT).show()
                 Log.e("EditTrip", "Error loading users: $error")
             }
         )
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.succe))
+        builder.setMessage(getString(R.string.save_succe))
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+            parentFragmentManager.popBackStack()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun showDeleteConfirmationDialog(uuid: UUID) {
@@ -184,11 +196,11 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         builder.setPositiveButton(getString(R.string.yes)) { dialog, _ ->
             tripService.deleteTrip(userUUID, uuid,
                 onResponse = {
-                    Toast.makeText(requireContext(), getString(R.string.trip_delete_succ), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.save_succe), Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
                 },
                 onFailure = { error ->
-                    Toast.makeText(requireContext(), getString(R.string.trip_delete_error), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.save_error), Toast.LENGTH_SHORT).show()
                     Log.e("DeleteTrip", "Error deleting trip: $error")
                 }
             )
@@ -233,7 +245,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                     if (responseMessage == "success") {
                         showConfirmationDialog()
                     } else {
-                        Toast.makeText(context, "Error updating trip", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_LONG).show()
                         Log.e("TRIP", "$trip")
                     }
                 }
@@ -245,20 +257,8 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 }
             })
         } else {
-            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
         }
-    }
-
-    private fun showConfirmationDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Success")
-        builder.setMessage("Trip updated successfully.")
-        builder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss()
-            parentFragmentManager.popBackStack()
-        }
-        val dialog = builder.create()
-        dialog.show()
     }
 
     private fun showDatePicker() {

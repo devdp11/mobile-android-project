@@ -62,7 +62,7 @@
                     android:id="@+id/trip_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/trip_name"
+                    android:hint="@string/name"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,7 +93,7 @@
                     android:id="@+id/trip_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/trip_description"
+                    android:hint="@string/description"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,8 +140,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/kadwa_bold"
-                    android:text="@string/save_trip"
-                    android:backgroundTint="@color/purple_dark"
+                    android:text="@string/save"
+                    android:backgroundTint="@color/green"
                     android:textColor="@color/white"
                     android:layout_marginStart="8dp" />
 

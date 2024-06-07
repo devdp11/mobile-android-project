@@ -85,20 +85,19 @@ class add_trip(private val userUUID: String) : Fragment() {
                         tripService.createUserTrip(userTrip, onResponse = { userTripResponse ->
                             requireActivity().runOnUiThread {
                                 if (userTripResponse == "success") {
-                                    Toast.makeText(context, "Trip $tripName Saved and Linked to User.", Toast.LENGTH_LONG).show()
                                     showConfirmationDialog()
                                     clearFields()
                                 } else {
-                                    Toast.makeText(context, "Error linking trip to user", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_LONG).show()
                                 }
                             }
                         }, onFailure = { userTripThrowable ->
                             requireActivity().runOnUiThread {
-                                Toast.makeText(context, "Error linking trip to user: ${userTripThrowable.message}", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_LONG).show()
                             }
                         })
                     } else {
-                        Toast.makeText(context, "Error saving trip", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_LONG).show()
                     }
                 }
             }, onFailure = { throwable ->
@@ -107,7 +106,7 @@ class add_trip(private val userUUID: String) : Fragment() {
                 }
             })
         } else {
-            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -142,8 +141,8 @@ class add_trip(private val userUUID: String) : Fragment() {
 
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Success")
-        builder.setMessage("Trip added successfully.")
+        builder.setTitle(getString(R.string.succe))
+        builder.setMessage(getString(R.string.save_succe))
         builder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
             parentFragmentManager.popBackStack()
