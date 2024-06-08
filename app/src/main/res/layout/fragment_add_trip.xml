@@ -1,9 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
     tools:context=".fragment.trip.add_trip.add_trip">
 
@@ -11,6 +10,7 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="20dp">
 
         <ImageView
@@ -43,6 +43,8 @@
         android:id="@+id/scrollmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/topbar"
+        android:layout_above="@id/bottom_buttons"
         android:layout_marginTop="15dp">
 
         <LinearLayout
@@ -55,7 +57,6 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -65,6 +66,10 @@
                     android:hint="@string/name"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -77,11 +82,14 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/date"
                     android:textColorHint="@color/white"
-                    android:layout_marginBottom="10dp"
                     android:focusable="false"
                     android:drawableEnd="@drawable/baseline_calendar_month_24"
                     android:clickable="true" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -97,14 +105,9 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <View
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:layout_marginBottom="10dp"
-                android:text="@string/rating"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:layout_height="20dp" />
 
             <RatingBar
                 android:id="@+id/trip_rating"
@@ -115,37 +118,40 @@
                 android:layout_marginBottom="10dp"
                 android:theme="@style/RatingBar" />
 
-
-            <!-- Botões -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/cancel_trip_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cancel"
-                    android:fontFamily="@font/kadwa_bold"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/security"
-                    android:layout_marginEnd="8dp"/>
-
-                <Button
-                    android:id="@+id/save_trip_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/kadwa_bold"
-                    android:text="@string/save"
-                    android:backgroundTint="@color/green"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="8dp" />
-
-            </LinearLayout>
         </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:backgroundTint="@color/security"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save"
+            android:backgroundTint="@color/green"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="8dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

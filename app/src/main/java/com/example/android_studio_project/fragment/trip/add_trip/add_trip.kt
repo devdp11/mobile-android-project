@@ -47,7 +47,7 @@ class add_trip(private val userUUID: String) : Fragment() {
         }
         tripDescriptionEditText = view.findViewById(R.id.trip_description)
         tripRatingBar = view.findViewById(R.id.trip_rating)
-        saveTripButton = view.findViewById(R.id.save_trip_button)
+        saveTripButton = view.findViewById(R.id.save_btn)
         saveTripButton.setOnClickListener {
             saveTrip()
         }

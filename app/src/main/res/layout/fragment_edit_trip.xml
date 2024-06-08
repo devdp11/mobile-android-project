@@ -67,11 +67,12 @@
                     android:hint="@string/name"
                     android:editable="true"
                     android:inputType="text" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -84,11 +85,12 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/description"
                     android:inputType="text" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -104,25 +106,17 @@
                     android:focusable="true"
                     android:drawableEnd="@drawable/baseline_calendar_month_24"
                     android:clickable="true" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/rating"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
 
                 <View
                     android:layout_width="wrap_content"
@@ -135,7 +129,6 @@
                     android:numStars="5"
                     android:stepSize="1.0"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:theme="@style/RatingBar" />
             </LinearLayout>
 
@@ -151,7 +144,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

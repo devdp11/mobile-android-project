@@ -26,7 +26,11 @@ class display_profile(private val userEmail: String) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_display_profile, container, false)
+        return inflater.inflate(R.layout.fragment_display_profile, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val editProfile: Button = view.findViewById(R.id.btn_edit)
         editProfile.setOnClickListener {
@@ -52,25 +56,28 @@ class display_profile(private val userEmail: String) : Fragment() {
 
         userService.getUserDetails(
             onResponse = { userDetails ->
-                userDetails?.let {
-                    textViewName.text = userDetails.firstName ?: ""
-                    textViewEmail.text = userDetails.email ?: ""
+                if (isAdded) {
+                    userDetails?.let {
+                        textViewName.text = userDetails.firstName ?: ""
+                        textViewEmail.text = userDetails.email ?: ""
 
-                    val userAvatarBase64: String? = userDetails.avatar
+                        val userAvatarBase64: String? = userDetails.avatar
 
-                    if (!userAvatarBase64.isNullOrEmpty()) {
-                        val userAvatarBytes = Base64.decode(userAvatarBase64, Base64.DEFAULT)
-                        Glide.with(this)
-                            .load(userAvatarBytes)
-                            .into(imageViewAvatar)
-                    } else {
-                        imageViewAvatar.setImageResource(R.drawable.default_image)
+                        if (!userAvatarBase64.isNullOrEmpty()) {
+                            val userAvatarBytes = Base64.decode(userAvatarBase64, Base64.DEFAULT)
+                            Glide.with(this)
+                                .load(userAvatarBytes)
+                                .into(imageViewAvatar)
+                        } else {
+                            imageViewAvatar.setImageResource(R.drawable.default_image)
+                        }
                     }
-
                 }
             },
             onFailure = {
-                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
+                }
             }
         )
 
@@ -79,8 +86,6 @@ class display_profile(private val userEmail: String) : Fragment() {
             saveLoginState(false)
             navigateToLogin()
         }
-
-        return view
     }
 
     private fun saveLoginState(isLoggedIn: Boolean) {

@@ -18,6 +18,7 @@ class list_user_adapter(private var userList: List<UserModel>) : RecyclerView.Ad
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val rowLayoutUsers: ConstraintLayout = itemView.findViewById(R.id.rowLayoutUsers)
         val userName: TextView = itemView.findViewById(R.id.userName)
+        val userEmail: TextView = itemView.findViewById(R.id.userEmail)
         val userAvatar: ImageView = itemView.findViewById(R.id.userAvatar)
     }
 
@@ -29,6 +30,7 @@ class list_user_adapter(private var userList: List<UserModel>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: list_user_adapter.ViewHolder, position: Int) {
         val currentUser = userList[position]
         holder.userName.text = currentUser.username ?: "No username"
+        holder.userEmail.text = currentUser.email ?: "No email"
 
         holder.userAvatar.loadBase64Image(currentUser.avatar)
 

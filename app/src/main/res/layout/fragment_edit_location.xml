@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
     tools:context=".fragment.location.edit_location.edit_location">
 
@@ -13,7 +11,8 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/btn_back"
@@ -44,7 +43,10 @@
     <ScrollView
         android:id="@+id/scrollmain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_buttons"
+        android:layout_below="@id/topbar"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +70,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -86,9 +88,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
-
-
+                android:layout_height="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -100,14 +100,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date"
-                    android:focusable="false"
+                    android:focusable="true"
                     android:clickable="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <Spinner
                 android:id="@+id/location_type"
@@ -117,25 +117,16 @@
                 android:padding="8dp"
                 android:spinnerMode="dropdown"
                 android:textColor="@color/white"
-                android:dropDownVerticalOffset="40dp"/>
+                android:dropDownVerticalOffset="40dp" />
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="15dp" />
+                android:layout_height="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/rating"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
+                android:orientation="vertical">
 
                 <View
                     android:layout_width="wrap_content"
@@ -150,8 +141,11 @@
                     android:layout_gravity="center"
                     android:theme="@style/RatingBar" />
 
-            </LinearLayout>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
 
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_photos"
@@ -170,7 +164,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="4dp" >
+                app:cardElevation="4dp">
 
                 <GridView
                     android:id="@+id/photos_grid"
@@ -184,39 +178,40 @@
 
             </androidx.cardview.widget.CardView>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/delete_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/delete"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/security"
-                    android:layout_marginEnd="10dp" />
-
-                <Button
-                    android:id="@+id/save_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/save"
-                    android:backgroundTint="@color/green"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="10dp" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/security"
+            android:layout_marginEnd="10dp" />
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
