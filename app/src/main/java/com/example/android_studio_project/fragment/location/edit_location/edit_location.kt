@@ -189,7 +189,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             locationService.updateLocation(locationUuid, updatedLocation, onResponse = { responseMessage, locationUUID ->
                 requireActivity().runOnUiThread {
                     if (responseMessage == "success") {
-                        showConfirmationDialog()
+                        uploadPhotosAndShowConfirmation()
                     } else {
                         Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_LONG).show()
                     }
@@ -200,31 +200,69 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                     Log.e("EditLocationFragment", "Error updating location", throwable)
                 }
             })
-
-            photosList.forEach { photo ->
-                val base64Photo = encodeBitmapToBase64(photo)
-                val photoModel = PhotoModel(
-                    uuid = UUID.randomUUID(),
-                    data = base64Photo,
-                    locationId = locationUuid.toString()
-                )
-
-                locationService.createPhoto(photoModel,
-                    onResponse = {
-                        Log.d("PhotoUpload", "Photo added successfully")
-                    },
-                    onFailure = { error ->
-                        Log.e("PhotoUpload", "Error adding photo: $error")
-                    })
-            }
         } else {
             Toast.makeText(context, R.string.fill_fields, Toast.LENGTH_LONG).show()
         }
     }
 
+    private fun uploadPhotosAndShowConfirmation() {
+        var photosProcessed = 0
+        var photosFailed = 0
+        val totalPhotos = photosList.size
+
+        if (totalPhotos == 0) {
+            showConfirmationDialog()
+            return
+        }
+
+        for (i in totalPhotos - 1 downTo 0) {
+            val view = photosGridView.getChildAt(i)
+            if (view is ImageView) {
+                val bitmap = captureScreenshot(view)
+                val image = encodeBitmapToBase64(bitmap)
+                val photoModel = PhotoModel(
+                    uuid = UUID.randomUUID(),
+                    data = image,
+                    locationId = locationUuid.toString()
+                )
+
+                locationService.createPhoto(photoModel,
+                    onResponse = {
+                        photosProcessed++
+                        if (photosProcessed + photosFailed == totalPhotos) {
+                            if (photosFailed == 0) {
+                                showConfirmationDialog()
+                            } else {
+                                showErrorDialog()
+                            }
+                        }
+                    },
+                    onFailure = { error ->
+                        photosFailed++
+                        Log.e("PhotoUpload", "Error adding photo: $error")
+                        requireActivity().runOnUiThread {
+                            photosList.removeAt(i)
+                            photosAdapter.setData(photosList)
+                        }
+                        if (photosProcessed + photosFailed == totalPhotos) {
+                            showErrorDialog()
+                        }
+                    })
+            }
+        }
+    }
+
+    private fun captureScreenshot(view: View): Bitmap {
+        view.isDrawingCacheEnabled = true
+        view.buildDrawingCache()
+        val bitmap = Bitmap.createBitmap(view.drawingCache)
+        view.isDrawingCacheEnabled = false
+        return bitmap
+    }
+
     private fun encodeBitmapToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
@@ -267,13 +305,30 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
         }
     }
 
+    private fun showErrorDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.app_name))
+        builder.setMessage(getString(R.string.photo_error))
+        builder.setPositiveButton("OK") { dialog, _ ->
+            if (isAdded) {
+                dialog.dismiss()
+            }
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(getString(R.string.succe))
         builder.setMessage(getString(R.string.save_succe))
         builder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
-            parentFragmentManager.popBackStack()
+            if (isAdded) {
+                parentFragmentManager.popBackStack()
+            } else {
+                Log.e("EditLocationFragment", "Fragment not associated with FragmentManager")
+            }
         }
         val dialog = builder.create()
         dialog.show()

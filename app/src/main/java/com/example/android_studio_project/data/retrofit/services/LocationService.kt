@@ -1,6 +1,7 @@
 package com.example.android_studio_project.data.retrofit.services
 
 import android.content.Context
+import android.util.Log
 import com.example.android_studio_project.data.retrofit.core.API
 import com.example.android_studio_project.data.retrofit.interfaces.LocationInterface
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
@@ -137,6 +138,7 @@ class LocationService(private val context: Context) {
                     onResponse("success")
                 } else {
                     onFailure(Throwable("Error creating photo: ${response.code()}"))
+                    Log.e("PHOTO", response.code().toString())
                 }
             }
 

@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import android.util.Base64
+import android.util.Log
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -199,9 +200,7 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
             val selectedCalendar = isoDateFormat.parse(locationDateStr)
             val formattedDate =
                 selectedCalendar?.let {
-                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(
-                        it
-                    )
+                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(it)
                 }
 
             val location = LocationModelCreate(
@@ -223,9 +222,10 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
                             onResponse = { _ ->
                                 var photosProcessed = 0
                                 val totalPhotos = photosList.size
-                                photosList.forEach { uri ->
-                                    if (isAdded) {
-                                        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                                for (i in 0 until totalPhotos) {
+                                    val view = photosGridView.getChildAt(i)
+                                    if (view is ImageView) {
+                                        val bitmap = captureScreenshot(view)
                                         val image = convertBitmapToBase64(bitmap)
                                         if (image != null) {
                                             val photo = PhotoModel(uuid = UUID.randomUUID(), data = image, locationId = locationUuid.toString())
@@ -234,13 +234,17 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
                                                     photosProcessed++
                                                     if (photosProcessed == totalPhotos) {
                                                         showConfirmationDialog()
-                                                        parentFragmentManager.popBackStack()
                                                     }
                                                 },
                                                 onFailure = {
-                                                    Toast.makeText(requireContext(), getString(R.string.save_error), Toast.LENGTH_LONG).show()
+                                                    showErrorDialog()
+                                                    photosList.removeAt(i)
+                                                    photosAdapter.notifyDataSetChanged()
                                                 }
                                             )
+                                        } else {
+                                            photosList.removeAt(i)
+                                            photosAdapter.notifyDataSetChanged()
                                         }
                                     }
                                 }
@@ -271,10 +275,35 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
         builder.setMessage(getString(R.string.save_succe))
         builder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
-            parentFragmentManager.popBackStack()
+            if (isAdded) {
+                parentFragmentManager.popBackStack()
+            } else {
+                Log.e("AddLocationFragment", "Fragment not associated with FragmentManager")
+            }
         }
         val dialog = builder.create()
         dialog.show()
+    }
+
+    private fun showErrorDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.app_name))
+        builder.setMessage(getString(R.string.photo_error))
+        builder.setPositiveButton("OK") { dialog, _ ->
+            if (isAdded) {
+                dialog.dismiss()
+            }
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun captureScreenshot(view: View): Bitmap {
+        view.isDrawingCacheEnabled = true
+        view.buildDrawingCache()
+        val bitmap = Bitmap.createBitmap(view.drawingCache)
+        view.isDrawingCacheEnabled = false
+        return bitmap
     }
 
     private fun openGallery() {
@@ -299,11 +328,10 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
         }
     }
 
-
     private fun convertBitmapToBase64(bitmap: Bitmap?): String? {
         bitmap?.let {
             val outputStream = ByteArrayOutputStream()
-            it.compress(Bitmap.CompressFormat.JPEG, 20, outputStream)
+            it.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
             val byteArray = outputStream.toByteArray()
             return Base64.encodeToString(byteArray, Base64.DEFAULT)
         }

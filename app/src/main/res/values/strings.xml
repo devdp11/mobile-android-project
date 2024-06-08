@@ -94,4 +94,6 @@
     <string name="toogle_users">Toggle users</string>
     <string name="toogle_locations">Toggle locations</string>
 
+    <string name="photo_error">Not possible to add one of the photos. Max: 2MB</string>
+
 </resources>

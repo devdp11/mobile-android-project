@@ -91,4 +91,7 @@
 
     <string name="toogle_users">Mostrar utilizadores</string>
     <string name="toogle_locations">Mostrar locais</string>
+
+    <string name="photo_error">Não foi possível adicionar uma das fotos. Max: 2MB</string>
+
 </resources>
