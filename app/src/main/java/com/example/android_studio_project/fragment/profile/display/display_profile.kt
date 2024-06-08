@@ -1,5 +1,7 @@
 package com.example.android_studio_project.fragment.profile.display
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.UserService
 import com.example.android_studio_project.fragment.profile.edit.edit_profile
 import com.bumptech.glide.Glide
+import com.example.android_studio_project.activity.LoginActivity
 import com.example.android_studio_project.fragment.profile.password.edit_password
 
 class display_profile(private val userEmail: String) : Fragment() {
@@ -70,7 +73,27 @@ class display_profile(private val userEmail: String) : Fragment() {
                 Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
             }
         )
+
+        val logoutBtn: Button = view.findViewById(R.id.logoutBtn)
+        logoutBtn.setOnClickListener {
+            saveLoginState(false)
+            navigateToLogin()
+        }
+
         return view
+    }
+
+    private fun saveLoginState(isLoggedIn: Boolean) {
+        val sharedPreferences = requireContext().getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.apply()
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     companion object {

@@ -91,7 +91,8 @@ class edit_profile(private val userEmail: String) : Fragment() {
             val username = ViewUsername.text.toString()
 
             if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
-                val avatarBase64 = convertBitmapToBase64(selectedImageBitmap)
+                val imageAvatar = captureScreenshot(imageViewAvatar)
+                val avatarBase64 = convertBitmapToBase64(imageAvatar)
                 val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
 
                 userService.updateUser(updatedUser,
@@ -130,10 +131,18 @@ class edit_profile(private val userEmail: String) : Fragment() {
 
     private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
+    private fun captureScreenshot(view: View): Bitmap {
+        view.isDrawingCacheEnabled = true
+        view.buildDrawingCache()
+        val bitmap = Bitmap.createBitmap(view.drawingCache)
+        view.isDrawingCacheEnabled = false
+        return bitmap
+    }
+
     private fun convertBitmapToBase64(bitmap: Bitmap?): String? {
         bitmap?.let {
             val outputStream = ByteArrayOutputStream()
-            it.compress(Bitmap.CompressFormat.JPEG, 20, outputStream)
+            it.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
             val byteArray = outputStream.toByteArray()
             return Base64.encodeToString(byteArray, Base64.DEFAULT)
         }

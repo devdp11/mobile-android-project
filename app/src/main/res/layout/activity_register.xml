@@ -208,11 +208,12 @@
                     android:layout_height="wrap_content" >
 
                     <CheckBox
+                        android:id="@+id/check_box_token"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/remember_me"
+                        android:alpha="0.7"
                         android:layout_centerVertical="true"
-                        android:alpha="0.7" />
+                        android:text="@string/remember_me" />
 
                 </RelativeLayout>
 

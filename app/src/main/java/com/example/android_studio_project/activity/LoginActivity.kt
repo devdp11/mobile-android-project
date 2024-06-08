@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -50,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
         val password = passwordField
         val btnLogin: Button = findViewById(R.id.buttonLogin)
         val linkRegister: TextView = findViewById(R.id.link_register)
+        val checkBoxToken: CheckBox = findViewById(R.id.check_box_token)
 
         linkRegister.setOnClickListener {
             openRegister()
@@ -58,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener {
             val emailText = email.text.toString()
             val passwordText = password.text.toString()
+            val rememberMe = checkBoxToken.isChecked
 
             if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
                 authService.verifyUser(emailText, passwordText, onResponse = { success ->
@@ -65,7 +68,9 @@ class LoginActivity : AppCompatActivity() {
                         runOnUiThread {
                             Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
                         }
-                        saveLoginState(true)
+                        if (rememberMe) {
+                            saveLoginState(true)
+                        }
                         navigateToDashboard()
                     } else {
                         runOnUiThread {

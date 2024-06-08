@@ -1,6 +1,7 @@
 package com.example.android_studio_project.activity
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.MotionEvent
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,11 +34,18 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        if (isLoggedIn()) {
+            navigateToDashboard()
+            return
+        }
+
         authService = AuthService(this)
 
         val btnRegister: Button = findViewById(R.id.buttonRegister)
 
         val linkLogin: TextView = findViewById(R.id.link_login)
+
+        val checkBoxToken: CheckBox = findViewById(R.id.check_box_token)
 
         linkLogin.setOnClickListener {
             openLogin()
@@ -60,6 +69,7 @@ class RegisterActivity : AppCompatActivity() {
             val usernameText = findViewById<EditText>(R.id.editTextUsername).text.toString()
             val emailText = findViewById<EditText>(R.id.editTextEmail).text.toString()
             val passwordText = passwordField.text.toString()
+            val rememberMe = checkBoxToken.isChecked
 
             val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{6,}$")
             val isNewPasswordValid = passwordPattern.matches(passwordText)
@@ -79,6 +89,9 @@ class RegisterActivity : AppCompatActivity() {
                         runOnUiThread {
                             if (responseMessage == "success") {
                                 Toast.makeText(this, getString(R.string.register_succe), Toast.LENGTH_LONG).show()
+                                if (rememberMe) {
+                                    saveLoginState(true)
+                                }
                                 navigateToDashboard()
                             } else {
                                 Toast.makeText(this, getString(R.string.register_error), Toast.LENGTH_LONG).show()
@@ -122,6 +135,18 @@ class RegisterActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun isLoggedIn(): Boolean {
+        val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isLoggedIn", false)
+    }
+
+    private fun saveLoginState(isLoggedIn: Boolean) {
+        val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.apply()
     }
 }
 
