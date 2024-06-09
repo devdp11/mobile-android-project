@@ -86,7 +86,6 @@
             </LinearLayout>
 
 
-            <!-- Avaliação da viagem -->
             <RatingBar
                 android:id="@+id/trip_rating"
                 android:layout_width="wrap_content"
