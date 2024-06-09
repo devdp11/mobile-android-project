@@ -44,7 +44,7 @@
         android:id="@+id/scrollmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_buttons"
+        android:layout_above="@+id/mapView"
         android:layout_below="@id/topbar"
         android:fillViewport="true">
 
@@ -181,6 +181,16 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/bottom_buttons" />
 
     <LinearLayout
         android:id="@+id/bottom_buttons"
