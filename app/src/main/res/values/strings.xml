@@ -33,7 +33,6 @@
     <string name="save_trip">Save Trip</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
-    <string name="rating">Rating</string>
     <string name="description">Description</string>
     <string name="date">Date</string>
     <string name="save">Save</string>
@@ -95,5 +94,9 @@
     <string name="toogle_locations">Toggle locations</string>
 
     <string name="photo_error">Not possible to add one of the photos. Max: 2MB</string>
+    <string name="filter_by">Filter by</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="rating">Rating</string>
 
 </resources>
