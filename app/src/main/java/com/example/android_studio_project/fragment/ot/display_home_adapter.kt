@@ -59,6 +59,11 @@ class display_home_adapter(private var tripList: List<TripModel>, private val on
         return tripList.size
     }
 
+    fun updateData(newTripList: List<TripModel>) {
+        tripList = newTripList
+        notifyDataSetChanged()
+    }
+
     fun setData(newTripList: List<TripModel>) {
         tripList = newTripList
         notifyDataSetChanged()

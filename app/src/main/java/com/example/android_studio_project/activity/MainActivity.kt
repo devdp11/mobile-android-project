@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.search -> {
                     if (userEmail != null) {
-                        replaceFragment(display_search(userEmail))
+                        userUUID?.let { display_search(userEmail, it) }?.let { replaceFragment(it) }
                     } else {
                         redirectToLogin()
                     }
