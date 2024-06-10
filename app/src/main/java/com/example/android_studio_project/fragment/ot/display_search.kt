@@ -15,6 +15,12 @@ import com.example.android_studio_project.data.retrofit.models.TripModel
 import com.example.android_studio_project.data.retrofit.services.TripService
 import com.example.android_studio_project.fragment.trip.edit_trip.edit_trip
 import java.util.UUID
+import android.app.AlertDialog
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.RatingBar
 
 class display_search(private val userEmail: String, private val userUUID: String) : Fragment() {
 
@@ -28,6 +34,7 @@ class display_search(private val userEmail: String, private val userUUID: String
     ): View? {
         val view = inflater.inflate(R.layout.fragment_display_search, container, false)
         val searchBar: EditText = view.findViewById(R.id.search_bar)
+        val filterButton: ImageButton = view.findViewById(R.id.filter_button)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         displayHomeAdapter = display_home_adapter(emptyList()) { clickedTrip ->
@@ -49,7 +56,71 @@ class display_search(private val userEmail: String, private val userUUID: String
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        filterButton.setOnClickListener {
+            showFilterPopup()
+        }
+
         return view
+    }
+
+    private fun showFilterPopup() {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_filter, null)
+        val dateRadioGroup: RadioGroup = dialogView.findViewById(R.id.date_radio_group)
+        val ratingRadioGroup: RadioGroup = dialogView.findViewById(R.id.rating_radio_group)
+        val ratingBar: RatingBar = dialogView.findViewById(R.id.rating_bar)
+        val applyButton: Button = dialogView.findViewById(R.id.apply_button)
+
+        val dialogBuilder = AlertDialog.Builder(requireContext(), R.style.TransparentDialog)
+            .setView(dialogView)
+            .create()
+
+        applyButton.setOnClickListener {
+            val selectedDateOption = dateRadioGroup.checkedRadioButtonId
+            val selectedRatingOption = ratingRadioGroup.checkedRadioButtonId
+            val selectedRating = ratingBar.rating.toInt()
+
+            var sortedTrips = allTrips
+
+            when (selectedDateOption) {
+                R.id.date_asc -> sortedTrips = sortedTrips.sortedBy { it.endDate }
+                R.id.date_desc -> sortedTrips = sortedTrips.sortedByDescending { it.endDate }
+            }
+
+            when (selectedRatingOption) {
+                R.id.rating_asc -> sortedTrips = sortedTrips.sortedBy { it.rating }
+                R.id.rating_desc -> sortedTrips = sortedTrips.sortedByDescending { it.rating }
+            }
+
+            val filteredTrips = sortedTrips.filter { it.rating!! >= selectedRating }
+            displayHomeAdapter.updateData(filteredTrips)
+
+            dialogBuilder.dismiss()
+        }
+
+        dialogBuilder.show()
+    }
+
+    private fun sortTripsByDate(ascending: Boolean) {
+        val sortedTrips = if (ascending) {
+            allTrips.sortedBy { it.endDate }
+        } else {
+            allTrips.sortedByDescending { it.endDate }
+        }
+        displayHomeAdapter.updateData(sortedTrips)
+    }
+
+    private fun sortTripsByRating(ascending: Boolean) {
+        val sortedTrips = if (ascending) {
+            allTrips.sortedBy { it.rating }
+        } else {
+            allTrips.sortedByDescending { it.rating }
+        }
+        displayHomeAdapter.updateData(sortedTrips)
+    }
+
+    private fun filterTripsByRating(minRating: Int) {
+        val filteredTrips = allTrips.filter { it.rating!! >= minRating }
+        displayHomeAdapter.updateData(filteredTrips)
     }
 
     private fun openEditTripFragment(tripUuid: UUID, userUUID: String?) {
