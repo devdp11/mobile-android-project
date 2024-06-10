@@ -116,7 +116,9 @@
                 android:numStars="5"
                 android:stepSize="1.0"
                 android:layout_marginBottom="10dp"
-                android:theme="@style/RatingBar" />
+                android:theme="@style/RatingBar"
+                android:progressTint="@color/yellow_star"
+                />
 
         </LinearLayout>
 

@@ -14,6 +14,9 @@
         <!-- Customize your theme here -->
 
     </style>
+    <style name="TransparentDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">cut</item>
     </style>
