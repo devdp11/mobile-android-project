@@ -13,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
@@ -22,8 +24,11 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 
-class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) : Fragment() {
+class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) : Fragment(), OnMapReadyCallback {
     private lateinit var locationService: LocationService
 
     private lateinit var photosGridView: GridView
@@ -38,6 +43,12 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
     private lateinit var dateTextInput: TextView
     private val locationTypeMap = mutableMapOf<String, UUID>()
 
+    private lateinit var mapView: MapView
+    private lateinit var googleMap: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var selectedLatLng: LatLng? = null
+
     private var locationDate: String? = null
     private var displayDate: String? = null
 
@@ -46,6 +57,8 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_location, container, false)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         locationNameEditText = view.findViewById(R.id.location_name)
         locationDescriptionEditText = view.findViewById(R.id.location_description)
@@ -77,6 +90,10 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             requireActivity().onBackPressed()
         }
 
+        mapView = view.findViewById(R.id.mapView)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
+
         photosGridView = view.findViewById(R.id.photos_grid)
         photosAdapter = PhotosAdapter()
         photosGridView.adapter = photosAdapter
@@ -104,12 +121,23 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                     locationDetails.rating?.let { rating ->
                         locationRatingBar.rating = rating
                     }
+
+                    val latitude = locationDetails.latitude?.toDouble()
+                    val longitude = locationDetails.longitude?.toDouble()
+
+                    if (latitude != null && longitude != null) {
+                        val locationLatLng = LatLng(latitude, longitude)
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 15f))
+                        googleMap.addMarker(MarkerOptions().position(locationLatLng).title("Location"))
+                        selectedLatLng = locationLatLng
+                    }
                 }
             },
             onFailure = {
                 Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
             }
         )
+
 
         locationService.getPhotoByLocationId(locationUuid,
             onResponse = { photoDetails ->
@@ -128,6 +156,47 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
         )
 
         return view
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isMyLocationButtonEnabled = true
+        googleMap.setOnMapClickListener { latLng ->
+            googleMap.clear()
+            googleMap.addMarker(MarkerOptions().position(latLng).title("Selected Location"))
+            selectedLatLng = latLng
+        }
+
+        getCurrentLocation()
+    }
+
+    private fun getCurrentLocation() {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            googleMap.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnCompleteListener { task ->
+                if (task.isSuccessful && task.result != null) {
+                    val currentLocation = task.result
+                    val currentLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                    googleMap.addMarker(MarkerOptions().position(currentLatLng).title("Current Location"))
+                    selectedLatLng = currentLatLng
+                }
+            }
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation()
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun decodeBase64ToBitmap(encodedString: String?): Bitmap? {
@@ -372,6 +441,8 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
     }
 
     companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
         fun newInstance(locationUuid: UUID, tripUuid: UUID): edit_location {
             return edit_location(locationUuid, tripUuid)
         }
