@@ -238,6 +238,9 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
         val selectedTypeName = locationTypeSpinner.selectedItem as? String
         val selectedTypeUuid = locationTypeMap[selectedTypeName]
 
+        val newLatitude = selectedLatLng?.latitude
+        val newLongitude = selectedLatLng?.longitude
+
         if (locationName.isNotEmpty() && locationDescription.isNotEmpty()) {
             val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
             isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
@@ -250,8 +253,8 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                 date = formattedDate,
                 rating = locationRating,
                 uuid = locationUuid,
-                latitude = null,
-                longitude = null,
+                latitude = newLatitude,
+                longitude = newLongitude,
                 typeId = selectedTypeUuid
             )
 
