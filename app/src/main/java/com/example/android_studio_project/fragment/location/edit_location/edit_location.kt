@@ -84,32 +84,8 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
         locationService = LocationService(requireContext())
         getTypes()
 
-        locationService.getLocationById(locationUuid,
-            onResponse = { locationDetails ->
-                locationDetails?.let {
-                    val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-                    isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+        loadLocationDetails()
 
-                    locationNameEditText.text = locationDetails.name ?: ""
-                    locationDescriptionEditText.text = locationDetails.description ?: ""
-
-                    locationDetails.date?.let { locationDate ->
-                        val formattedDate = isoDateFormat.parse(locationDate)
-                        this.locationDate = locationDate
-                        val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                        this.displayDate = formattedDate?.let { it1 -> displayFormat.format(it1) }
-                        dateTextInput.text = displayDate
-                    }
-
-                    locationDetails.rating?.let { rating ->
-                        locationRatingBar.rating = rating
-                    }
-                }
-            },
-            onFailure = {
-                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
-            }
-        )
 
         locationService.getPhotoByLocationId(locationUuid,
             onResponse = { photoDetails ->
@@ -127,7 +103,52 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             onFailure = {}
         )
 
+
         return view
+    }
+
+    private fun loadLocationDetails() {
+        locationService.getLocationById(locationUuid,
+            onResponse = { locationDetails ->
+                locationDetails?.let {
+                    val isoDateFormat =
+                        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+                    isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+                    locationNameEditText.text = locationDetails.name ?: ""
+                    locationDescriptionEditText.text = locationDetails.description ?: ""
+
+                    locationDetails.date?.let { locationDate ->
+                        val formattedDate = isoDateFormat.parse(locationDate)
+                        this.locationDate = locationDate
+                        val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        this.displayDate =
+                            formattedDate?.let { it1 -> displayFormat.format(it1) }
+                        dateTextInput.text = displayDate
+                    }
+
+                    locationDetails.rating?.let { rating ->
+                        locationRatingBar.rating = rating
+                    }
+
+                    locationDetails.typeId?.let { typeUuid ->
+                        val typeName =
+                            locationTypeMap.entries.find { it.value == typeUuid }?.key
+                        typeName?.let {
+                            val typePosition =
+                                (locationTypeSpinner.adapter as ArrayAdapter<String>).getPosition(
+                                    it
+                                )
+                            locationTypeSpinner.setSelection(typePosition)
+                        }
+                    }
+                }
+            },
+            onFailure = {
+                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        )
     }
 
     private fun decodeBase64ToBitmap(encodedString: String?): Bitmap? {
@@ -337,13 +358,21 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
     private fun getTypes() {
         locationService.getAllTypes(
             onResponse = { types ->
-                if (types != null) {
+                types?.let {
                     val typeNames = types.map { it.name ?: "Unknown" }
                     val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, typeNames)
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     locationTypeSpinner.adapter = adapter
-                } else {
-                    Log.d("edit_location", "No types received")
+
+                    types.forEach { type ->
+                        type.name?.let { typeName ->
+                            type.uuid?.let { typeUuid ->
+                                locationTypeMap[typeName] = typeUuid
+                            }
+                        }
+                    }
+
+                    loadLocationDetails()
                 }
             },
             onFailure = { error ->
@@ -351,6 +380,8 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             }
         )
     }
+
+
 
     private fun showDatePicker() {
         val datePicker = MaterialDatePicker.Builder.datePicker()
