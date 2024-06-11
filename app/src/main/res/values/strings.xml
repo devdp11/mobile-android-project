@@ -98,5 +98,8 @@
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="rating">Rating</string>
+    <string name="select_language">Select a Language</string>
+    <string name="english">English</string>
+    <string name="portugues">Portuguese</string>
 
 </resources>
