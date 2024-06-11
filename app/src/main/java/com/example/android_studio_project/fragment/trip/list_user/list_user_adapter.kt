@@ -14,30 +14,56 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
 
-class list_user_adapter(private var userList: List<UserModel>) : RecyclerView.Adapter<list_user_adapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class list_user_adapter(
+    private var userList: List<UserModel>,
+    private val onAddUserClick: () -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    companion object {
+        private const val VIEW_TYPE_USER = 0
+        private const val VIEW_TYPE_ADD_BUTTON = 1
+    }
+
+    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val rowLayoutUsers: ConstraintLayout = itemView.findViewById(R.id.rowLayoutUsers)
         val userName: TextView = itemView.findViewById(R.id.userName)
         val userEmail: TextView = itemView.findViewById(R.id.userEmail)
         val userAvatar: ImageView = itemView.findViewById(R.id.userAvatar)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): list_user_adapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_row_users, parent, false)
-        return ViewHolder(view)
+    inner class AddUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val rowLayoutUsers: ConstraintLayout = itemView.findViewById(R.id.rowLayoutUsers)
     }
 
-    override fun onBindViewHolder(holder: list_user_adapter.ViewHolder, position: Int) {
-        val currentUser = userList[position]
-        holder.userName.text = currentUser.username ?: "No username"
-        holder.userEmail.text = currentUser.email ?: "No email"
+    override fun getItemViewType(position: Int): Int {
+        return if (position == userList.size) VIEW_TYPE_ADD_BUTTON else VIEW_TYPE_USER
+    }
 
-        holder.userAvatar.loadBase64Image(currentUser.avatar)
-
-        if (position % 2 == 0) {
-            holder.rowLayoutUsers.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_row_users, parent, false)
+        return if (viewType == VIEW_TYPE_USER) {
+            UserViewHolder(view)
         } else {
-            holder.rowLayoutUsers.setBackgroundColor(holder.itemView.context.getColor(R.color.white))
+            AddUserViewHolder(view)
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (getItemViewType(position) == VIEW_TYPE_USER) {
+            val userHolder = holder as UserViewHolder
+            val currentUser = userList[position]
+            userHolder.userName.text = currentUser.username ?: "No username"
+            userHolder.userEmail.text = currentUser.email ?: "No email"
+            userHolder.userAvatar.loadBase64Image(currentUser.avatar)
+
+
+        } else {
+            val addUserHolder = holder as AddUserViewHolder
+            addUserHolder.rowLayoutUsers.setOnClickListener {
+                onAddUserClick()
+            }
+            addUserHolder.rowLayoutUsers.findViewById<ImageView>(R.id.userAvatar).setImageResource(R.drawable.add_trip) // Icon for add button
+            addUserHolder.rowLayoutUsers.findViewById<TextView>(R.id.userEmail).visibility = View.GONE
         }
     }
 
@@ -58,7 +84,7 @@ class list_user_adapter(private var userList: List<UserModel>) : RecyclerView.Ad
     }
 
     override fun getItemCount(): Int {
-        return userList.size
+        return userList.size + 1
     }
 
     fun setData(newUserList: List<UserModel>) {
