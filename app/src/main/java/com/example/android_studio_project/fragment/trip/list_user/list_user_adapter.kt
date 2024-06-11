@@ -62,7 +62,7 @@ class list_user_adapter(
             addUserHolder.rowLayoutUsers.setOnClickListener {
                 onAddUserClick()
             }
-            addUserHolder.rowLayoutUsers.findViewById<ImageView>(R.id.userAvatar).setImageResource(R.drawable.add_trip) // Icon for add button
+            addUserHolder.rowLayoutUsers.findViewById<ImageView>(R.id.userAvatar).setImageResource(R.drawable.add_trip)
             addUserHolder.rowLayoutUsers.findViewById<TextView>(R.id.userEmail).visibility = View.GONE
         }
     }

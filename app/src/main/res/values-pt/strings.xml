@@ -103,5 +103,9 @@
 
     <string name="password_requirements">A palavra-chave deve conter pelo menos:\n- Uma letra maiúscula\n- Uma letra minúscula\n- Um número\n- Um caractere especial</string>
 
+    <string name="popup_title">Partilhar Viagem</string>
+    <string name="popup_hint">Email/Username</string>
+    <string name="popup_button">Partilhar</string>
 
+    <string name="user_not_found">User não encontrado</string>
 </resources>

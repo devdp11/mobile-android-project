@@ -291,22 +291,21 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.popup_add_user, null)
         val editText = dialogLayout.findViewById<EditText>(R.id.editTextUserEmail)
+        val addButton = dialogLayout.findViewById<Button>(R.id.btnAddUser)
 
-        builder.setTitle("Adicionar Usuário")
-        builder.setView(dialogLayout)
-        builder.setPositiveButton("Adicionar") { dialog, _ ->
+        val dialog = builder.setView(dialogLayout).create()
+
+        addButton.setOnClickListener {
             val email = editText.text.toString()
             if (email.isNotEmpty()) {
                 getAddUser(email)
+                dialog.dismiss()
             } else {
                 Toast.makeText(requireContext(), "Por favor, insira um email", Toast.LENGTH_SHORT).show()
             }
-            dialog.dismiss()
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ ->
-            dialog.dismiss()
-        }
-        builder.show()
+
+        dialog.show()
     }
 
     private fun getAddUser(email: String) {
@@ -316,8 +315,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 createUserTrip(userTrip)
             },
             onFailure = { error ->
-                Toast.makeText(requireContext(), "Erro ao adicionar usuário: $error", Toast.LENGTH_SHORT).show()
-                Log.e("EditTrip", "Error adding user: $error")
+                Toast.makeText(requireContext(), getString(R.string.user_not_found), Toast.LENGTH_SHORT).show()
             }
         )
     }
@@ -325,11 +323,11 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
     private fun createUserTrip(userTrip: UserTripModel) {
         tripService.createUserTrip(userTrip,
             onResponse = {
-                Toast.makeText(requireContext(), "Usuário adicionado com sucesso à viagem", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "User adicionado com sucesso à viagem", Toast.LENGTH_SHORT).show()
                 getUsers()
             },
             onFailure = { error ->
-                Toast.makeText(requireContext(), "Erro ao associar usuário à viagem: $error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Erro ao associar user à viagem: $error", Toast.LENGTH_SHORT).show()
                 Log.e("EditTrip", "Error associating user to trip: $error")
             }
         )
