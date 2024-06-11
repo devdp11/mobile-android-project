@@ -77,7 +77,9 @@
                     android:scaleX="0.85"
                     android:scaleY="0.85"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="-8dp"/>
+                    android:layout_marginBottom="-8dp"
+                    android:progressTint="@color/yellow_star"
+                    />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
