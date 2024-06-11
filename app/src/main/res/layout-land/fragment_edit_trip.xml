@@ -1,177 +1,182 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
-    tools:context=".fragment.location.edit_location.edit_location">
+    tools:context=".fragment.trip.edit_trip.edit_trip">
+
     <RelativeLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentTop="true">
+        android:layout_marginTop="20dp">
+
         <ImageView
             android:id="@+id/btn_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
+            android:src="@drawable/btn_backward"
             android:padding="14dp"
-            android:src="@drawable/btn_backward" />
+            android:importantForAccessibility="no" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/edit_trip"
             android:layout_centerInParent="true"
-            android:fontFamily="@font/roboto"
-            android:text="@string/edit_location"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/roboto"
+            tools:ignore="RelativeOverlap" />
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/logo" />
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/logo"
+            android:importantForAccessibility="no" />
     </RelativeLayout>
+
     <ScrollView
         android:id="@+id/scrollmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/mapView"
         android:layout_below="@id/topbar"
-        android:fillViewport="true">
+        android:layout_above="@+id/bottom_buttons">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="20dp"
-            android:orientation="vertical">
+            android:gravity="center_horizontal">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/location_name"
+
+                <EditText
+                    android:id="@+id/trip_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
+                    android:editable="true"
                     android:inputType="text" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="10dp" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/location_description"
+
+                <EditText
+                    android:id="@+id/trip_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description"
                     android:inputType="text" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="10dp" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/date_text_input"
+                    android:id="@+id/trip_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date"
+                    android:textColorHint="@color/white"
                     android:focusable="true"
+                    android:drawableEnd="@drawable/baseline_calendar_month_24"
                     android:clickable="true" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="10dp" />
-            <Spinner
-                android:id="@+id/location_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:padding="8dp"
-                android:spinnerMode="dropdown"
-                android:textColor="@color/white"
-                android:dropDownVerticalOffset="40dp" />
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="10dp" />
+
                 <RatingBar
-                    android:id="@+id/location_rating"
+                    android:id="@+id/trip_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:stepSize="1.0"
                     android:layout_gravity="center"
+                    android:theme="@style/RatingBar"
                     android:progressTint="@color/yellow_star"
-                    android:theme="@style/RatingBar" />
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp" />
+                    />
             </LinearLayout>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_photos"
-                android:layout_width="match_parent"
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="15dp" />
+
+            <Button
+                android:id="@+id/change_recycler_view"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="@string/add_photos"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/white"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:text="@string/toogle_users" />
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="10dp" />
-            <androidx.cardview.widget.CardView
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="4dp">
-                <GridView
-                    android:id="@+id/photos_grid"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="3"
-                    android:horizontalSpacing="10dp"
-                    android:stretchMode="columnWidth"
-                    android:padding="5dp"
-                    tools:ignore="NestedScrolling" />
-            </androidx.cardview.widget.CardView>
+                android:layout_height="match_parent"
+                tools:listitem="@layout/custom_row_locations" />
+
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_above="@id/bottom_buttons" />
 
     <LinearLayout
         android:id="@+id/bottom_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/add_location_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_location"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/teal_700"
+            android:layout_marginEnd="8dp"
+            style="?android:attr/buttonBarButtonStyle" />
+
         <Button
             android:id="@+id/delete_btn"
             android:layout_width="0dp"
@@ -180,15 +185,18 @@
             android:text="@string/delete"
             android:textColor="@color/white"
             android:backgroundTint="@color/security"
-            android:layout_marginEnd="10dp" />
+            android:layout_marginEnd="8dp"
+            style="?android:attr/buttonBarButtonStyle" />
+
         <Button
-            android:id="@+id/save_btn"
+            android:id="@+id/save_trip_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/save"
             android:backgroundTint="@color/green"
             android:textColor="@color/white"
-            android:layout_marginStart="10dp" />
+            android:layout_marginStart="8dp"
+            style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 </RelativeLayout>
