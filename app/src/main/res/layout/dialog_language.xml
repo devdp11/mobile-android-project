@@ -1,0 +1,51 @@
+<!-- res/layout/dialog_language_selection.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_language"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:fontFamily="@font/roboto"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroupLanguages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/radioEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto" />
+
+        <RadioButton
+            android:id="@+id/radioPortuguese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/portugues"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonConfirm"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:text="@string/save"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/green"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/roboto"/>
+</LinearLayout>

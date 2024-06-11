@@ -1,5 +1,6 @@
 package com.example.android_studio_project.fragment.profile.display
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.util.Base64
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.UserService
@@ -18,6 +21,7 @@ import com.example.android_studio_project.fragment.profile.edit.edit_profile
 import com.bumptech.glide.Glide
 import com.example.android_studio_project.activity.LoginActivity
 import com.example.android_studio_project.fragment.profile.password.edit_password
+import java.util.Locale
 
 class display_profile(private val userEmail: String) : Fragment() {
     private lateinit var userService: UserService
@@ -86,7 +90,64 @@ class display_profile(private val userEmail: String) : Fragment() {
             saveLoginState(false)
             navigateToLogin()
         }
+
+        val languageBtn: ImageView = view.findViewById(R.id.language_btn)
+        languageBtn.setOnClickListener {
+            showLanguageDialog()
+        }
     }
+
+    private fun showLanguageDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_language, null)
+        builder.setView(dialogView)
+
+        val radioGroupLanguages: RadioGroup = dialogView.findViewById(R.id.radioGroupLanguages)
+        val radioEnglish: RadioButton = dialogView.findViewById(R.id.radioEnglish)
+        val radioPortuguese: RadioButton = dialogView.findViewById(R.id.radioPortuguese)
+        val buttonConfirm: Button = dialogView.findViewById(R.id.buttonConfirm)
+
+        val sharedPreferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val currentLanguage = sharedPreferences.getString("Language", "en")
+
+        when (currentLanguage) {
+            "en" -> radioEnglish.isChecked = true
+            "pt" -> radioPortuguese.isChecked = true
+        }
+
+        val dialog = builder.create()
+
+        buttonConfirm.setOnClickListener {
+            val selectedLanguage = when (radioGroupLanguages.checkedRadioButtonId) {
+                R.id.radioEnglish -> "en"
+                R.id.radioPortuguese -> "pt"
+                else -> "en"
+            }
+            setLocale(selectedLanguage)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        val sharedPreferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("Language", languageCode)
+        editor.apply()
+
+        val refresh = Intent(requireContext(), requireActivity()::class.java)
+        startActivity(refresh)
+        requireActivity().finish()
+    }
+
 
     private fun saveLoginState(isLoggedIn: Boolean) {
         val sharedPreferences = requireContext().getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
