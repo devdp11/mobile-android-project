@@ -248,9 +248,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/btn_forward"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:clickable="true"
-                        android:focusable="true" />
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 

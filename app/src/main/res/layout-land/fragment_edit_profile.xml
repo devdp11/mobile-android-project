@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    tools:context=".fragment.profile.password.edit_password">
+    tools:context=".fragment.profile.edit.edit_profile">
 
     <RelativeLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="20dp">
 
         <ImageView
             android:id="@+id/btn_back"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/security_privacy"
+            android:text="@string/edit_profile"
             android:layout_centerInParent="true"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -42,17 +42,6 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/password_requirements"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/password_requirements"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:padding="16dp"
-        android:background="@drawable/rounded_background"
-        android:layout_margin="16dp"/>
-
     <ScrollView
         android:id="@+id/scrollmain"
         android:contentDescription="@string/app_name"
@@ -61,70 +50,95 @@
         android:layout_weight="1"
         android:layout_marginTop="15dp">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:gravity="center_horizontal">
+            android:padding="16dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="60dp"
+                android:layout_marginTop="10dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/user_avatar"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_gravity="center" />
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/old_pass"
+                android:text="@string/email"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
             <EditText
-                android:id="@+id/old_password"
+                android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:padding="12dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/white"
-                android:background="@drawable/rounded_edit_text"/>
+                android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_pass"
+                android:text="@string/last_name"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
             <EditText
-                android:id="@+id/new_password"
+                android:id="@+id/last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:padding="12dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/white"
-                android:background="@drawable/rounded_edit_text"/>
+                android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/conf_pass"
+                android:text="@string/username"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
             <EditText
-                android:id="@+id/confirm_password"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:padding="12dp"
-                android:textColor="@color/white"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/rounded_edit_text"/>
+                android:layout_marginBottom="32dp"/>
 
         </LinearLayout>
 
