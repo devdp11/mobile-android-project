@@ -135,6 +135,7 @@
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:stepSize="1.0"
+                    android:progressTint="@color/yellow_star"
                     android:layout_gravity="center"
                     android:theme="@style/RatingBar" />
 
