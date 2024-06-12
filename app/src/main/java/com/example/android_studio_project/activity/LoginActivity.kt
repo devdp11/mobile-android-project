@@ -42,6 +42,8 @@ class LoginActivity : AppCompatActivity() {
         userService = UserService(this)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
+        userViewModel.deleteAllUsers()
+
         passwordField = findViewById(R.id.editTextPassword)
         passwordField.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {

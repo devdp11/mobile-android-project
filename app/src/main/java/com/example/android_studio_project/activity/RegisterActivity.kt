@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.EditText
 import androidx.annotation.RequiresApi
@@ -14,9 +15,12 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.AuthService
+import com.example.android_studio_project.data.room.ent.User
+import com.example.android_studio_project.data.room.vm.UserViewModel
 import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
@@ -24,6 +28,7 @@ class RegisterActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
 
     private lateinit var authService: AuthService
+    private lateinit var userViewModel: UserViewModel
 
     private lateinit var passwordField: EditText
     private var isPasswordVisible: Boolean = false
@@ -40,6 +45,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         authService = AuthService(this)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         val btnRegister: Button = findViewById(R.id.buttonRegister)
 
@@ -88,6 +94,21 @@ class RegisterActivity : AppCompatActivity() {
                     authService.createUser(newUser, onResponse = { responseMessage ->
                         runOnUiThread {
                             if (responseMessage == "success") {
+                                val userEntity = newUser.uuid?.let { it1 ->
+                                    User(
+                                        uuid = it1,
+                                        firstName = newUser.firstName,
+                                        lastName = newUser.lastName,
+                                        username = newUser.username,
+                                        avatar = newUser.avatar,
+                                        email = newUser.email
+                                    )
+                                }
+                                if (userEntity != null) {
+                                    userViewModel.addUser(userEntity)
+                                    Log.d("tag", userEntity.toString())
+                                }
+
                                 Toast.makeText(this, getString(R.string.register_succe), Toast.LENGTH_LONG).show()
                                 if (rememberMe) {
                                     saveLoginState(true)
