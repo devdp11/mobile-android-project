@@ -40,7 +40,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteAllUsers() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllUsers()
+            val users = readAllUsers.value
+            if (!users.isNullOrEmpty()) {
+                repository.deleteAllUsers()
+            }
         }
     }
 }

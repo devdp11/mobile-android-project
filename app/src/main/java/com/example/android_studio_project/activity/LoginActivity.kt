@@ -83,7 +83,8 @@ class LoginActivity : AppCompatActivity() {
                                         lastName = user.lastName,
                                         username = user.username,
                                         avatar = user.avatar,
-                                        email = user.email
+                                        email = user.email,
+                                        password = passwordText
                                     )
                                 }
                                 if (userEntity != null) {
@@ -160,4 +161,5 @@ class LoginActivity : AppCompatActivity() {
     private fun getUserDetails(email: String, onResponse: (UserModel?) -> Unit, onFailure: (Throwable) -> Unit) {
         userService.getUserDetails(email, onResponse, onFailure)
     }
+
 }

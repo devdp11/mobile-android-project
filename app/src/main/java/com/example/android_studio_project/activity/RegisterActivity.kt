@@ -101,7 +101,8 @@ class RegisterActivity : AppCompatActivity() {
                                         lastName = newUser.lastName,
                                         username = newUser.username,
                                         avatar = newUser.avatar,
-                                        email = newUser.email
+                                        email = newUser.email,
+                                        password = passwordText
                                     )
                                 }
                                 if (userEntity != null) {
