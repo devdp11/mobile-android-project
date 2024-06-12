@@ -4,7 +4,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     android:background="@drawable/gradient_background"
     tools:context=".fragment.location.edit_location.edit_location">
 
