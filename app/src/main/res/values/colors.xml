@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="purple_prim">#351431</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_50">#aa7bc3</color>
     <color name="purple_500">#FF6200EE</color>
@@ -18,4 +20,16 @@
     <color name="main_color">#50C2C9</color>
     <color name="purple_dark">#4B0082</color>
     <color name="purple_light">#7B68EE</color>
+    <color name="background_color">#FAFAFA</color>
+    <color name="primary_color">#6200EE</color>
+    <color name="primary_text_color">#212121</color>
+    <color name="secondary_text_color">#757575</color>
+    <color name="red">#FF0000</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="even_row">#BBDEFB</color>
+    <color name="odd_row">#90CAF9</color>
+    <color name="yellow_star">#ffe234</color>
+    <color name="gray">#808080</color>
+
 </resources>
