@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     android:background="@drawable/gradient_background"
     tools:context=".fragment.location.edit_location.edit_location">
 
-    <!-- Barra superior fixa -->
     <RelativeLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
@@ -36,131 +36,141 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:src="@drawable/logo" />
-
     </RelativeLayout>
 
-    <!-- Parte esquerda com ScrollView -->
-    <ScrollView
-        android:id="@+id/left_content_scrollview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/topbar"
         android:layout_above="@id/bottom_buttons"
-        android:layout_below="@id/topbar">
+        android:weightSum="1">
 
-        <!-- Conteúdo dentro do ScrollView -->
-        <LinearLayout
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:orientation="vertical">
+        <ScrollView
+            android:id="@+id/left_content_scrollview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/location_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/location_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/description"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/date_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/date"
-                    android:focusable="true"
-                    android:clickable="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-            <Spinner
-                android:id="@+id/location_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:padding="8dp"
-                android:spinnerMode="dropdown"
-                android:textColor="@color/white"
-                android:dropDownVerticalOffset="40dp" />
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="20dp"
                 android:orientation="vertical">
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp" />
-                <RatingBar
-                    android:id="@+id/location_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="1.0"
-                    android:layout_gravity="center"
-                    android:progressTint="@color/yellow_star"
-                    android:theme="@style/RatingBar" />
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp" />
-            </LinearLayout>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_photos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_photos"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/white"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="4dp">
-                <GridView
-                    android:id="@+id/photos_grid"
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="3"
-                    android:horizontalSpacing="10dp"
-                    android:stretchMode="columnWidth"
-                    android:padding="5dp"
-                    tools:ignore="NestedScrolling" />
-            </androidx.cardview.widget.CardView>
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/location_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/location_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/description"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/date_text_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/date"
+                        android:focusable="true"
+                        android:clickable="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+                <Spinner
+                    android:id="@+id/location_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button"
+                    android:padding="8dp"
+                    android:spinnerMode="dropdown"
+                    android:textColor="@color/white"
+                    android:dropDownVerticalOffset="40dp" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp" />
+                    <RatingBar
+                        android:id="@+id/location_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:stepSize="1.0"
+                        android:layout_gravity="center"
+                        android:progressTint="@color/yellow_star"
+                        android:theme="@style/RatingBar" />
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp" />
+                </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_photos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_photos"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="4dp">
+                    <GridView
+                        android:id="@+id/photos_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:numColumns="3"
+                        android:horizontalSpacing="10dp"
+                        android:stretchMode="columnWidth"
+                        android:padding="5dp"
+                        tools:ignore="NestedScrolling" />
+                </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:layout_margin="10dp" />
+    </LinearLayout>
 
-    <!-- Botões no final -->
     <LinearLayout
         android:id="@+id/bottom_buttons"
         android:layout_width="match_parent"
@@ -189,18 +199,5 @@
             android:backgroundTint="@color/green"
             android:textColor="@color/white"
             android:layout_marginStart="10dp" />
-
     </LinearLayout>
-
-    <!-- Parte direita com o MapView -->
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="93dp"
-        android:layout_marginBottom="10dp" />
-
 </RelativeLayout>
