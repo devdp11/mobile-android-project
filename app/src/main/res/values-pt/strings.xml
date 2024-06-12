@@ -23,6 +23,89 @@
     <string name="skip_intro_slider">Comece Agora</string>
     <string name="back_intro_slider">Voltar</string>
     <string name="next_intro_slider">Prox</string>
-    <string name="no_acc">Sem conta? Regista-te aqui!</string>
-    <string name="acc">Já tem conta? Entra aqui!</string>
+    <string name="no_acc">Sem conta? Cria uma agora!</string>
+    <string name="yes_acc">Já tem conta? Entra aqui!</string>
+    <string name="add_trip">Adicionar Viagem</string>
+    <string name="trip_name">Nome Viagem</string>
+    <string name="trip_description">Descrição da Viagem</string>
+    <string name="trip_date">Data de Viagem</string>
+    <string name="add_photos">Adicionar Fotos</string>
+    <string name="save_trip">Guardar Viagem</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Apagar</string>
+    <string name="rating">Avaliação</string>
+    <string name="description">Descrição</string>
+    <string name="date">Data</string>
+    <string name="save">Salvar</string>
+    <string name="login_error">Erro ao fazer login. Verifique as credenciais e tente novamente.</string>
+    <string name="login_succe">Login bem-sucedido!</string>
+    <string name="register_error">Erro ao registar. Tente novamente.</string>
+    <string name="register_succe">Registo bem-sucedido!</string>
+    <string name="fill_fields">Por favor, preencha todos os campos!</string>
+    <string name="update_error">Erro ao atualizar perfil. Tente novamente.</string>
+    <string name="update_succe">Perfil atualizado com sucesso!</string>
+    <string name="add_location">Adicionar Local</string>
+    <string name="home">Painel Principal</string>
+
+    <string name="welcome">Bem-vindo</string>
+    <string name="register_desc">Traga a sua aventura até nós!</string>
+    <string name="login_desc">Entre com as suas credenciais, por favor!</string>
+    <string name="name">Nome</string>
+    <string name="confirm_password">Confirme palavra-chave</string>
+    <string name="remember_me">Lembrar-se de mim</string>
+    <string name="forgot_password">Esqueceu-se da palavra-chave?</string>
+    <string name="register">Registar</string>
+    <string name="login">Login</string>
+
+    <string name="password_invalid">Palavra-chave inválida. Tente novamente!</string>
+    <string name="edit_trip">Editar Viagem</string>
+    <string name="edit_location">Editar Localização</string>
+    <string name="old_pass">Palavra-chave Antiga</string>
+    <string name="new_pass">Nova palavra-chave</string>
+    <string name="conf_pass">Confirmar Palavra-Chave</string>
+
+    <string name="load_error">Erro ao carregar os dados!</string>
+    <string name="save_error">Erro ao salvar ação!</string>
+    <string name="save_succe">Ação salva com sucesso!</string>
+    <string name="succe">Sucesso!</string>
+
+    <string name="update_password_error">Erro ao atualizar palavra-chave. Tente novamente!</string>
+    <string name="update_password_succe">Palavra-chave atualizada com sucesso!</string>
+    <string name="old_password_verify_error">Erro ao verificar palavra-chave antiga. Tente novamente!</string>
+    <string name="old_password_incorr">Palavra-chave antiga está incorreta. Tente novamente!</string>
+    <string name="new_password_error">Novas palavras-chave não são iguais. Tente Novamente!</string>
+
+    <string name="no">Não</string>
+    <string name="yes">Sim</string>
+    <string name="delete_title">Apagar?</string>
+    <string name="delete_description">Tens a certeza que desejas apagar?</string>
+    <string name="trip_delete_succ">Viagem apagada com sucesso!</string>
+    <string name="trip_delete_error">Erro ao apagar viagem. Tente novamente!</string>
+    <string name="location_delete_succ">Local apagado com sucesso!</string>
+    <string name="location_delete_error">Erro ao apagar local. Tente novamente!</string>
+
+    <string name="location_add_succ">Localização adicionada com sucesso!</string>
+    <string name="location_add_error">Erro ao adicionar localização. Tente novamente!</string>
+
+    <string name="no_users">Sem utilizadores!</string>
+
+    <string name="toogle_users">Mostrar utilizadores</string>
+    <string name="toogle_locations">Mostrar locais</string>
+
+    <string name="photo_error">Não foi possível adicionar uma das fotos. Max: 2MB</string>
+    <string name="filter_by">Filtrar por</string>
+    <string name="ascending">Crescente</string>
+    <string name="descending">Decrescente</string>
+
+    <string name="select_language">Selecione o Idioma</string>
+    <string name="english">Inglês</string>
+    <string name="portugues">Português</string>
+
+    <string name="password_requirements">A palavra-chave deve conter pelo menos:\n- Uma letra maiúscula\n- Uma letra minúscula\n- Um número\n- Um caractere especial</string>
+
+    <string name="popup_title">Partilhar Viagem</string>
+    <string name="popup_hint">Email/Username</string>
+    <string name="popup_button">Partilhar</string>
+
+    <string name="user_not_found">User não encontrado</string>
 </resources>
