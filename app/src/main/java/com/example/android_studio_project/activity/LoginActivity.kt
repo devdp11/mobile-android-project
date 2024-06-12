@@ -1,4 +1,5 @@
 package com.example.android_studio_project.activity
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -11,11 +12,18 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.android_studio_project.R
+import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.AuthService
+import com.example.android_studio_project.data.retrofit.services.UserService
+import com.example.android_studio_project.data.room.ent.User
+import com.example.android_studio_project.data.room.vm.UserViewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var authService: AuthService
+    private lateinit var userService: UserService
+    private lateinit var userViewModel: UserViewModel
 
     private lateinit var passwordField: EditText
     private var isPasswordVisible: Boolean = false
@@ -30,9 +38,11 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        setContentView(R.layout.activity_login)
-
         authService = AuthService(this)
+        userService = UserService(this)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+
+        userViewModel.deleteAllUsers()
 
         passwordField = findViewById(R.id.editTextPassword)
         passwordField.setOnTouchListener { _, event ->
@@ -45,7 +55,6 @@ class LoginActivity : AppCompatActivity() {
             }
             false
         }
-
 
         val email: EditText = findViewById(R.id.editTextEmail)
         val password = passwordField
@@ -65,19 +74,45 @@ class LoginActivity : AppCompatActivity() {
             if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
                 authService.verifyUser(emailText, passwordText, onResponse = { success ->
                     if (success) {
-                        runOnUiThread {
-                            Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
-                        }
-                        if (rememberMe) {
-                            saveLoginState(true)
-                        }
-                        navigateToDashboard()
+                        getUserDetails(emailText, onResponse = { user ->
+                            if (user != null) {
+                                val userEntity = user.uuid?.let { it1 ->
+                                    User(
+                                        uuid = it1,
+                                        firstName = user.firstName,
+                                        lastName = user.lastName,
+                                        username = user.username,
+                                        avatar = user.avatar,
+                                        email = user.email,
+                                        password = passwordText
+                                    )
+                                }
+                                if (userEntity != null) {
+                                    userViewModel.addUser(userEntity)
+                                }
+                                runOnUiThread {
+                                    if (rememberMe) {
+                                        saveLoginState(true)
+                                    }
+                                    Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
+                                    navigateToDashboard()
+                                }
+                            } else {
+                                runOnUiThread {
+                                    Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }, onFailure = {
+                            runOnUiThread {
+                                Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_LONG).show()
+                            }
+                        })
                     } else {
                         runOnUiThread {
                             Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_LONG).show()
                         }
                     }
-                }, onFailure = { error ->
+                }, onFailure = {
                     runOnUiThread {
                         Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_LONG).show()
                     }
@@ -91,7 +126,6 @@ class LoginActivity : AppCompatActivity() {
     private fun togglePasswordVisibility() {
         if (isPasswordVisible) {
             passwordField.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-
             isPasswordVisible = false
         } else {
             passwordField.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -112,7 +146,6 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-
     private fun isLoggedIn(): Boolean {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean("isLoggedIn", false)
@@ -123,6 +156,10 @@ class LoginActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", isLoggedIn)
         editor.apply()
+    }
+
+    private fun getUserDetails(email: String, onResponse: (UserModel?) -> Unit, onFailure: (Throwable) -> Unit) {
+        userService.getUserDetails(email, onResponse, onFailure)
     }
 
 }

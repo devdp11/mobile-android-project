@@ -6,17 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.TripModelEdit
+import com.example.android_studio_project.data.retrofit.models.UserTripModel
 import com.example.android_studio_project.data.retrofit.services.TripService
+import com.example.android_studio_project.data.retrofit.services.UserService
+import com.example.android_studio_project.data.room.ent.User
 import com.example.android_studio_project.fragment.location.add_location.add_location
 import com.example.android_studio_project.fragment.location.edit_location.edit_location
 import com.example.android_studio_project.fragment.location.list_location.list_location_adapter
@@ -27,6 +26,7 @@ import java.util.*
 
 class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fragment() {
     private lateinit var tripService: TripService
+    private lateinit var userService: UserService
     private lateinit var listLocationAdapter: list_location_adapter
     private lateinit var listUserAdapter: list_user_adapter
 
@@ -77,7 +77,9 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         listLocationAdapter = list_location_adapter(requireContext(), emptyList()) { clickedLocation ->
             openEditLocationFragment(clickedLocation.uuid, tripUuid)
         }
-        listUserAdapter = list_user_adapter(emptyList())
+        listUserAdapter = list_user_adapter(emptyList()) {
+            showAddUserDialog()
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = listLocationAdapter
@@ -87,6 +89,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         }
 
         tripService = TripService(requireContext())
+        userService = UserService(requireContext())
         getLocations()
         getUsers()
 
@@ -146,7 +149,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
 
     private fun openEditLocationFragment(locationUuid: UUID, tripUuid: UUID) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, edit_location.newInstance(locationUuid, tripUuid ))
+            .replace(R.id.frame_layout, edit_location.newInstance(locationUuid, tripUuid))
             .addToBackStack(null)
             .commit()
     }
@@ -213,7 +216,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         dialog.show()
     }
 
-    private fun openAddLocationFragment(tripUuid: UUID, ) {
+    private fun openAddLocationFragment(tripUuid: UUID) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, add_location.newInstance(tripUuid))
             .addToBackStack(null)
@@ -282,6 +285,54 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
 
         datePicker.show(parentFragmentManager, "datePicker")
     }
+
+    private fun showAddUserDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.popup_add_user, null)
+        val editText = dialogLayout.findViewById<EditText>(R.id.editTextUserEmail)
+        val addButton = dialogLayout.findViewById<Button>(R.id.btnAddUser)
+
+        val dialog = builder.setView(dialogLayout).create()
+
+        addButton.setOnClickListener {
+            val email = editText.text.toString()
+            if (email.isNotEmpty()) {
+                getAddUser(email)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Por favor, insira um email", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun getAddUser(email: String) {
+        userService.findUser(email,
+            onResponse = { userId ->
+                val userTrip = UserTripModel(userId = userId.toString(), tripId = tripUuid.toString())
+                createUserTrip(userTrip)
+            },
+            onFailure = { error ->
+                Toast.makeText(requireContext(), getString(R.string.user_not_found), Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    private fun createUserTrip(userTrip: UserTripModel) {
+        tripService.createUserTrip(userTrip,
+            onResponse = {
+                Toast.makeText(requireContext(), "User adicionado com sucesso à viagem", Toast.LENGTH_SHORT).show()
+                getUsers()
+            },
+            onFailure = { error ->
+                Toast.makeText(requireContext(), "Erro ao associar user à viagem: $error", Toast.LENGTH_SHORT).show()
+                Log.e("EditTrip", "Error associating user to trip: $error")
+            }
+        )
+    }
+
 
     companion object {
         fun newInstance(tripUuid: UUID, userUUID: String?): edit_trip {

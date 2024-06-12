@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginHorizontal="8dp"
     android:id="@+id/rowLayoutUsers">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        android:background="@color/white"
+        android:backgroundTint="#E7E8D1"
+        app:cardCornerRadius="18dp"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:padding="12dp">
 
             <ImageView
                 android:id="@+id/userAvatar"
@@ -25,7 +27,8 @@
                 android:layout_height="75dp"
                 android:scaleType="centerCrop"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                />
 
             <LinearLayout
                 android:layout_width="0dp"

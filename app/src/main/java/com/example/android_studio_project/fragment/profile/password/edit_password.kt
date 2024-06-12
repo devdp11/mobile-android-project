@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.AuthService
@@ -29,6 +30,11 @@ class edit_password(private val userEmail: String) : Fragment() {
         val oldPasswordEditText = view.findViewById<EditText>(R.id.old_password)
         val newPasswordEditText = view.findViewById<EditText>(R.id.new_password)
         val confirmNewPasswordEditText = view.findViewById<EditText>(R.id.confirm_password)
+
+        val backButton: ImageView = view.findViewById(R.id.btn_back)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
 
         val updateButton = view.findViewById<Button>(R.id.save_btn)
         updateButton.setOnClickListener {

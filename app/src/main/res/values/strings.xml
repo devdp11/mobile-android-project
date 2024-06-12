@@ -98,5 +98,13 @@
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="rating">Rating</string>
+    <string name="select_language">Select a Language</string>
+    <string name="english">English</string>
+    <string name="portugues">Portuguese</string>
 
+    <string name="popup_title">Share Trip</string>
+    <string name="popup_hint">Email/Username</string>
+    <string name="popup_button">Share</string>
+
+    <string name="user_not_found">User not Found</string>
 </resources>
