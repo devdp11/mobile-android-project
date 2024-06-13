@@ -3,7 +3,14 @@ package com.example.android_studio_project.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -55,7 +62,34 @@ class IntroSliderActivity : AppCompatActivity() {
             insets
         }
 
+        val languageSwitcher: ImageView = findViewById(R.id.language_switcher)
+
+        languageSwitcher.setOnClickListener { view ->
+            showLanguagePopup(view)
+
+        }
+
         startAutoNavigation()
+    }
+
+    private fun showLanguagePopup(view: View) {
+        val popup = PopupMenu(this, view)
+        popup.menuInflater.inflate(R.menu.language, popup.menu)
+        popup.setOnMenuItemClickListener { item ->
+            onLanguageSelected(item)
+            true
+        }
+        popup.show()
+    }
+
+    private fun onLanguageSelected(item: MenuItem) {
+        val newLanguage = when (item.itemId) {
+            R.id.language_en -> "en"
+            R.id.language_pt -> "pt"
+            else -> return
+        }
+        LocaleHelper.setLocale(this, newLanguage)
+        recreate()
     }
 
     private fun navigateToLogin() {
