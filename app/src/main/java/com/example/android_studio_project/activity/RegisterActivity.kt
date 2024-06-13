@@ -117,6 +117,8 @@ class RegisterActivity : AppCompatActivity() {
                                     saveLoginState(true)
                                 }
                                 navigateToDashboard()
+                            } else if (responseMessage == "exists") {
+                                Toast.makeText(this, getString(R.string.register_error_username_email), Toast.LENGTH_LONG).show()
                             } else {
                                 Toast.makeText(this, getString(R.string.register_error), Toast.LENGTH_LONG).show()
                             }

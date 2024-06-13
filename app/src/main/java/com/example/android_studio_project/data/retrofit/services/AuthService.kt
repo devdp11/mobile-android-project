@@ -28,7 +28,16 @@ class AuthService(private val context: Context) {
                     userUUID?.let { user.email?.let { it1 -> saveUserData(it1, it) } }
                     onResponse("success")
                 } else {
-                    onFailure(Throwable("Error creating account: ${response.code()}"))
+                    try {
+                        val errorBody = response.errorBody()?.string()
+                        if (errorBody != null && errorBody.contains("exists")) {
+                            onResponse("exists")
+                        } else {
+                            onFailure(Throwable("Error creating account: ${response.code()}"))
+                        }
+                    } catch (e: Exception) {
+                        onFailure(Throwable("Error parsing error response: ${e.message}"))
+                    }
                 }
             }
 

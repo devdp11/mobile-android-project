@@ -40,6 +40,7 @@
     <string name="login_error">Error logging in. Please check your credentials and try again.</string>
     <string name="login_succe">Login successful!</string>
     <string name="register_error">Error registering. Try again.</string>
+    <string name="register_error_username_email">Username or email already exists. Try again.</string>
     <string name="register_succe">Registration successful!</string>
     <string name="fill_fields">Please, fill in all the fields!</string>
     <string name="update_error">Error updating profile. Try again.</string>
