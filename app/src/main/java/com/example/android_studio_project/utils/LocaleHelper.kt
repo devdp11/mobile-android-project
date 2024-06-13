@@ -12,7 +12,19 @@ object LocaleHelper {
         setLocale(context, language ?: "en")
     }
 
-    private fun setLocale(context: Context, languageCode: String) {
+    private fun getSavedLanguagePreference(context: Context): String {
+        val sharedPreferences = context.getSharedPreferences("LanguagePreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("selected_language", "en") ?: "en"
+    }
+
+    private fun saveLanguagePreference(context: Context, language: String) {
+        val sharedPreferences = context.getSharedPreferences("LanguagePreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("selected_language", language)
+        editor.apply()
+    }
+
+    fun setLocale(context: Context, languageCode: String) {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
         val config = context.resources.configuration

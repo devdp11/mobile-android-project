@@ -73,7 +73,7 @@
 
     <string name="save_error">Error saving action!</string>
     <string name="save_succe">Action saved successfully!</string>
-    <string name="succe">Sucess!</string>
+    <string name="succe">Success!</string>
 
     <string name="update_password_error">Error updating password. Try again!</string>
     <string name="update_password_succe">Password updated successfully!</string>
@@ -113,4 +113,5 @@
     <string name="popup_button">Share</string>
 
     <string name="user_not_found">User not Found</string>
+    <string name="no_connection">You are disconneted from the E-World!</string>
 </resources>
