@@ -3,6 +3,7 @@ package com.example.android_studio_project.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
@@ -28,6 +29,10 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var passwordField: EditText
     private var isPasswordVisible: Boolean = false
+
+    private val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +69,9 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin: Button = findViewById(R.id.buttonLogin)
         val linkRegister: TextView = findViewById(R.id.link_register)
         val checkBoxToken: CheckBox = findViewById(R.id.check_box_token)
+
+        val savedEmail = sharedPreferences.getString("user_email", null)
+        email.setText(savedEmail)
 
         linkRegister.setOnClickListener {
             openRegister()
