@@ -21,6 +21,7 @@ import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.AuthService
 import com.example.android_studio_project.data.room.ent.User
 import com.example.android_studio_project.data.room.vm.UserViewModel
+import com.example.android_studio_project.utils.LocaleHelper
 import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
@@ -44,6 +45,7 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
+        LocaleHelper.loadLocale(this)
         authService = AuthService(this)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 

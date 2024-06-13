@@ -9,9 +9,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.android_studio_project.R
+import com.example.android_studio_project.utils.LocaleHelper
 
 class IntroSliderActivity : AppCompatActivity() {
-
+    private lateinit var mainActivity: MainActivity
     private lateinit var navController: NavController
     private val handler = android.os.Handler()
     private val timing = 10000
@@ -29,6 +30,8 @@ class IntroSliderActivity : AppCompatActivity() {
         btnSkip.setOnClickListener {
             navigateToLogin()
         }
+
+        LocaleHelper.loadLocale(this)
 
         val btnBack: Button = findViewById(R.id.btn_back)
         btnBack.setOnClickListener {
