@@ -107,4 +107,5 @@
     <string name="popup_button">Partilhar</string>
 
     <string name="user_not_found">User não encontrado</string>
+    <string name="no_connection">Conexão à internet perdida...</string>
 </resources>

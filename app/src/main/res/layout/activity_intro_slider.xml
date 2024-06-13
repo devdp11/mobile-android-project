@@ -8,7 +8,6 @@
     android:background="@drawable/gradient_background"
     tools:context=".activity.IntroSliderActivity">
 
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="140dp"
@@ -90,5 +89,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/fragment_container_view">
     </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/language_switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/language"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
