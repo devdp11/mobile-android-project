@@ -41,6 +41,7 @@
     <string name="login_error">Erro ao fazer login. Verifique as credenciais e tente novamente.</string>
     <string name="login_succe">Login bem-sucedido!</string>
     <string name="register_error">Erro ao registar. Tente novamente.</string>
+    <string name="register_error_username_email">Username ou email ja existem. Tente novamente.</string>
     <string name="register_succe">Registo bem-sucedido!</string>
     <string name="fill_fields">Por favor, preencha todos os campos!</string>
     <string name="update_error">Erro ao atualizar perfil. Tente novamente.</string>
@@ -100,7 +101,11 @@
 
     <string name="select_language">Selecione o Idioma</string>
 
-    <string name="password_requirements">A palavra-chave deve conter pelo menos:\n- Uma letra maiúscula\n- Uma letra minúscula\n- Um número\n- Um caractere especial</string>
+    <string name="password_requirements_text">A palavra-chave deve conter pelo menos:</string>
+    <string name="password_requirements_one">Uma letra maiúscula</string>
+    <string name="password_requirements_two">Uma letra minúscula</string>
+    <string name="password_requirements_three">Um número</string>
+    <string name="password_requirements_four">Um caracter especial</string>
 
     <string name="popup_title">Partilhar Viagem</string>
     <string name="popup_hint">Email/Username</string>
