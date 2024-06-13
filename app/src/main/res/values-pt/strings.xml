@@ -45,6 +45,7 @@
     <string name="register_succe">Registo bem-sucedido!</string>
     <string name="fill_fields">Por favor, preencha todos os campos!</string>
     <string name="update_error">Erro ao atualizar perfil. Tente novamente.</string>
+    <string name="username_exists_error">Username já existente. Tente novamente.</string>
     <string name="update_succe">Perfil atualizado com sucesso!</string>
     <string name="add_location">Adicionar Local</string>
     <string name="home">Painel Principal</string>
