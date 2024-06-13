@@ -23,6 +23,9 @@ import com.example.android_studio_project.fragment.trip.list_user.list_user_adap
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.*
+import android.graphics.drawable.ColorDrawable
+import android.graphics.Color
+
 
 class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fragment() {
     private lateinit var tripService: TripService
@@ -294,6 +297,9 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
         val addButton = dialogLayout.findViewById<Button>(R.id.btnAddUser)
 
         val dialog = builder.setView(dialogLayout).create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
 
         addButton.setOnClickListener {
             val email = editText.text.toString()
