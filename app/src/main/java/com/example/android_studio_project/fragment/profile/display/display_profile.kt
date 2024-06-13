@@ -87,8 +87,7 @@ class display_profile(private val userEmail: String) : Fragment() {
 
         val logoutBtn: Button = view.findViewById(R.id.logoutBtn)
         logoutBtn.setOnClickListener {
-            saveLoginState(false)
-            navigateToLogin()
+            showConfirmationDialog()
         }
 
         val languageBtn: ImageView = view.findViewById(R.id.language_btn)
@@ -148,6 +147,21 @@ class display_profile(private val userEmail: String) : Fragment() {
         requireActivity().finish()
     }
 
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.logout))
+        builder.setMessage(getString(R.string.logout_desc))
+        builder.setNegativeButton(getString(R.string.no)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+            dialog.dismiss()
+            saveLoginState(false)
+            navigateToLogin()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
     private fun saveLoginState(isLoggedIn: Boolean) {
         val sharedPreferences = requireContext().getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
