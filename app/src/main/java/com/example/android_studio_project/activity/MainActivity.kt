@@ -1,6 +1,8 @@
 package com.example.android_studio_project.activity
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,8 @@ import com.example.android_studio_project.databinding.ActivityMainBinding
 import com.example.android_studio_project.fragment.ot.display_home
 import com.example.android_studio_project.fragment.ot.display_search
 import com.example.android_studio_project.fragment.profile.display.display_profile
+import java.util.Locale
+import com.example.android_studio_project.utils.LocaleHelper
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             Log.e("UncaughtException", "Exception in thread ${thread.name}", throwable)
         }
+
+        LocaleHelper.loadLocale(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -69,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
     }
+
 
     private fun redirectToLogin() {
         val intent = Intent(this, LoginActivity::class.java)

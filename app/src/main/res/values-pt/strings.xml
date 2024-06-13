@@ -99,8 +99,6 @@
     <string name="descending">Decrescente</string>
 
     <string name="select_language">Selecione o Idioma</string>
-    <string name="english">Inglês</string>
-    <string name="portugues">Português</string>
 
     <string name="password_requirements">A palavra-chave deve conter pelo menos:\n- Uma letra maiúscula\n- Uma letra minúscula\n- Um número\n- Um caractere especial</string>
 

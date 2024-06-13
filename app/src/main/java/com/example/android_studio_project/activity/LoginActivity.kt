@@ -19,6 +19,7 @@ import com.example.android_studio_project.data.retrofit.services.AuthService
 import com.example.android_studio_project.data.retrofit.services.UserService
 import com.example.android_studio_project.data.room.ent.User
 import com.example.android_studio_project.data.room.vm.UserViewModel
+import com.example.android_studio_project.utils.LocaleHelper
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var authService: AuthService
@@ -37,6 +38,8 @@ class LoginActivity : AppCompatActivity() {
             navigateToDashboard()
             return
         }
+
+        LocaleHelper.loadLocale(this)
 
         authService = AuthService(this)
         userService = UserService(this)
