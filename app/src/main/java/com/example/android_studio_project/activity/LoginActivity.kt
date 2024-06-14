@@ -4,14 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.android_studio_project.R
@@ -21,6 +18,8 @@ import com.example.android_studio_project.data.retrofit.services.UserService
 import com.example.android_studio_project.data.room.ent.User
 import com.example.android_studio_project.data.room.vm.UserViewModel
 import com.example.android_studio_project.utils.LocaleHelper
+import com.example.android_studio_project.utils.NetworkUtils
+import kotlinx.coroutines.*
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var authService: AuthService
@@ -32,12 +31,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private lateinit var passwordField: EditText
+    private lateinit var imageViewNoInternet: ImageView
     private var isPasswordVisible: Boolean = false
+    private var wasNetworkUnavailable = false
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        monitorNetworkStatus()
 
         if (isLoggedIn()) {
             navigateToDashboard()
@@ -53,6 +57,8 @@ class LoginActivity : AppCompatActivity() {
         userViewModel.deleteAllUsers()
 
         passwordField = findViewById(R.id.editTextPassword)
+        imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
+
         passwordField.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 val drawableEnd = 2
@@ -132,6 +138,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
             }
         }
+
     }
 
     private fun togglePasswordVisibility() {
@@ -173,4 +180,30 @@ class LoginActivity : AppCompatActivity() {
         userService.getUserDetails(email, onResponse, onFailure)
     }
 
+    private fun monitorNetworkStatus() {
+        coroutineScope.launch {
+            while (true) {
+                val isNetworkAvailable = NetworkUtils.isNetworkAvailable(this@LoginActivity)
+                if (isNetworkAvailable) {
+                    if (wasNetworkUnavailable) {
+                        imageViewNoInternet.setImageResource(R.drawable.yes_wifi)
+                        imageViewNoInternet.visibility = android.view.View.VISIBLE
+                        delay(5000)
+                        imageViewNoInternet.visibility = android.view.View.GONE
+                    }
+                    wasNetworkUnavailable = false
+                } else {
+                    imageViewNoInternet.setImageResource(R.drawable.no_wifi)
+                    imageViewNoInternet.visibility = android.view.View.VISIBLE
+                    wasNetworkUnavailable = true
+                }
+                delay(1000)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineScope.cancel()
+    }
 }

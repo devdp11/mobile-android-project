@@ -12,6 +12,7 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,12 @@ import com.example.android_studio_project.data.retrofit.services.AuthService
 import com.example.android_studio_project.data.room.ent.User
 import com.example.android_studio_project.data.room.vm.UserViewModel
 import com.example.android_studio_project.utils.LocaleHelper
+import com.example.android_studio_project.utils.NetworkUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
@@ -33,12 +40,16 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var passwordField: EditText
     private var isPasswordVisible: Boolean = false
+    private lateinit var imageViewNoInternet: ImageView
+    private var wasNetworkUnavailable = false
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        monitorNetworkStatus()
 
         if (isLoggedIn()) {
             navigateToDashboard()
@@ -52,6 +63,7 @@ class RegisterActivity : AppCompatActivity() {
         val btnRegister: Button = findViewById(R.id.buttonRegister)
 
         val linkLogin: TextView = findViewById(R.id.link_login)
+        imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
 
         val checkBoxToken: CheckBox = findViewById(R.id.check_box_token)
 
@@ -177,5 +189,32 @@ class RegisterActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", isLoggedIn)
         editor.apply()
+    }
+
+    private fun monitorNetworkStatus() {
+        coroutineScope.launch {
+            while (true) {
+                val isNetworkAvailable = NetworkUtils.isNetworkAvailable(this@RegisterActivity)
+                if (isNetworkAvailable) {
+                    if (wasNetworkUnavailable) {
+                        imageViewNoInternet.setImageResource(R.drawable.yes_wifi)
+                        imageViewNoInternet.visibility = android.view.View.VISIBLE
+                        delay(5000)
+                        imageViewNoInternet.visibility = android.view.View.GONE
+                    }
+                    wasNetworkUnavailable = false
+                } else {
+                    imageViewNoInternet.setImageResource(R.drawable.no_wifi)
+                    imageViewNoInternet.visibility = android.view.View.VISIBLE
+                    wasNetworkUnavailable = true
+                }
+                delay(1000)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineScope.cancel()
     }
 }
