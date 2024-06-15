@@ -10,6 +10,7 @@ import android.text.InputType
 import android.view.MotionEvent
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
@@ -44,9 +45,14 @@ class LoginActivity : AppCompatActivity() {
         monitorNetworkStatus()
 
         if (isLoggedIn()) {
+            checkAndApplyNightMode()
             navigateToDashboard()
+
             return
         }
+
+        checkAndApplyNightMode()
+
 
         LocaleHelper.loadLocale(this)
 
@@ -112,6 +118,7 @@ class LoginActivity : AppCompatActivity() {
                                         saveLoginState(true)
                                     }
                                     Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
+                                    checkAndApplyNightMode()
                                     navigateToDashboard()
                                 }
                             } else {
@@ -168,6 +175,19 @@ class LoginActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean("isLoggedIn", false)
     }
+
+    private fun checkAndApplyNightMode() {
+        val sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+
 
     private fun saveLoginState(isLoggedIn: Boolean) {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)

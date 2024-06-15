@@ -40,5 +40,6 @@
     <color name="calendarColor">#ffffff</color>
     <color name="backbtnColor">#ffffff</color>
     <color name="black_white">#ffffff</color>
+    <color name="loginTitle">#ffffff</color>
 
 </resources>
