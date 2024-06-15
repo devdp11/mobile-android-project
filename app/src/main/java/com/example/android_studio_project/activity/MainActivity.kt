@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     if (isConnected) {
                         if (userEmail != null && userUUID != null) {
-                            replaceFragment(display_home(userEmail, userUUID))
+                            replaceFragment(display_home.newInstance(userEmail, userUUID))
                         } else {
                             redirectToLogin()
                         }
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
                     if (userEmail != null) {
-                        replaceFragment(display_profile(userEmail))
+                        replaceFragment(display_profile.newInstance(userEmail))
                     } else {
                         redirectToLogin()
                     }

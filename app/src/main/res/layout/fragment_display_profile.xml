@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/profile"
             android:layout_centerInParent="true"
-            android:textColor="@color/black"
+            android:textColor="@color/colorProfileText"
             android:textStyle="bold"
             android:textSize="24sp"
             android:fontFamily="@font/roboto" />
@@ -71,7 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/dark_gray" />
+                android:textColor="@color/colorProfileText" />
 
             <TextView
                 android:id="@+id/user_mail"
@@ -80,7 +80,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:textSize="14sp"
-                android:textColor="@color/dark_gray" />
+                android:textColor="@color/colorProfileText" />
 
             <Button
                 android:id="@+id/btn_edit"
@@ -122,18 +122,20 @@
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/mode"
                         android:text="@string/night_mode"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorProfileText"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/night_mode_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:switchMinWidth="50dp"
-                        app:trackTint="#9c9c9c"
-                        android:theme="@style/nightmodeswitch" />
+                        android:theme="@style/nightmodeswitch"
+                        app:trackTint="#9c9c9c" />
+
 
                 </RelativeLayout>
 
@@ -157,7 +159,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/notifications"
                         android:text="@string/notification"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorProfileText"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -203,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/security_privacy"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorProfileText"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_toEndOf="@id/security" />
@@ -237,7 +239,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/language"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorProfileText"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_toEndOf="@id/language" />
@@ -250,7 +252,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:clickable="true"
-                        android:focusable="true" />
+                        android:focusable="true"
+                        />
 
                 </RelativeLayout>
 

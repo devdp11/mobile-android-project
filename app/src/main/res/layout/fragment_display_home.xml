@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/home"
             android:layout_centerInParent="true"
-            android:textColor="@color/black"
+            android:textColor="@color/colorHomeTitle"
             android:textStyle="bold"
             android:textSize="24sp"
             android:fontFamily="@font/roboto" />
