@@ -55,8 +55,6 @@ class LoginActivity : AppCompatActivity() {
         userService = UserService(this)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        userViewModel.deleteAllUsers()
-
         passwordField = findViewById(R.id.editTextPassword)
         imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
         btnLogin = findViewById(R.id.buttonLogin)
@@ -94,26 +92,28 @@ class LoginActivity : AppCompatActivity() {
                     if (success) {
                         getUserDetails(emailText, onResponse = { user ->
                             if (user != null) {
-                                val userEntity = user.uuid?.let { it1 ->
-                                    User(
-                                        uuid = it1,
-                                        firstName = user.firstName,
-                                        lastName = user.lastName,
-                                        username = user.username,
-                                        avatar = user.avatar,
-                                        email = user.email,
-                                        password = passwordText
-                                    )
-                                }
-                                if (userEntity != null) {
-                                    userViewModel.addUser(userEntity)
-                                }
-                                runOnUiThread {
-                                    if (rememberMe) {
-                                        saveLoginState(true)
+                                userViewModel.deleteAllUsers {
+                                    val userEntity = user.uuid?.let { it1 ->
+                                        User(
+                                            uuid = it1,
+                                            firstName = user.firstName,
+                                            lastName = user.lastName,
+                                            username = user.username,
+                                            avatar = user.avatar,
+                                            email = user.email,
+                                            password = passwordText
+                                        )
                                     }
-                                    Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
-                                    navigateToDashboard()
+                                    if (userEntity != null) {
+                                        userViewModel.addUser(userEntity)
+                                    }
+                                    runOnUiThread {
+                                        if (rememberMe) {
+                                            saveLoginState(true)
+                                        }
+                                        Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
+                                        navigateToDashboard()
+                                    }
                                 }
                             } else {
                                 runOnUiThread {

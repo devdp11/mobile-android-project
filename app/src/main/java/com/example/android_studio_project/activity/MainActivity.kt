@@ -3,7 +3,6 @@ package com.example.android_studio_project.activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +15,6 @@ import com.example.android_studio_project.fragment.no_wifi
 import com.example.android_studio_project.fragment.ot.display_home
 import com.example.android_studio_project.fragment.ot.display_search
 import com.example.android_studio_project.fragment.profile.display.display_profile
-import java.util.Locale
 import com.example.android_studio_project.utils.LocaleHelper
 import com.example.android_studio_project.utils.NetworkUtils
 import android.content.BroadcastReceiver
