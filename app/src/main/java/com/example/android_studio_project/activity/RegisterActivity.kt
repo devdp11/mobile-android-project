@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import android.widget.Button
@@ -44,6 +45,8 @@ class RegisterActivity : AppCompatActivity() {
     private var wasNetworkUnavailable = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
+    private lateinit var btnRegister : Button
+
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
         authService = AuthService(this)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        val btnRegister: Button = findViewById(R.id.buttonRegister)
+        btnRegister = findViewById(R.id.buttonRegister)
 
         val linkLogin: TextView = findViewById(R.id.link_login)
         imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
@@ -198,14 +201,16 @@ class RegisterActivity : AppCompatActivity() {
                 if (isNetworkAvailable) {
                     if (wasNetworkUnavailable) {
                         imageViewNoInternet.setImageResource(R.drawable.yes_wifi)
-                        imageViewNoInternet.visibility = android.view.View.VISIBLE
+                        imageViewNoInternet.visibility = View.VISIBLE
                         delay(5000)
-                        imageViewNoInternet.visibility = android.view.View.GONE
+                        imageViewNoInternet.visibility = View.GONE
                     }
+                    btnRegister.isEnabled = true
                     wasNetworkUnavailable = false
                 } else {
                     imageViewNoInternet.setImageResource(R.drawable.no_wifi)
-                    imageViewNoInternet.visibility = android.view.View.VISIBLE
+                    imageViewNoInternet.visibility = View.VISIBLE
+                    btnRegister.isEnabled = false
                     wasNetworkUnavailable = true
                 }
                 delay(1000)
