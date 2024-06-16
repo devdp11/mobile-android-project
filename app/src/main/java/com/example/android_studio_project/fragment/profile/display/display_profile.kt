@@ -30,6 +30,7 @@ class display_profile : Fragment() {
 
     private lateinit var userService: UserService
     private lateinit var nightModeSwitch: SwitchCompat
+    private var userEmail: String? = null
 
     companion object {
         private const val ARG_USER_EMAIL = "userEmail"
@@ -42,8 +43,6 @@ class display_profile : Fragment() {
             return fragment
         }
     }
-
-    private var userEmail: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,6 +148,9 @@ class display_profile : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putBoolean("NightMode", isNightMode)
         editor.apply()
+
+
+        requireActivity().recreate()
     }
 
     private fun showLanguageDialog() {

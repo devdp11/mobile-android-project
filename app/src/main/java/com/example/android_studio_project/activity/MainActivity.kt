@@ -41,7 +41,17 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         super.onCreate(savedInstanceState)
+
 
 
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
@@ -62,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         if (userEmail != null && userUUID != null) {
             replaceFragment(display_home(userEmail, userUUID))
+
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
