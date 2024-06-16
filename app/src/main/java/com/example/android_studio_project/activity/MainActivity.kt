@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var authService: AuthService
 
+    private var currentFragmentTag: String? = null
+
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == ConnectivityManager.CONNECTIVITY_ACTION) {
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         val userUUID = authService.getUserUUID()
 
         if (userEmail != null && userUUID != null) {
-            replaceFragment(display_home(userEmail, userUUID))
+            replaceFragment(display_home(userEmail, userUUID), "home")
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
@@ -58,28 +60,28 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     if (isConnected) {
                         if (userEmail != null && userUUID != null) {
-                            replaceFragment(display_home(userEmail, userUUID))
+                            replaceFragment(display_home(userEmail, userUUID), "home")
                         } else {
                             redirectToLogin()
                         }
                     } else {
-                        replaceFragment(no_wifi())
+                        replaceFragment(no_wifi(), "no_wifi")
                     }
                 }
                 R.id.search -> {
                     if (isConnected) {
                         if (userEmail != null) {
-                            userUUID?.let { display_search(userEmail, it) }?.let { replaceFragment(it) }
+                            userUUID?.let { display_search(userEmail, it) }?.let { replaceFragment(it, "search") }
                         } else {
                             redirectToLogin()
                         }
                     } else {
-                        replaceFragment(no_wifi())
+                        replaceFragment(no_wifi(), "no_wifi")
                     }
                 }
                 R.id.profile -> {
                     if (userEmail != null) {
-                        replaceFragment(display_profile(userEmail))
+                        replaceFragment(display_profile(userEmail), "profile")
                     } else {
                         redirectToLogin()
                     }
@@ -94,27 +96,44 @@ class MainActivity : AppCompatActivity() {
         updateConnectionState()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateConnectionState()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(networkChangeReceiver)
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.commit()
+    private fun replaceFragment(fragment: Fragment, tag: String) {
+        if (currentFragmentTag != tag) {
+            currentFragmentTag = tag
+            val fragmentManager = supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.frame_layout, fragment, tag)
+            fragmentTransaction.commit()
+        }
     }
 
     private fun updateConnectionState() {
-        if (NetworkUtils.isNetworkAvailable(this)) {
+        val isConnected = NetworkUtils.isNetworkAvailable(this)
+        if (isConnected) {
             val userEmail = authService.getUserEmail()
             val userUUID = authService.getUserUUID()
             if (userEmail != null && userUUID != null) {
-                replaceFragment(display_home(userEmail, userUUID))
+                when (currentFragmentTag) {
+                    "home" -> replaceFragment(display_home(userEmail, userUUID), "home")
+                    "search" -> replaceFragment(display_search(userEmail, userUUID), "search")
+                    "profile" -> replaceFragment(display_profile(userEmail), "profile")
+                    else -> replaceFragment(display_home(userEmail, userUUID), "home")
+                }
             }
         } else {
-            replaceFragment(no_wifi())
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+            if (currentFragment !is display_profile) {
+                replaceFragment(no_wifi(), "no_wifi")
+            }
         }
     }
 
