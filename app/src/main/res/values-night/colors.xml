@@ -41,5 +41,6 @@
     <color name="backbtnColor">#ffffff</color>
     <color name="black_white">#ffffff</color>
     <color name="loginTitle">#ffffff</color>
+    <color name="btnAddTrip">#27683D</color>
 
 </resources>

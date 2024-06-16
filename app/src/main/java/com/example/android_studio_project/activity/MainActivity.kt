@@ -20,10 +20,16 @@ import java.util.Locale
 import com.example.android_studio_project.utils.LocaleHelper
 import com.example.android_studio_project.utils.NetworkUtils
 import android.content.BroadcastReceiver
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var authService: AuthService
+
+    private val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+    }
+
 
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -33,8 +39,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             Log.e("UncaughtException", "Exception in thread ${thread.name}", throwable)
@@ -49,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 
         val userEmail = authService.getUserEmail()
         val userUUID = authService.getUserUUID()
+
+
 
         if (userEmail != null && userUUID != null) {
             replaceFragment(display_home(userEmail, userUUID))
@@ -96,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         updateConnectionState()
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(networkChangeReceiver)
@@ -125,4 +136,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
+
+
+
 }

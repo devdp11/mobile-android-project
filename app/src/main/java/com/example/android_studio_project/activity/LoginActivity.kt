@@ -40,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        checkAndApplyNightMode()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         monitorNetworkStatus()
@@ -50,8 +52,6 @@ class LoginActivity : AppCompatActivity() {
 
             return
         }
-
-        checkAndApplyNightMode()
 
 
         LocaleHelper.loadLocale(this)
@@ -173,12 +173,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isLoggedIn(): Boolean {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+
+
         return sharedPreferences.getBoolean("isLoggedIn", false)
+
+
     }
 
     private fun checkAndApplyNightMode() {
-        val sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+        val settingsPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val isNightMode = settingsPreferences.getBoolean("NightMode", false)
 
         if (isNightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

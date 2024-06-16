@@ -46,6 +46,8 @@ class display_home(private val userEmail: String, private val userUUID: String) 
         return view
     }
 
+
+
     private fun openEditTripFragment(tripUuid: UUID, userUUID: String?) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, edit_trip.newInstance(tripUuid, userUUID))
@@ -70,4 +72,6 @@ class display_home(private val userEmail: String, private val userUUID: String) 
             return display_home(userEmail, userUUID)
         }
     }
+
+
 }

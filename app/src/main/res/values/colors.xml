@@ -39,7 +39,8 @@
     <color name="rowLocationColor">#000000</color>
     <color name="calendarColor">#000000</color>
     <color name="backbtnColor">#000000</color>
-    <color name="black_white">#000000</color> //meter tudo pra este talvez loginTitle
+    <color name="black_white">#000000</color>
     <color name="loginTitle">#351431</color>
+    <color name="btnAddTrip">#A7BEAE</color>
 
 </resources>
