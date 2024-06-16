@@ -61,44 +61,13 @@ class edit_profile(private val userEmail: String) : Fragment() {
 
         val backButton: ImageView = view.findViewById(R.id.btn_back)
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, display_profile.newInstance(userEmail))
-                .commit()
+            requireActivity().onBackPressed()
         }
 
         val cancelButton: Button = view.findViewById(R.id.cancel_btn)
         cancelButton.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, display_profile.newInstance(userEmail))
-                .commit()
+            requireActivity().onBackPressed()
         }
-
-        userService.getUserDetails(
-            onResponse = { userDetails ->
-                userDetails?.let {
-                    ViewFirstName.text = userDetails.firstName?.toEditable()
-                    ViewLastName.text = userDetails.lastName?.toEditable()
-                    ViewUsername.text = userDetails.username?.toEditable()
-                    textViewEmail.text = userDetails.email ?: ""
-
-                    val userAvatarBase64: String? = userDetails.avatar
-
-                    if (!userAvatarBase64.isNullOrEmpty()) {
-                        val userAvatarUrl = Base64.decode(userAvatarBase64, Base64.DEFAULT)
-                        Glide.with(this)
-                            .asBitmap()
-                            .load(userAvatarUrl)
-                            .into(imageViewAvatar)
-                    } else {
-                        imageViewAvatar.setImageResource(R.drawable.default_image)
-                    }
-
-                }
-            },
-            onFailure = { error ->
-                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
-            }
-        )
 
         imageViewAvatar.setOnClickListener {
             openGalleryForImage()

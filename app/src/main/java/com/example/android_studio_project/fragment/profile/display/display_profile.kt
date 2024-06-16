@@ -57,8 +57,6 @@ class display_profile(private val userEmail: String) : Fragment() {
         textViewEmail = view.findViewById(R.id.user_mail)
         imageViewAvatar = view.findViewById(R.id.user_avatar)
 
-        monitorNetworkStatus()
-
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userService = UserService(requireContext())
 
@@ -87,6 +85,12 @@ class display_profile(private val userEmail: String) : Fragment() {
         languageBtn.setOnClickListener {
             showLanguageDialog()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userDetailsLoaded = false
+        monitorNetworkStatus()
     }
 
     private fun showLanguageDialog() {
