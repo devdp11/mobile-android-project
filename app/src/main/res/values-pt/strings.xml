@@ -106,7 +106,7 @@
     <string name="password_requirements_one">Uma letra maiúscula</string>
     <string name="password_requirements_two">Uma letra minúscula</string>
     <string name="password_requirements_three">Um número</string>
-    <string name="password_requirements_four">Um caracter especial</string>
+    <string name="password_requirements_four">Um caracter especial (@#$%^&amp;+=!_)</string>
 
     <string name="popup_title">Partilhar Viagem</string>
     <string name="popup_hint">Email/Username</string>

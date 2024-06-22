@@ -31,6 +31,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
+import com.example.android_studio_project.fragment.ot.password_details
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -84,6 +85,11 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
             false
+        }
+
+        val passwordDetailsIcon: ImageView = findViewById(R.id.password_details)
+        passwordDetailsIcon.setOnClickListener {
+            showPasswordRequirementsDialog(passwordField.text.toString())
         }
 
         btnRegister.setOnClickListener {
@@ -190,6 +196,11 @@ class RegisterActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", isLoggedIn)
         editor.apply()
+    }
+
+    private fun showPasswordRequirementsDialog(password: String) {
+        val dialog = password_details.newInstance(password)
+        dialog.show(supportFragmentManager, "PasswordDetailsDialog")
     }
 
     private fun monitorNetworkStatus() {
