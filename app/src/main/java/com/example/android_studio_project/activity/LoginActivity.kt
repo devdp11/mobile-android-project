@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
@@ -40,14 +41,19 @@ class LoginActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        checkAndApplyNightMode()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         monitorNetworkStatus()
 
         if (isLoggedIn()) {
+            checkAndApplyNightMode()
             navigateToDashboard()
+
             return
         }
+
 
         LocaleHelper.loadLocale(this)
 
@@ -113,6 +119,10 @@ class LoginActivity : AppCompatActivity() {
                                         Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
                                         navigateToDashboard()
                                     }
+                                    Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
+                                    checkAndApplyNightMode()
+                                    navigateToDashboard()
+
                                 }
                             } else {
                                 runOnUiThread {
@@ -165,8 +175,25 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isLoggedIn(): Boolean {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+
+
         return sharedPreferences.getBoolean("isLoggedIn", false)
+
+
     }
+
+    private fun checkAndApplyNightMode() {
+        val settingsPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val isNightMode = settingsPreferences.getBoolean("NightMode", false)
+
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+
 
     private fun saveLoginState(isLoggedIn: Boolean) {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)

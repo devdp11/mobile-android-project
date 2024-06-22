@@ -3,6 +3,7 @@ package com.example.android_studio_project.fragment.profile.display
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import android.util.Base64
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.UserService
@@ -32,8 +35,32 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
 
-class display_profile(private val userEmail: String) : Fragment() {
+class display_profile : Fragment() {
+
     private lateinit var userService: UserService
+
+    private lateinit var nightModeSwitch: SwitchCompat
+    private var userEmail: String? = null
+
+    companion object {
+        private const val ARG_USER_EMAIL = "userEmail"
+
+        fun newInstance(userEmail: String): display_profile {
+            val fragment = display_profile()
+            val args = Bundle()
+            args.putString(ARG_USER_EMAIL, userEmail)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            userEmail = it.getString(ARG_USER_EMAIL)
+        }
+    }
+
     private lateinit var userViewModel: UserViewModel
     private lateinit var textViewName : TextView
     private lateinit var textViewEmail : TextView
@@ -42,6 +69,7 @@ class display_profile(private val userEmail: String) : Fragment() {
     private var userUUID: UUID? = null
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +91,7 @@ class display_profile(private val userEmail: String) : Fragment() {
         val editProfile: Button = view.findViewById(R.id.btn_edit)
         editProfile.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, edit_profile.newInstance(userEmail))
+                .replace(R.id.frame_layout, edit_profile.newInstance(userEmail ?: ""))
                 .addToBackStack(null)
                 .commit()
         }
@@ -71,11 +99,65 @@ class display_profile(private val userEmail: String) : Fragment() {
         val editPassword: ImageView = view.findViewById(R.id.security_btn)
         editPassword.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, edit_password.newInstance(userEmail))
+                .replace(R.id.frame_layout, edit_password.newInstance(userEmail ?: ""))
                 .addToBackStack(null)
                 .commit()
         }
 
+        userService = UserService(requireContext())
+
+        val textViewName: TextView = view.findViewById(R.id.user_name)
+        val textViewEmail: TextView = view.findViewById(R.id.user_mail)
+        val imageViewAvatar: ImageView = view.findViewById(R.id.user_avatar)
+
+        userService.getUserDetails(
+            onResponse = { userDetails ->
+                if (isAdded) {
+                    userDetails?.let {
+                        textViewName.text = userDetails.firstName ?: ""
+                        textViewEmail.text = userDetails.email ?: ""
+
+                        val userAvatarBase64: String? = userDetails.avatar
+
+                        if (!userAvatarBase64.isNullOrEmpty()) {
+                            val userAvatarBytes = Base64.decode(userAvatarBase64, Base64.DEFAULT)
+                            Glide.with(this)
+                                .load(userAvatarBytes)
+                                .into(imageViewAvatar)
+                        } else {
+                            imageViewAvatar.setImageResource(R.drawable.default_image)
+                        }
+                    }
+                }
+            },
+            onFailure = {
+                if (isAdded) {
+                    Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
+
+        nightModeSwitch = view.findViewById(R.id.night_mode_switch)
+
+        val sharedPreferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+        nightModeSwitch.isChecked = isNightMode
+
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+        nightModeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                saveNightModeState(true)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                saveNightModeState(false)
+            }
+        }
         val logoutBtn: Button = view.findViewById(R.id.logoutBtn)
         logoutBtn.setOnClickListener {
             showConfirmationDialog()
@@ -87,10 +169,20 @@ class display_profile(private val userEmail: String) : Fragment() {
         }
     }
 
+    private fun saveNightModeState(isNightMode: Boolean) {
+        val sharedPreferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("NightMode", isNightMode)
+        editor.apply()
+
+
+        requireActivity().recreate()
+
     override fun onResume() {
         super.onResume()
         userDetailsLoaded = false
         monitorNetworkStatus()
+
     }
 
     private fun showLanguageDialog() {
@@ -255,6 +347,7 @@ class display_profile(private val userEmail: String) : Fragment() {
         requireActivity().finish()
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         coroutineScope.cancel()
@@ -265,4 +358,5 @@ class display_profile(private val userEmail: String) : Fragment() {
             return display_profile(userEmail)
         }
     }
+
 }

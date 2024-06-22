@@ -18,12 +18,19 @@ import com.example.android_studio_project.fragment.profile.display.display_profi
 import com.example.android_studio_project.utils.LocaleHelper
 import com.example.android_studio_project.utils.NetworkUtils
 import android.content.BroadcastReceiver
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var authService: AuthService
 
+
+    private val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+    }
+
     private var currentFragmentTag: String? = null
+
 
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -34,6 +41,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         super.onCreate(savedInstanceState)
 
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
@@ -60,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     if (isConnected) {
                         if (userEmail != null && userUUID != null) {
-                            replaceFragment(display_home(userEmail, userUUID), "home")
+                            replaceFragment(display_home.newInstance(userEmail, userUUID))
                         } else {
                             redirectToLogin()
                         }
@@ -81,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
                     if (userEmail != null) {
-                        replaceFragment(display_profile(userEmail), "profile")
+                        replaceFragment(display_profile.newInstance(userEmail))
                     } else {
                         redirectToLogin()
                     }
@@ -106,14 +122,15 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(networkChangeReceiver)
     }
 
-    fun replaceFragment(fragment: Fragment, tag: String) {
-        if (currentFragmentTag != tag) {
-            currentFragmentTag = tag
-            val fragmentManager = supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.frame_layout, fragment, tag)
-            fragmentTransaction.commit()
-        }
+
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        fragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
     private fun updateConnectionState() {
