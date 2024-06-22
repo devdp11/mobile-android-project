@@ -3,7 +3,6 @@ package com.example.android_studio_project.fragment.profile.display
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +14,7 @@ import android.widget.TextView
 import android.util.Base64
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
@@ -35,32 +35,9 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
 
-class display_profile : Fragment() {
-
+class display_profile() : Fragment() { // Construtor vazio público adicionado
     private lateinit var userService: UserService
-
     private lateinit var nightModeSwitch: SwitchCompat
-    private var userEmail: String? = null
-
-    companion object {
-        private const val ARG_USER_EMAIL = "userEmail"
-
-        fun newInstance(userEmail: String): display_profile {
-            val fragment = display_profile()
-            val args = Bundle()
-            args.putString(ARG_USER_EMAIL, userEmail)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            userEmail = it.getString(ARG_USER_EMAIL)
-        }
-    }
-
     private lateinit var userViewModel: UserViewModel
     private lateinit var textViewName : TextView
     private lateinit var textViewEmail : TextView
@@ -70,6 +47,7 @@ class display_profile : Fragment() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
+    private lateinit var userEmail: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,73 +59,16 @@ class display_profile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userEmail = arguments?.getString(ARG_USER_EMAIL) ?: ""
+
         textViewName = view.findViewById(R.id.user_name)
         textViewEmail = view.findViewById(R.id.user_mail)
         imageViewAvatar = view.findViewById(R.id.user_avatar)
 
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        userService = UserService(requireContext())
-
-        val editProfile: Button = view.findViewById(R.id.btn_edit)
-        editProfile.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, edit_profile.newInstance(userEmail ?: ""))
-                .addToBackStack(null)
-                .commit()
-        }
-
-        val editPassword: ImageView = view.findViewById(R.id.security_btn)
-        editPassword.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, edit_password.newInstance(userEmail ?: ""))
-                .addToBackStack(null)
-                .commit()
-        }
-
-        userService = UserService(requireContext())
-
-        val textViewName: TextView = view.findViewById(R.id.user_name)
-        val textViewEmail: TextView = view.findViewById(R.id.user_mail)
-        val imageViewAvatar: ImageView = view.findViewById(R.id.user_avatar)
-
-        userService.getUserDetails(
-            onResponse = { userDetails ->
-                if (isAdded) {
-                    userDetails?.let {
-                        textViewName.text = userDetails.firstName ?: ""
-                        textViewEmail.text = userDetails.email ?: ""
-
-                        val userAvatarBase64: String? = userDetails.avatar
-
-                        if (!userAvatarBase64.isNullOrEmpty()) {
-                            val userAvatarBytes = Base64.decode(userAvatarBase64, Base64.DEFAULT)
-                            Glide.with(this)
-                                .load(userAvatarBytes)
-                                .into(imageViewAvatar)
-                        } else {
-                            imageViewAvatar.setImageResource(R.drawable.default_image)
-                        }
-                    }
-                }
-            },
-            onFailure = {
-                if (isAdded) {
-                    Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
-                }
-            }
-        )
-
         nightModeSwitch = view.findViewById(R.id.night_mode_switch)
-
         val sharedPreferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val isNightMode = sharedPreferences.getBoolean("NightMode", false)
         nightModeSwitch.isChecked = isNightMode
-
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
 
         nightModeSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -158,6 +79,26 @@ class display_profile : Fragment() {
                 saveNightModeState(false)
             }
         }
+
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        userService = UserService(requireContext())
+
+        val editProfile: Button = view.findViewById(R.id.btn_edit)
+        editProfile.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, edit_profile.newInstance(userEmail))
+                .addToBackStack(null)
+                .commit()
+        }
+
+        val editPassword: ImageView = view.findViewById(R.id.security_btn)
+        editPassword.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, edit_password.newInstance(userEmail))
+                .addToBackStack(null)
+                .commit()
+        }
+
         val logoutBtn: Button = view.findViewById(R.id.logoutBtn)
         logoutBtn.setOnClickListener {
             showConfirmationDialog()
@@ -169,20 +110,19 @@ class display_profile : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        userDetailsLoaded = false
+        monitorNetworkStatus()
+    }
+
     private fun saveNightModeState(isNightMode: Boolean) {
         val sharedPreferences = requireContext().getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean("NightMode", isNightMode)
         editor.apply()
 
-
         requireActivity().recreate()
-
-    override fun onResume() {
-        super.onResume()
-        userDetailsLoaded = false
-        monitorNetworkStatus()
-
     }
 
     private fun showLanguageDialog() {
@@ -277,6 +217,7 @@ class display_profile : Fragment() {
         dialog.show()
     }
 
+
     private fun getUserDetails() {
         if (userDetailsLoaded) return
 
@@ -327,8 +268,6 @@ class display_profile : Fragment() {
                     } else {
                         imageViewAvatar.setImageResource(R.drawable.default_image)
                     }
-
-                    userDetailsLoaded = true
                 }
             }
         }
@@ -347,16 +286,20 @@ class display_profile : Fragment() {
         requireActivity().finish()
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         coroutineScope.cancel()
     }
 
     companion object {
+        private const val ARG_USER_EMAIL = "user_email"
+
         fun newInstance(userEmail: String): display_profile {
-            return display_profile(userEmail)
+            val fragment = display_profile()
+            val args = Bundle()
+            args.putString(ARG_USER_EMAIL, userEmail)
+            fragment.arguments = args
+            return fragment
         }
     }
-
 }

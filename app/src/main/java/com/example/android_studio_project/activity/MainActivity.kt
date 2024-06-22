@@ -18,6 +18,7 @@ import com.example.android_studio_project.fragment.profile.display.display_profi
 import com.example.android_studio_project.utils.LocaleHelper
 import com.example.android_studio_project.utils.NetworkUtils
 import android.content.BroadcastReceiver
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var currentFragmentTag: String? = null
-
 
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     if (isConnected) {
                         if (userEmail != null && userUUID != null) {
-                            replaceFragment(display_home.newInstance(userEmail, userUUID))
+                            replaceFragment(display_home.newInstance(userEmail, userUUID), "home")
                         } else {
                             redirectToLogin()
                         }
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
                     if (userEmail != null) {
-                        replaceFragment(display_profile.newInstance(userEmail))
+                        replaceFragment(display_profile.newInstance(userEmail), "profile")
                     } else {
                         redirectToLogin()
                     }
@@ -123,15 +123,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        fragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    fun replaceFragment(fragment: Fragment, tag: String) {
+        if (currentFragmentTag != tag) {
+            currentFragmentTag = tag
+            val fragmentManager = supportFragmentManager
+            fragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.frame_layout, fragment, tag)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
     }
+
 
     private fun updateConnectionState() {
         val isConnected = NetworkUtils.isNetworkAvailable(this)
@@ -140,10 +144,10 @@ class MainActivity : AppCompatActivity() {
             val userUUID = authService.getUserUUID()
             if (userEmail != null && userUUID != null) {
                 when (currentFragmentTag) {
-                    "home" -> replaceFragment(display_home(userEmail, userUUID), "home")
-                    "search" -> replaceFragment(display_search(userEmail, userUUID), "search")
-                    "profile" -> replaceFragment(display_profile(userEmail), "profile")
-                    else -> replaceFragment(display_home(userEmail, userUUID), "home")
+                    "home" -> replaceFragment(display_home.newInstance(userEmail, userUUID), "home")
+                    "search" -> replaceFragment(display_search.newInstance(userEmail, userUUID), "search")
+                    "profile" -> replaceFragment(display_profile.newInstance(userEmail), "profile")
+                    else -> replaceFragment(display_home.newInstance(userEmail, userUUID), "home")
                 }
             }
         } else {

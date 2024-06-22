@@ -41,29 +41,27 @@ class LoginActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         checkAndApplyNightMode()
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        passwordField = findViewById(R.id.editTextPassword)
+        imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
+        btnLogin = findViewById(R.id.buttonLogin)
+
         monitorNetworkStatus()
 
         if (isLoggedIn()) {
-            checkAndApplyNightMode()
             navigateToDashboard()
-
             return
         }
-
 
         LocaleHelper.loadLocale(this)
 
         authService = AuthService(this)
         userService = UserService(this)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-
-        passwordField = findViewById(R.id.editTextPassword)
-        imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
-        btnLogin = findViewById(R.id.buttonLogin)
 
         passwordField.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -77,7 +75,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val email: EditText = findViewById(R.id.editTextEmail)
-        val password = passwordField
         val linkRegister: TextView = findViewById(R.id.link_register)
         val checkBoxToken: CheckBox = findViewById(R.id.check_box_token)
 
@@ -90,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             val emailText = email.text.toString()
-            val passwordText = password.text.toString()
+            val passwordText = passwordField.text.toString()
             val rememberMe = checkBoxToken.isChecked
 
             if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
@@ -119,10 +116,6 @@ class LoginActivity : AppCompatActivity() {
                                         Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
                                         navigateToDashboard()
                                     }
-                                    Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
-                                    checkAndApplyNightMode()
-                                    navigateToDashboard()
-
                                 }
                             } else {
                                 runOnUiThread {
@@ -175,11 +168,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isLoggedIn(): Boolean {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
-
-
         return sharedPreferences.getBoolean("isLoggedIn", false)
-
-
     }
 
     private fun checkAndApplyNightMode() {
@@ -192,8 +181,6 @@ class LoginActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
-
-
 
     private fun saveLoginState(isLoggedIn: Boolean) {
         val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
@@ -210,20 +197,23 @@ class LoginActivity : AppCompatActivity() {
         coroutineScope.launch {
             while (true) {
                 val isNetworkAvailable = NetworkUtils.isNetworkAvailable(this@LoginActivity)
-                if (isNetworkAvailable) {
-                    if (wasNetworkUnavailable) {
-                        imageViewNoInternet.setImageResource(R.drawable.yes_wifi)
+                runOnUiThread {
+                    if (isNetworkAvailable) {
+                        if (wasNetworkUnavailable) {
+                            imageViewNoInternet.setImageResource(R.drawable.yes_wifi)
+                            imageViewNoInternet.visibility = View.VISIBLE
+                            imageViewNoInternet.postDelayed({
+                                imageViewNoInternet.visibility = View.GONE
+                            }, 5000)
+                        }
+                        btnLogin.isEnabled = true
+                        wasNetworkUnavailable = false
+                    } else {
+                        imageViewNoInternet.setImageResource(R.drawable.no_wifi)
                         imageViewNoInternet.visibility = View.VISIBLE
-                        delay(5000)
-                        imageViewNoInternet.visibility = View.GONE
+                        btnLogin.isEnabled = false
+                        wasNetworkUnavailable = true
                     }
-                    btnLogin.isEnabled = true
-                    wasNetworkUnavailable = false
-                } else {
-                    imageViewNoInternet.setImageResource(R.drawable.no_wifi)
-                    imageViewNoInternet.visibility = View.VISIBLE
-                    btnLogin.isEnabled = false
-                    wasNetworkUnavailable = true
                 }
                 delay(1000)
             }
