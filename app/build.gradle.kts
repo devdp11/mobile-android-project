@@ -69,10 +69,6 @@ dependencies {
     implementation ("com.google.android.material:material:1.8.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
 
-    //nightmode
-    implementation ("androidx.appcompat:appcompat:1.3.1")
-    implementation ("androidx.appcompat:appcompat-resources:1.3.1")
-
     // room
     implementation("androidx.room:room-common:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")

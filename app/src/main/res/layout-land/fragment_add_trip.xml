@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_trip"
             android:layout_centerInParent="true"
-            android:textColor="@color/black_white"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="24sp"
             android:fontFamily="@font/roboto" />

@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/popup_button"
-            android:backgroundTint="@color/colorTripCard"
+            android:backgroundTint="#A7BEAE"
             style="@style/Widget.MaterialComponents.Button"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
