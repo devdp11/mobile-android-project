@@ -46,8 +46,6 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
     private var tripStartDate: String? = null
     private var tripEndDate: String? = null
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

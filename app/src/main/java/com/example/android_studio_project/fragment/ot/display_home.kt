@@ -1,13 +1,10 @@
 package com.example.android_studio_project.fragment.ot
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +20,6 @@ class display_home(private val userEmail: String, private val userUUID: String) 
     private lateinit var tripService: TripService
     private lateinit var displayHomeAdapter: display_home_adapter
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +34,6 @@ class display_home(private val userEmail: String, private val userUUID: String) 
 
         tripService = TripService(requireContext())
         getTrips()
-
 
         val addButton: FloatingActionButton = view.findViewById(R.id.btn_add)
         addButton.setOnClickListener {
@@ -75,6 +70,4 @@ class display_home(private val userEmail: String, private val userUUID: String) 
             return display_home(userEmail, userUUID)
         }
     }
-
-
 }

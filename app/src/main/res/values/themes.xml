@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme -->
-    <style name="Theme.AppCompat.DayNight" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Androidstudioproject" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color -->
         <item name="colorPrimary">#351431</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -9,7 +9,6 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-
         <!-- Status bar color -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here -->
@@ -27,7 +26,7 @@
     </style>
 
     <style name="ThemeOverlay.App.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
-        <item name="colorPrimary">@color/datepickerColor</item>
+        <item name="colorPrimary">@color/main</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
@@ -36,7 +35,7 @@
     </style>
 
     <style name="RangeFillColor"  parent="Widget.MaterialComponents.MaterialCalendar">
-        <item name="rangeFillColor">@color/datepickerRange</item>
+        <item name="rangeFillColor">#405C0299</item>
     </style>
 
     <style name="Widget.Custom.MaterialCalendar.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -45,7 +44,7 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="nightmodeswitch" parent="Theme.AppCompat.DayNight" >
+    <style name="nightmodeswitch" parent="Theme.AppCompat.Light" >
         <item name="colorControlActivated">@color/nightmode</item>
         <item name="colorSwitchThumbNormal">@color/white</item>
         <item name="android:colorForeground">#99FFFFFF</item>
