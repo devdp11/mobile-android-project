@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
 
-class display_profile() : Fragment() { // Construtor vazio público adicionado
+class display_profile() : Fragment() {
     private lateinit var userService: UserService
     private lateinit var nightModeSwitch: SwitchCompat
     private lateinit var userViewModel: UserViewModel

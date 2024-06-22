@@ -138,7 +138,6 @@ class LocationService(private val context: Context) {
                     onResponse("success")
                 } else {
                     onFailure(Throwable("Error creating photo: ${response.code()}"))
-                    Log.e("PHOTO", response.code().toString())
                 }
             }
 

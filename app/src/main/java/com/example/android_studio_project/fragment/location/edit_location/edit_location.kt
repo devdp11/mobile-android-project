@@ -235,7 +235,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                 },
                 onFailure = { error ->
                     Toast.makeText(requireContext(), getString(R.string.location_delete_error), Toast.LENGTH_SHORT).show()
-                    Log.e("DeleteLocation", "Error deleting location: $error")
                 }
             )
             dialog.dismiss()
@@ -284,7 +283,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             }, onFailure = { throwable ->
                 requireActivity().runOnUiThread {
                     Toast.makeText(context, "Error: ${throwable.message}", Toast.LENGTH_LONG).show()
-                    Log.e("EditLocationFragment", "Error updating location", throwable)
                 }
             })
         } else {
@@ -326,7 +324,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                     },
                     onFailure = { error ->
                         photosFailed++
-                        Log.e("PhotoUpload", "Error adding photo: $error")
                         requireActivity().runOnUiThread {
                             photosList.removeAt(i)
                             photosAdapter.setData(photosList)
@@ -414,7 +411,6 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
             if (isAdded) {
                 parentFragmentManager.popBackStack()
             } else {
-                Log.e("EditLocationFragment", "Fragment not associated with FragmentManager")
             }
         }
         val dialog = builder.create()
@@ -441,8 +437,7 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                     loadLocationDetails()
                 }
             },
-            onFailure = { error ->
-                Log.e("edit_location", "Failed to get types", error)
+            onFailure = {
             }
         )
     }

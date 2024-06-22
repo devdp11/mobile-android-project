@@ -278,7 +278,6 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
             if (isAdded) {
                 parentFragmentManager.popBackStack()
             } else {
-                Log.e("AddLocationFragment", "Fragment not associated with FragmentManager")
             }
         }
         val dialog = builder.create()

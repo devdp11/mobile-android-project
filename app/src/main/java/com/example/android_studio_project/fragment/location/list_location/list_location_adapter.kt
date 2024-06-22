@@ -73,7 +73,6 @@ class list_location_adapter(
                     holder.locationImage.visibility = View.GONE
                 }
             }, { error ->
-                Log.e("Error", "Failed to load image: ${error.message}")
                 holder.locationImage.visibility = View.GONE
             })
         }

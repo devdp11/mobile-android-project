@@ -168,7 +168,6 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             },
             onFailure = { error ->
                 Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT).show()
-                Log.e("EditTrip", "Error loading locations: $error")
             }
         )
     }
@@ -180,7 +179,6 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             },
             onFailure = { error ->
                 Toast.makeText(requireContext(), getString(R.string.load_error), Toast.LENGTH_SHORT).show()
-                Log.e("EditTrip", "Error loading users: $error")
             }
         )
     }
@@ -209,7 +207,6 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 },
                 onFailure = { error ->
                     Toast.makeText(requireContext(), getString(R.string.save_error), Toast.LENGTH_SHORT).show()
-                    Log.e("DeleteTrip", "Error deleting trip: $error")
                 }
             )
             dialog.dismiss()
@@ -254,14 +251,11 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                         showConfirmationDialog()
                     } else {
                         Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_LONG).show()
-                        Log.e("TRIP", "$trip")
                     }
                 }
             }, onFailure = { throwable ->
                 requireActivity().runOnUiThread {
                     Toast.makeText(context, "Error: ${throwable.message}", Toast.LENGTH_LONG).show()
-                    Log.e("EditTripFragment", "Error updating trip", throwable)
-                    Log.e("TRIP", "$trip")
                 }
             })
         } else {
@@ -336,7 +330,6 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
             },
             onFailure = { error ->
                 Toast.makeText(requireContext(), "Erro ao associar user à viagem: $error", Toast.LENGTH_SHORT).show()
-                Log.e("EditTrip", "Error associating user to trip: $error")
             }
         )
     }
