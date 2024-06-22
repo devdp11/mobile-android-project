@@ -18,11 +18,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.android_studio_project.R
+import com.example.android_studio_project.activity.MainActivity
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.UserService
 import com.example.android_studio_project.data.room.ent.User
 import com.example.android_studio_project.data.room.vm.UserViewModel
-import com.example.android_studio_project.fragment.profile.display.display_profile
+import com.example.android_studio_project.fragment.no_wifi
 import com.example.android_studio_project.utils.NetworkUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,37 +82,42 @@ class edit_profile(private val userEmail: String) : Fragment() {
         }
 
         btnUpdateProfile.setOnClickListener {
-            if (!isUpdating) {
-                val firstName = ViewFirstName.text.toString()
-                val lastName = ViewLastName.text.toString()
-                val username = ViewUsername.text.toString()
+            val isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
+            if (!isNetworkAvailable) {
+                (activity as? MainActivity)?.replaceFragment(no_wifi(), "no_wifi")
+            } else {
+                if (!isUpdating) {
+                    val firstName = ViewFirstName.text.toString()
+                    val lastName = ViewLastName.text.toString()
+                    val username = ViewUsername.text.toString()
 
-                if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
-                    isUpdating = true
+                    if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
+                        isUpdating = true
 
-                    val imageAvatar = captureScreenshot(imageViewAvatar)
-                    val avatarBase64 = convertBitmapToBase64(imageAvatar)
-                    val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
+                        val imageAvatar = captureScreenshot(imageViewAvatar)
+                        val avatarBase64 = convertBitmapToBase64(imageAvatar)
+                        val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
 
-                    userService.updateUser(updatedUser,
-                        onResponse = { updatedUserResponse ->
-                            isUpdating = false
-                            if (updatedUserResponse != null) {
-                                Toast.makeText(context, getString(R.string.update_succe), Toast.LENGTH_SHORT).show()
+                        userService.updateUser(updatedUser,
+                            onResponse = { updatedUserResponse ->
+                                isUpdating = false
+                                if (updatedUserResponse != null) {
+                                    Toast.makeText(context, getString(R.string.update_succe), Toast.LENGTH_SHORT).show()
 
-                                val user = User(UUID.randomUUID(), firstName, lastName, username, avatarBase64, userEmail)
-                                updateRoomUser(user)
-                            } else {
+                                    val user = User(UUID.randomUUID(), firstName, lastName, username, avatarBase64, userEmail)
+                                    updateRoomUser(user)
+                                } else {
+                                    Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                            onFailure = { error ->
+                                isUpdating = false
                                 Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
                             }
-                        },
-                        onFailure = { error ->
-                            isUpdating = false
-                            Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
-                        }
-                    )
-                } else {
-                    Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
+                        )
+                    } else {
+                        Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

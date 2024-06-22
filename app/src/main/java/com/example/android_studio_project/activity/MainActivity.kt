@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(networkChangeReceiver)
     }
 
-    private fun replaceFragment(fragment: Fragment, tag: String) {
+    fun replaceFragment(fragment: Fragment, tag: String) {
         if (currentFragmentTag != tag) {
             currentFragmentTag = tag
             val fragmentManager = supportFragmentManager
