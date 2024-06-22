@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
     }
 
-
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == ConnectivityManager.CONNECTIVITY_ACTION) {
@@ -38,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -51,8 +49,6 @@ class MainActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
         super.onCreate(savedInstanceState)
-
-
 
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             Log.e("UncaughtException", "Exception in thread ${thread.name}", throwable)
@@ -68,11 +64,8 @@ class MainActivity : AppCompatActivity() {
         val userEmail = authService.getUserEmail()
         val userUUID = authService.getUserUUID()
 
-
-
         if (userEmail != null && userUUID != null) {
             replaceFragment(display_home(userEmail, userUUID))
-
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
@@ -117,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         updateConnectionState()
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(networkChangeReceiver)
@@ -125,8 +117,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
+        // Limpar a pilha de backstack
+        fragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 
@@ -147,9 +143,4 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
-
-
-
-
 }

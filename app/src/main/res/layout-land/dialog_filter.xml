@@ -7,96 +7,103 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/background_card"
-            android:elevation="4dp"
-            android:padding="16dp"
-            android:layout_centerInParent="true">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/date"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:background="@drawable/background_card"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_gravity="center">
 
-            <RadioGroup
-                android:id="@+id/date_radio_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/date_asc"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ascending"
-                    android:textColor="@android:color/black" />
+                    android:layout_marginTop="8dp"
+                    android:text="@string/date"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
-                <RadioButton
-                    android:id="@+id/date_desc"
+                <RadioGroup
+                    android:id="@+id/date_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/date_asc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ascending"
+                        android:textColor="@android:color/black" />
+
+                    <RadioButton
+                        android:id="@+id/date_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/descending"
+                        android:textColor="@android:color/black" />
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/descending"
-                    android:textColor="@android:color/black" />
-            </RadioGroup>
+                    android:layout_marginTop="16dp"
+                    android:text="@string/rating"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginTop="16dp" />
+                <RadioGroup
+                    android:id="@+id/rating_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rating"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp" />
+                    <RadioButton
+                        android:id="@+id/rating_asc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ascending"
+                        android:textColor="@android:color/black" />
 
-            <RadioGroup
-                android:id="@+id/rating_radio_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/rating_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/descending"
+                        android:textColor="@android:color/black" />
+                </RadioGroup>
 
-                <RadioButton
-                    android:id="@+id/rating_asc"
+                <RatingBar
+                    android:id="@+id/rating_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ascending"
-                    android:textColor="@android:color/black" />
+                    android:layout_marginTop="16dp"
+                    android:numStars="5"
+                    android:progressTint="@color/yellow_star"
+                    android:stepSize="1.0"
+                    android:theme="@style/RatingBar" />
 
-                <RadioButton
-                    android:id="@+id/rating_desc"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/apply_button"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/descending"
-                    android:textColor="@android:color/black" />
-            </RadioGroup>
-
-            <RatingBar
-                android:id="@+id/rating_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:stepSize="1.0"
-                android:layout_marginTop="16dp"
-                android:theme="@style/RatingBar"
-                android:progressTint="@color/yellow_star"/>
-
-            <Button
-                android:id="@+id/apply_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/save"
-                android:backgroundTint="@color/green"
-                android:layout_marginTop="16dp" />
-        </LinearLayout>
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/green"
+                    android:text="@string/save" />
+            </LinearLayout>
+        </FrameLayout>
     </ScrollView>
 </RelativeLayout>

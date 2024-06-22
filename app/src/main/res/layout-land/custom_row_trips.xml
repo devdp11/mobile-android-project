@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:background="#E7E8D1">
+            android:background="@color/colorTripCard">
 
             <TextView
                 android:id="@+id/trip_name"
