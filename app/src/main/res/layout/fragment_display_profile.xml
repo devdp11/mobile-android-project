@@ -112,8 +112,12 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/round_back_nightmode"
-                        android:padding="12sp"
-                        android:src="@drawable/btn_mode" />
+                        android:src="@drawable/nightmode"
+                        android:padding="7dp"
+                        app:tint="@color/white"
+                        android:scaleType="centerInside"
+                    />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -149,8 +153,9 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/round_back_notification"
-                        android:padding="12sp"
-                        android:src="@drawable/btn_mode" />
+                        android:src="@drawable/bell"
+                        android:padding="9dp"
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -195,9 +200,10 @@
                         android:id="@+id/security"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/btn_mode"
+                        android:src="@drawable/security"
+                        android:padding="9dp"
                         android:background="@drawable/round_back_security"
-                        android:padding="12sp"/>
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_marginStart="15dp"
@@ -229,9 +235,10 @@
                         android:id="@+id/language"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/btn_mode"
+                        android:src="@drawable/language"
+                        android:padding="7dp"
                         android:background="@drawable/round_back_language"
-                        android:padding="12sp"/>
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_marginStart="15dp"

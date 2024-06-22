@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -33,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var passwordField: EditText
     private lateinit var imageViewNoInternet: ImageView
+    private lateinit var btnLogin: Button
     private var isPasswordVisible: Boolean = false
     private var wasNetworkUnavailable = false
 
@@ -60,10 +61,9 @@ class LoginActivity : AppCompatActivity() {
         userService = UserService(this)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        userViewModel.deleteAllUsers()
-
         passwordField = findViewById(R.id.editTextPassword)
         imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
+        btnLogin = findViewById(R.id.buttonLogin)
 
         passwordField.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -78,7 +78,6 @@ class LoginActivity : AppCompatActivity() {
 
         val email: EditText = findViewById(R.id.editTextEmail)
         val password = passwordField
-        val btnLogin: Button = findViewById(R.id.buttonLogin)
         val linkRegister: TextView = findViewById(R.id.link_register)
         val checkBoxToken: CheckBox = findViewById(R.id.check_box_token)
 
@@ -99,27 +98,31 @@ class LoginActivity : AppCompatActivity() {
                     if (success) {
                         getUserDetails(emailText, onResponse = { user ->
                             if (user != null) {
-                                val userEntity = user.uuid?.let { it1 ->
-                                    User(
-                                        uuid = it1,
-                                        firstName = user.firstName,
-                                        lastName = user.lastName,
-                                        username = user.username,
-                                        avatar = user.avatar,
-                                        email = user.email,
-                                        password = passwordText
-                                    )
-                                }
-                                if (userEntity != null) {
-                                    userViewModel.addUser(userEntity)
-                                }
-                                runOnUiThread {
-                                    if (rememberMe) {
-                                        saveLoginState(true)
+                                userViewModel.deleteAllUsers {
+                                    val userEntity = user.uuid?.let { it1 ->
+                                        User(
+                                            uuid = it1,
+                                            firstName = user.firstName,
+                                            lastName = user.lastName,
+                                            username = user.username,
+                                            avatar = user.avatar,
+                                            email = user.email
+                                        )
+                                    }
+                                    if (userEntity != null) {
+                                        userViewModel.addUser(userEntity)
+                                    }
+                                    runOnUiThread {
+                                        if (rememberMe) {
+                                            saveLoginState(true)
+                                        }
+                                        Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
+                                        navigateToDashboard()
                                     }
                                     Toast.makeText(this, getString(R.string.login_succe), Toast.LENGTH_LONG).show()
                                     checkAndApplyNightMode()
                                     navigateToDashboard()
+
                                 }
                             } else {
                                 runOnUiThread {
@@ -145,7 +148,6 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.fill_fields), Toast.LENGTH_LONG).show()
             }
         }
-
     }
 
     private fun togglePasswordVisibility() {
@@ -211,14 +213,16 @@ class LoginActivity : AppCompatActivity() {
                 if (isNetworkAvailable) {
                     if (wasNetworkUnavailable) {
                         imageViewNoInternet.setImageResource(R.drawable.yes_wifi)
-                        imageViewNoInternet.visibility = android.view.View.VISIBLE
+                        imageViewNoInternet.visibility = View.VISIBLE
                         delay(5000)
-                        imageViewNoInternet.visibility = android.view.View.GONE
+                        imageViewNoInternet.visibility = View.GONE
                     }
+                    btnLogin.isEnabled = true
                     wasNetworkUnavailable = false
                 } else {
                     imageViewNoInternet.setImageResource(R.drawable.no_wifi)
-                    imageViewNoInternet.visibility = android.view.View.VISIBLE
+                    imageViewNoInternet.visibility = View.VISIBLE
+                    btnLogin.isEnabled = false
                     wasNetworkUnavailable = true
                 }
                 delay(1000)

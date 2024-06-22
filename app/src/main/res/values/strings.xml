@@ -52,7 +52,7 @@
     <string name="password_requirements_one">One uppercase letter</string>
     <string name="password_requirements_two">One lowercase letter</string>
     <string name="password_requirements_three">One number</string>
-    <string name="password_requirements_four">One special character</string>
+    <string name="password_requirements_four">One special character (@#$%^&amp;+=!_)</string>
     <string name="welcome">Welcome</string>
     <string name="register_desc">Bring your adventure to us!</string>
     <string name="login_desc">Please login with your credential!</string>

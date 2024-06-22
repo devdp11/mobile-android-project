@@ -24,6 +24,9 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun readAllUsers() : LiveData<List<User>>
 
+    @Query("SELECT * FROM user WHERE email = :userEmail")
+    fun getUserByEmail(userEmail: String): LiveData<User>
+
     @Query("DELETE FROM user")
     suspend fun deleteAllUsers()
 }

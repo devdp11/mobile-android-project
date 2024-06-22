@@ -3,7 +3,6 @@ package com.example.android_studio_project.fragment.profile.password
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +15,9 @@ import android.widget.Toast
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.services.AuthService
 import com.example.android_studio_project.data.retrofit.services.UserService
+import com.example.android_studio_project.utils.NetworkUtils
+import com.example.android_studio_project.fragment.no_wifi
+import androidx.fragment.app.FragmentActivity
 
 class edit_password(private val userEmail: String) : Fragment() {
     private lateinit var authService: AuthService
@@ -80,11 +82,17 @@ class edit_password(private val userEmail: String) : Fragment() {
 
         val updateButton = view.findViewById<Button>(R.id.save_btn)
         updateButton.setOnClickListener {
+            val isConnected = NetworkUtils.isNetworkAvailable(requireContext())
+            if (!isConnected) {
+                switchToNoWifiFragment()
+                return@setOnClickListener
+            }
+
             val oldPassword = oldPasswordEditText.text.toString()
             val newPassword = newPasswordEditText.text.toString()
             val confirmNewPassword = confirmNewPasswordEditText.text.toString()
 
-            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{6,}$")
+            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{4,}$")
             val isNewPasswordValid = passwordPattern.matches(newPassword)
 
             if (oldPassword.isNotEmpty() && newPassword.isNotEmpty() && confirmNewPassword.isNotEmpty()) {
@@ -114,6 +122,16 @@ class edit_password(private val userEmail: String) : Fragment() {
             }
         }
         return view
+    }
+
+    private fun switchToNoWifiFragment() {
+        val fragmentActivity: FragmentActivity? = activity
+        if (fragmentActivity != null && isAdded) {
+            fragmentActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, no_wifi())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     companion object {

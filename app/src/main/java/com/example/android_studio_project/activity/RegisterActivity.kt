@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import android.widget.Button
@@ -30,6 +31,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
+import com.example.android_studio_project.fragment.ot.password_details
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -43,6 +45,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var imageViewNoInternet: ImageView
     private var wasNetworkUnavailable = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+    private lateinit var btnRegister : Button
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -60,7 +64,7 @@ class RegisterActivity : AppCompatActivity() {
         authService = AuthService(this)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        val btnRegister: Button = findViewById(R.id.buttonRegister)
+        btnRegister = findViewById(R.id.buttonRegister)
 
         val linkLogin: TextView = findViewById(R.id.link_login)
         imageViewNoInternet = findViewById(R.id.imageViewNoInternet)
@@ -83,6 +87,11 @@ class RegisterActivity : AppCompatActivity() {
             false
         }
 
+        val passwordDetailsIcon: ImageView = findViewById(R.id.password_details)
+        passwordDetailsIcon.setOnClickListener {
+            showPasswordRequirementsDialog(passwordField.text.toString())
+        }
+
         btnRegister.setOnClickListener {
             val firstNameText = findViewById<EditText>(R.id.editTextFirstName).text.toString()
             val lastNameText = findViewById<EditText>(R.id.editTextLastName).text.toString()
@@ -91,7 +100,7 @@ class RegisterActivity : AppCompatActivity() {
             val passwordText = passwordField.text.toString()
             val rememberMe = checkBoxToken.isChecked
 
-            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{6,}$")
+            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{4,}$")
             val isNewPasswordValid = passwordPattern.matches(passwordText)
 
             if (emailText.isNotEmpty() && passwordText.isNotEmpty() && firstNameText.isNotEmpty() && lastNameText.isNotEmpty() && usernameText.isNotEmpty()) {
@@ -116,13 +125,11 @@ class RegisterActivity : AppCompatActivity() {
                                             lastName = newUser.lastName,
                                             username = newUser.username,
                                             avatar = newUser.avatar,
-                                            email = newUser.email,
-                                            password = passwordText
+                                            email = newUser.email
                                         )
                                     }
                                     if (userEntity != null) {
                                         userViewModel.addUser(userEntity)
-                                        Log.d("tag", userEntity.toString())
                                     }
 
                                     Toast.makeText(this, getString(R.string.register_succe), Toast.LENGTH_LONG).show()
@@ -191,6 +198,11 @@ class RegisterActivity : AppCompatActivity() {
         editor.apply()
     }
 
+    private fun showPasswordRequirementsDialog(password: String) {
+        val dialog = password_details.newInstance(password)
+        dialog.show(supportFragmentManager, "PasswordDetailsDialog")
+    }
+
     private fun monitorNetworkStatus() {
         coroutineScope.launch {
             while (true) {
@@ -198,14 +210,16 @@ class RegisterActivity : AppCompatActivity() {
                 if (isNetworkAvailable) {
                     if (wasNetworkUnavailable) {
                         imageViewNoInternet.setImageResource(R.drawable.yes_wifi)
-                        imageViewNoInternet.visibility = android.view.View.VISIBLE
+                        imageViewNoInternet.visibility = View.VISIBLE
                         delay(5000)
-                        imageViewNoInternet.visibility = android.view.View.GONE
+                        imageViewNoInternet.visibility = View.GONE
                     }
+                    btnRegister.isEnabled = true
                     wasNetworkUnavailable = false
                 } else {
                     imageViewNoInternet.setImageResource(R.drawable.no_wifi)
-                    imageViewNoInternet.visibility = android.view.View.VISIBLE
+                    imageViewNoInternet.visibility = View.VISIBLE
+                    btnRegister.isEnabled = false
                     wasNetworkUnavailable = true
                 }
                 delay(1000)

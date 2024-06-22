@@ -213,7 +213,17 @@
                         android:layout_height="wrap_content"
                         android:alpha="0.7"
                         android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
                         android:text="@string/remember_me" />
+
+                    <ImageView
+                        android:id="@+id/password_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/password_details" />
 
                 </RelativeLayout>
 
@@ -226,7 +236,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/register"
-                    app:cornerRadius="10dp" />
+                    app:cornerRadius="10dp"
+                    android:background="@drawable/button_background"
+                    style="@style/Widget.MaterialComponents.Button" />
 
                 <View
                     android:layout_width="wrap_content"
