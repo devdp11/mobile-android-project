@@ -92,7 +92,7 @@ class edit_password(private val userEmail: String) : Fragment() {
             val newPassword = newPasswordEditText.text.toString()
             val confirmNewPassword = confirmNewPasswordEditText.text.toString()
 
-            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{6,}$")
+            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{4,}$")
             val isNewPasswordValid = passwordPattern.matches(newPassword)
 
             if (oldPassword.isNotEmpty() && newPassword.isNotEmpty() && confirmNewPassword.isNotEmpty()) {

@@ -100,7 +100,7 @@ class RegisterActivity : AppCompatActivity() {
             val passwordText = passwordField.text.toString()
             val rememberMe = checkBoxToken.isChecked
 
-            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{6,}$")
+            val passwordPattern = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!_])(?=\\S+$).{4,}$")
             val isNewPasswordValid = passwordPattern.matches(passwordText)
 
             if (emailText.isNotEmpty() && passwordText.isNotEmpty() && firstNameText.isNotEmpty() && lastNameText.isNotEmpty() && usernameText.isNotEmpty()) {
