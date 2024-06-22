@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome"
-                        android:textColor="@color/purple_prim"
+                        android:textColor="@color/loginTitle"
                         android:textSize="32sp"
                         android:textStyle="bold"
                         android:gravity="center"
@@ -144,7 +144,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/login"
-                    app:cornerRadius="10dp" />
+                    app:cornerRadius="10dp"
+                    android:background="@drawable/button_background"
+                    style="@style/Widget.MaterialComponents.Button" />
 
                 <View
                     android:layout_width="wrap_content"
@@ -160,6 +162,17 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageViewNoInternet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/no_wifi"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
 
 </RelativeLayout>

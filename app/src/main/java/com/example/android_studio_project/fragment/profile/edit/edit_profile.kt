@@ -12,14 +12,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.android_studio_project.R
+import com.example.android_studio_project.activity.MainActivity
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.UserService
+import com.example.android_studio_project.data.room.ent.User
+import com.example.android_studio_project.data.room.vm.UserViewModel
+import com.example.android_studio_project.fragment.no_wifi
+import com.example.android_studio_project.utils.NetworkUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class edit_profile(private val userEmail: String) : Fragment() {
     private lateinit var userService: UserService
+    private lateinit var userViewModel: UserViewModel
     private lateinit var ViewFirstName: EditText
     private lateinit var ViewLastName: EditText
     private lateinit var textViewEmail: TextView
@@ -27,7 +42,12 @@ class edit_profile(private val userEmail: String) : Fragment() {
     private lateinit var imageViewAvatar: ImageView
     private lateinit var btnUpdateProfile: Button
 
+    private var isUpdating = false
+
     private var selectedImageBitmap: Bitmap? = null
+
+    private var userDetailsLoaded = false
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +62,10 @@ class edit_profile(private val userEmail: String) : Fragment() {
         imageViewAvatar = view.findViewById(R.id.user_avatar)
         btnUpdateProfile = view.findViewById(R.id.save_btn)
 
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userService = UserService(requireContext())
+
+        monitorNetworkStatus()
 
         val backButton: ImageView = view.findViewById(R.id.btn_back)
         backButton.setOnClickListener {
@@ -54,65 +77,155 @@ class edit_profile(private val userEmail: String) : Fragment() {
             requireActivity().onBackPressed()
         }
 
-        userService.getUserDetails(
-            onResponse = { userDetails ->
-                userDetails?.let {
-                    ViewFirstName.text = userDetails.firstName?.toEditable()
-                    ViewLastName.text = userDetails.lastName?.toEditable()
-                    ViewUsername.text = userDetails.username?.toEditable()
-                    textViewEmail.text = userDetails.email ?: ""
-
-                    val userAvatarBase64: String? = userDetails.avatar
-
-                    if (!userAvatarBase64.isNullOrEmpty()) {
-                        val userAvatarUrl = Base64.decode(userAvatarBase64, Base64.DEFAULT)
-                        Glide.with(this)
-                            .asBitmap()
-                            .load(userAvatarUrl)
-                            .into(imageViewAvatar)
-                    } else {
-                        imageViewAvatar.setImageResource(R.drawable.default_image)
-                    }
-
-                }
-            },
-            onFailure = { error ->
-                Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
-            }
-        )
-
         imageViewAvatar.setOnClickListener {
             openGalleryForImage()
         }
 
         btnUpdateProfile.setOnClickListener {
-            val firstName = ViewFirstName.text.toString()
-            val lastName = ViewLastName.text.toString()
-            val username = ViewUsername.text.toString()
-
-            if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
-                val imageAvatar = captureScreenshot(imageViewAvatar)
-                val avatarBase64 = convertBitmapToBase64(imageAvatar)
-                val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
-
-                userService.updateUser(updatedUser,
-                    onResponse = { updatedUser ->
-                        if (updatedUser != null) {
-                            Toast.makeText(context, getString(R.string.update_succe), Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    onFailure = { error ->
-                        Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
-                    }
-                )
+            val isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
+            if (!isNetworkAvailable) {
+                (activity as? MainActivity)?.replaceFragment(no_wifi(), "no_wifi")
             } else {
-                Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
+                if (!isUpdating) {
+                    val firstName = ViewFirstName.text.toString()
+                    val lastName = ViewLastName.text.toString()
+                    val username = ViewUsername.text.toString()
+
+                    if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
+                        isUpdating = true
+
+                        val imageAvatar = captureScreenshot(imageViewAvatar)
+                        val avatarBase64 = convertBitmapToBase64(imageAvatar)
+                        val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
+
+                        userService.updateUser(updatedUser,
+                            onResponse = { updatedUserResponse ->
+                                isUpdating = false
+                                if (updatedUserResponse != null) {
+                                    Toast.makeText(context, getString(R.string.update_succe), Toast.LENGTH_SHORT).show()
+
+                                    val user = User(UUID.randomUUID(), firstName, lastName, username, avatarBase64, userEmail)
+                                    updateRoomUser(user)
+                                } else {
+                                    Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                            onFailure = { error ->
+                                isUpdating = false
+                                Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    } else {
+                        Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
 
         return view
+    }
+
+    private fun updateRoomUser(user: User) {
+        userViewModel.getUserByEmail(user.email ?: "").removeObservers(viewLifecycleOwner)
+
+        userViewModel.getUserByEmail(user.email ?: "").observeOnce(viewLifecycleOwner) { userFromRoom ->
+            userFromRoom.let {
+                user.uuid = userFromRoom.uuid
+                userViewModel.updateUser(user)
+            }
+        }
+    }
+
+    private fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: Observer<T>) {
+        observe(owner, object : Observer<T> {
+            override fun onChanged(value: T) {
+                observer.onChanged(value)
+                removeObserver(this)
+            }
+        })
+    }
+
+    private fun monitorNetworkStatus() {
+        val currentContext = context ?: return
+        coroutineScope.launch {
+            var previousNetworkStatus = false
+            while (true) {
+                val isNetworkAvailable = NetworkUtils.isNetworkAvailable(currentContext)
+                if (isNetworkAvailable && !previousNetworkStatus) {
+                    if (!userDetailsLoaded) {
+                        getUserDetails()
+                        userDetailsLoaded = true
+                    }
+                } else if (!isNetworkAvailable) {
+                    if (!userDetailsLoaded) {
+                        getUserDetails()
+                        userDetailsLoaded = true
+                    }
+                }
+                previousNetworkStatus = isNetworkAvailable
+                delay(1000)
+            }
+        }
+    }
+
+    private fun getUserDetails() {
+        if (userDetailsLoaded) return
+
+        val isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
+        if (isNetworkAvailable) {
+            userService.getUserDetails(
+                onResponse = { userDetails ->
+                    if (isAdded) {
+                        userDetails?.let {
+                            ViewFirstName.text = userDetails.firstName?.toEditable()
+                            ViewLastName.text = userDetails.lastName?.toEditable()
+                            ViewUsername.text = userDetails.username?.toEditable()
+                            textViewEmail.text = userDetails.email ?: ""
+
+                            val userAvatarBase64: String? = userDetails.avatar
+
+                            if (!userAvatarBase64.isNullOrEmpty()) {
+                                val userAvatarBytes = Base64.decode(userAvatarBase64, Base64.DEFAULT)
+                                Glide.with(requireContext())
+                                    .load(userAvatarBytes)
+                                    .into(imageViewAvatar)
+                            } else {
+                                imageViewAvatar.setImageResource(R.drawable.default_image)
+                            }
+
+                            userDetailsLoaded = true
+                        }
+                    }
+                },
+                onFailure = {
+                    if (isAdded) {
+                        Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        } else {
+            userViewModel.getUserByEmail(userEmail).observe(viewLifecycleOwner) { user ->
+                user?.let {
+                    val userAvatarBase64: String? = user.avatar
+
+                    ViewFirstName.text = user.firstName?.toEditable()
+                    ViewLastName.text = user.lastName?.toEditable()
+                    ViewUsername.text = user.username?.toEditable()
+                    textViewEmail.text = user.email ?: ""
+
+                    if (!userAvatarBase64.isNullOrEmpty()) {
+                        val userAvatarBytes = Base64.decode(userAvatarBase64, Base64.DEFAULT)
+                        Glide.with(requireContext())
+                            .load(userAvatarBytes)
+                            .into(imageViewAvatar)
+                    } else {
+                        imageViewAvatar.setImageResource(R.drawable.default_image)
+                    }
+
+                    userDetailsLoaded = true
+                }
+            }
+        }
     }
 
     private fun openGalleryForImage() {

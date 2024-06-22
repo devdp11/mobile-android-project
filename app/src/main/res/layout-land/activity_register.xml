@@ -64,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome"
-                        android:textColor="@color/purple_prim"
+                        android:textColor="@color/loginTitle"
                         android:textSize="32sp"
                         android:textStyle="bold"
                         android:gravity="center"
@@ -231,9 +231,19 @@
                         android:id="@+id/check_box_token"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/remember_me"
+                        android:alpha="0.7"
                         android:layout_centerVertical="true"
-                        android:alpha="0.7" />
+                        android:layout_alignParentStart="true"
+                        android:text="@string/remember_me" />
+
+                    <ImageView
+                        android:id="@+id/password_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/password_details" />
 
                 </RelativeLayout>
 
@@ -246,7 +256,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/register"
-                    app:cornerRadius="10dp" />
+                    app:cornerRadius="10dp"
+                    android:background="@drawable/button_background"
+                    style="@style/Widget.MaterialComponents.Button" />
 
                 <View
                     android:layout_width="wrap_content"
@@ -266,6 +278,17 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <ImageView
+            android:id="@+id/imageViewNoInternet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_wifi"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
 
     </androidx.cardview.widget.CardView>
 

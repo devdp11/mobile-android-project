@@ -14,6 +14,7 @@
     <string name="security_privacy">Security &amp; Privacy</string>
     <string name="language">Language</string>
     <string name="logout">Logout</string>
+    <string name="logout_desc">Are you sure you want to exit the app?</string>
     <string name="intro_slider_one">Explore the world</string>
     <string name="intro_slider_two">Plan the journey</string>
     <string name="intro_slider_three">Share the trip</string>
@@ -39,13 +40,19 @@
     <string name="login_error">Error logging in. Please check your credentials and try again.</string>
     <string name="login_succe">Login successful!</string>
     <string name="register_error">Error registering. Try again.</string>
+    <string name="register_error_username_email">Username or email already exists. Try again.</string>
     <string name="register_succe">Registration successful!</string>
     <string name="fill_fields">Please, fill in all the fields!</string>
     <string name="update_error">Error updating profile. Try again.</string>
+    <string name="username_exists_error">Username already exists. Try again.</string>
     <string name="update_succe">Profile updated successfully!</string>
     <string name="add_location">Add Location</string>
     <string name="home">Dashboard</string>
-    <string name="password_requirements">The password must contain at least:\n- One uppercase letter\n- One lowercase letter\n- One number\n- One special character</string>
+    <string name="password_requirements_text">The password must contain at least:</string>
+    <string name="password_requirements_one">One uppercase letter</string>
+    <string name="password_requirements_two">One lowercase letter</string>
+    <string name="password_requirements_three">One number</string>
+    <string name="password_requirements_four">One special character (@#$%^&amp;+=!_)</string>
     <string name="welcome">Welcome</string>
     <string name="register_desc">Bring your adventure to us!</string>
     <string name="login_desc">Please login with your credential!</string>
@@ -67,7 +74,7 @@
 
     <string name="save_error">Error saving action!</string>
     <string name="save_succe">Action saved successfully!</string>
-    <string name="succe">Sucess!</string>
+    <string name="succe">Success!</string>
 
     <string name="update_password_error">Error updating password. Try again!</string>
     <string name="update_password_succe">Password updated successfully!</string>
@@ -99,12 +106,13 @@
     <string name="descending">Descending</string>
     <string name="rating">Rating</string>
     <string name="select_language">Select a Language</string>
-    <string name="english">English</string>
-    <string name="portugues">Portuguese</string>
+    <string name="english" translatable="false">English</string>
+    <string name="portugues" translatable="false">Português</string>
 
     <string name="popup_title">Share Trip</string>
     <string name="popup_hint">Email/Username</string>
     <string name="popup_button">Share</string>
 
     <string name="user_not_found">User not Found</string>
+    <string name="no_connection">You are disconneted from the E-World!</string>
 </resources>

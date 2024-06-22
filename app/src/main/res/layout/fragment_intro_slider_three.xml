@@ -25,7 +25,7 @@
             android:layout_below="@id/image_one"
             android:layout_centerHorizontal="true"
             android:text="@string/intro_slider_three"
-            android:textColor="@color/black"
+            android:textColor="@color/black_white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -39,7 +39,7 @@
             android:paddingHorizontal="10dp"
             android:text="@string/intro_slider_three_desc"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/black_white"
             android:textSize="15sp" />
     </RelativeLayout>
 

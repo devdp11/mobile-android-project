@@ -1,17 +1,26 @@
 package com.example.android_studio_project.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.android_studio_project.R
+import com.example.android_studio_project.utils.LocaleHelper
 
 class IntroSliderActivity : AppCompatActivity() {
-
+    private lateinit var mainActivity: MainActivity
     private lateinit var navController: NavController
     private val handler = android.os.Handler()
     private val timing = 10000
@@ -22,6 +31,11 @@ class IntroSliderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro_slider)
 
+        if (isLoggedIn()) {
+            navigateToDashboard()
+            return
+        }
+
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
 
@@ -29,6 +43,8 @@ class IntroSliderActivity : AppCompatActivity() {
         btnSkip.setOnClickListener {
             navigateToLogin()
         }
+
+        LocaleHelper.loadLocale(this)
 
         val btnBack: Button = findViewById(R.id.btn_back)
         btnBack.setOnClickListener {
@@ -46,7 +62,34 @@ class IntroSliderActivity : AppCompatActivity() {
             insets
         }
 
+        val languageSwitcher: ImageView = findViewById(R.id.language_switcher)
+
+        languageSwitcher.setOnClickListener { view ->
+            showLanguagePopup(view)
+
+        }
+
         startAutoNavigation()
+    }
+
+    private fun showLanguagePopup(view: View) {
+        val popup = PopupMenu(this, view)
+        popup.menuInflater.inflate(R.menu.language, popup.menu)
+        popup.setOnMenuItemClickListener { item ->
+            onLanguageSelected(item)
+            true
+        }
+        popup.show()
+    }
+
+    private fun onLanguageSelected(item: MenuItem) {
+        val newLanguage = when (item.itemId) {
+            R.id.language_en -> "en"
+            R.id.language_pt -> "pt"
+            else -> return
+        }
+        LocaleHelper.setLocale(this, newLanguage)
+        recreate()
     }
 
     private fun navigateToLogin() {
@@ -59,6 +102,17 @@ class IntroSliderActivity : AppCompatActivity() {
         handler.postDelayed({
             navigateToNextPage()
         }, timing.toLong())
+    }
+
+    private fun isLoggedIn(): Boolean {
+        val sharedPreferences = getSharedPreferences("UserLoggedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isLoggedIn", false)
+    }
+
+    private fun navigateToDashboard() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun navigateToNextPage() {

@@ -38,12 +38,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteAllUsers() {
+    fun deleteAllUsers(onComplete: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val users = readAllUsers.value
-            if (!users.isNullOrEmpty()) {
-                repository.deleteAllUsers()
+            repository.deleteAllUsers()
+            viewModelScope.launch(Dispatchers.Main) {
+                onComplete()
             }
         }
+    }
+
+    fun getUserByEmail(email: String): LiveData<User> {
+        return repository.getUserByEmail(email)
     }
 }
