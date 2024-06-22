@@ -49,7 +49,6 @@
         android:layout_above="@id/bottom_buttons"
         android:weightSum="1">
 
-        <!-- Left Side ScrollView -->
         <ScrollView
             android:id="@+id/scrollmain"
             android:layout_width="0dp"
