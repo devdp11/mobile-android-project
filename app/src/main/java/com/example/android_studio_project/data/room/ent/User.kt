@@ -6,11 +6,10 @@ import java.util.UUID
 
 @Entity(tableName = "user")
 data class User(
-    @PrimaryKey val uuid: UUID,
+    @PrimaryKey var uuid: UUID,
     val firstName: String?,
     val lastName: String?,
     val username: String?,
     val avatar: String?,
-    val email: String?,
-    val password: String?
+    val email: String?
 )

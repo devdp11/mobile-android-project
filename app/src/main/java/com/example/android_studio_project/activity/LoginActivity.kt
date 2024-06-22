@@ -100,8 +100,7 @@ class LoginActivity : AppCompatActivity() {
                                             lastName = user.lastName,
                                             username = user.username,
                                             avatar = user.avatar,
-                                            email = user.email,
-                                            password = passwordText
+                                            email = user.email
                                         )
                                     }
                                     if (userEntity != null) {

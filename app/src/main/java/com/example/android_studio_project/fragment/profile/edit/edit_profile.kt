@@ -12,11 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.android_studio_project.R
 import com.example.android_studio_project.data.retrofit.models.UserModel
 import com.example.android_studio_project.data.retrofit.services.UserService
+import com.example.android_studio_project.data.room.ent.User
 import com.example.android_studio_project.data.room.vm.UserViewModel
 import com.example.android_studio_project.fragment.profile.display.display_profile
 import com.example.android_studio_project.utils.NetworkUtils
@@ -25,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class edit_profile(private val userEmail: String) : Fragment() {
     private lateinit var userService: UserService
@@ -35,6 +40,8 @@ class edit_profile(private val userEmail: String) : Fragment() {
     private lateinit var ViewUsername: EditText
     private lateinit var imageViewAvatar: ImageView
     private lateinit var btnUpdateProfile: Button
+
+    private var isUpdating = false
 
     private var selectedImageBitmap: Bitmap? = null
 
@@ -74,33 +81,62 @@ class edit_profile(private val userEmail: String) : Fragment() {
         }
 
         btnUpdateProfile.setOnClickListener {
-            val firstName = ViewFirstName.text.toString()
-            val lastName = ViewLastName.text.toString()
-            val username = ViewUsername.text.toString()
+            if (!isUpdating) {
+                val firstName = ViewFirstName.text.toString()
+                val lastName = ViewLastName.text.toString()
+                val username = ViewUsername.text.toString()
 
-            if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
-                val imageAvatar = captureScreenshot(imageViewAvatar)
-                val avatarBase64 = convertBitmapToBase64(imageAvatar)
-                val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
+                if (firstName.isNotEmpty() && lastName.isNotEmpty() && username.isNotEmpty()) {
+                    isUpdating = true
 
-                userService.updateUser(updatedUser,
-                    onResponse = { updatedUser ->
-                        if (updatedUser != null) {
-                            Toast.makeText(context, getString(R.string.update_succe), Toast.LENGTH_SHORT).show()
-                        } else {
+                    val imageAvatar = captureScreenshot(imageViewAvatar)
+                    val avatarBase64 = convertBitmapToBase64(imageAvatar)
+                    val updatedUser = UserModel(null, firstName, lastName, avatarBase64, username, null, userEmail, false)
+
+                    userService.updateUser(updatedUser,
+                        onResponse = { updatedUserResponse ->
+                            isUpdating = false
+                            if (updatedUserResponse != null) {
+                                Toast.makeText(context, getString(R.string.update_succe), Toast.LENGTH_SHORT).show()
+
+                                val user = User(UUID.randomUUID(), firstName, lastName, username, avatarBase64, userEmail)
+                                updateRoomUser(user)
+                            } else {
+                                Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
+                            }
+                        },
+                        onFailure = { error ->
+                            isUpdating = false
                             Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
                         }
-                    },
-                    onFailure = { error ->
-                        Toast.makeText(context, getString(R.string.update_error), Toast.LENGTH_SHORT).show()
-                    }
-                )
-            } else {
-                Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
+                    )
+                } else {
+                    Toast.makeText(context, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
         return view
+    }
+
+    private fun updateRoomUser(user: User) {
+        userViewModel.getUserByEmail(user.email ?: "").removeObservers(viewLifecycleOwner)
+
+        userViewModel.getUserByEmail(user.email ?: "").observeOnce(viewLifecycleOwner) { userFromRoom ->
+            userFromRoom.let {
+                user.uuid = userFromRoom.uuid
+                userViewModel.updateUser(user)
+            }
+        }
+    }
+
+    private fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: Observer<T>) {
+        observe(owner, object : Observer<T> {
+            override fun onChanged(value: T) {
+                observer.onChanged(value)
+                removeObserver(this)
+            }
+        })
     }
 
     private fun monitorNetworkStatus() {

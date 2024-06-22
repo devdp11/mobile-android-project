@@ -119,13 +119,11 @@ class RegisterActivity : AppCompatActivity() {
                                             lastName = newUser.lastName,
                                             username = newUser.username,
                                             avatar = newUser.avatar,
-                                            email = newUser.email,
-                                            password = passwordText
+                                            email = newUser.email
                                         )
                                     }
                                     if (userEntity != null) {
                                         userViewModel.addUser(userEntity)
-                                        Log.d("tag", userEntity.toString())
                                     }
 
                                     Toast.makeText(this, getString(R.string.register_succe), Toast.LENGTH_LONG).show()
