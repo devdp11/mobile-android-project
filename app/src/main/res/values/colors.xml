@@ -42,6 +42,7 @@
     <color name="black_white">#000000</color>
     <color name="loginTitle">#351431</color>
     <color name="btnAddTrip">#A7BEAE</color>
+    <color name="btnLanguage">#351431</color>
 
     <color name="button_enabled_color">#6200EE</color>
     <color name="button_disabled_color">#A9A9A9</color>

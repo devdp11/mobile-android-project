@@ -42,5 +42,6 @@
     <color name="black_white">#ffffff</color>
     <color name="loginTitle">#ffffff</color>
     <color name="btnAddTrip">#27683D</color>
+    <color name="btnLanguage">#F1E4E8</color>
 
 </resources>
