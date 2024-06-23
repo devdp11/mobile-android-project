@@ -24,7 +24,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/popup_hint">
+            android:hint="@string/popup_hint"
+            app:boxStrokeColor="@color/border_add_user"
+            app:hintTextColor="@color/border_add_user"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextUserEmail"

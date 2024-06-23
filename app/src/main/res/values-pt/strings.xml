@@ -13,7 +13,7 @@
     <string name="notification">Notificação</string>
     <string name="security_privacy">Segurança &amp; Privacidade</string>
     <string name="language">Idioma</string>
-    <string name="logout">Desconectar</string>
+    <string name="logout">Sair</string>
     <string name="logout_desc">Tem a certeza que desejas sair da aplicação?</string>
     <string name="intro_slider_one">Explora o mundo</string>
     <string name="intro_slider_two">Planeia a jornada</string>

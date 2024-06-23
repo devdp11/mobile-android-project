@@ -44,6 +44,7 @@
     <color name="btnAddTrip">#A7BEAE</color>
     <color name="btnLanguage">#351431</color>
     <color name="topbar">#F3F7EC</color>
+    <color name="border_add_user">#757575</color>
 
     <color name="button_enabled_color">#6200EE</color>
     <color name="button_disabled_color">#A9A9A9</color>
