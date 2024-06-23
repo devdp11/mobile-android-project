@@ -45,5 +45,6 @@
     <color name="btnLanguage">#F1E4E8</color>
     <color name="topbar">#282927</color>
     <color name="border_add_user">#F1E4E8</color>
+    <color name="profile_btn">#aa7bc3</color>
 
 </resources>
