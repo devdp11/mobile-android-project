@@ -47,7 +47,7 @@
     <string name="update_error">Erro ao atualizar perfil. Tente novamente.</string>
     <string name="username_exists_error">Username já existente. Tente novamente.</string>
     <string name="update_succe">Perfil atualizado com sucesso!</string>
-    <string name="add_location">Adicionar Local</string>
+    <string name="add_location">Adicionar</string>
     <string name="home">Painel Principal</string>
 
     <string name="welcome">Bem-vindo</string>
