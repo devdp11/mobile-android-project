@@ -102,22 +102,27 @@ class edit_password(private val userEmail: String) : Fragment() {
 
             if (oldPassword.isNotEmpty() && newPassword.isNotEmpty() && confirmNewPassword.isNotEmpty()) {
                 if (newPassword == confirmNewPassword) {
-                    if (isNewPasswordValid) {
-                        authService.verifyUser(userEmail, oldPassword, { isOldPasswordCorrect ->
-                            if (isOldPasswordCorrect) {
-                                userService.updateUserPassword(newPassword, {
-                                    Toast.makeText(requireContext(), getString(R.string.update_password_succe), Toast.LENGTH_SHORT).show()
-                                }, {
-                                    Toast.makeText(requireContext(), getString(R.string.update_password_error), Toast.LENGTH_SHORT).show()
-                                })
-                            } else {
-                                Toast.makeText(requireContext(), getString(R.string.old_password_incorr), Toast.LENGTH_SHORT).show()
-                            }
-                        }, {
-                            Toast.makeText(requireContext(), getString(R.string.old_password_verify_error), Toast.LENGTH_SHORT).show()
-                        })
+                    if (newPassword != oldPassword) {
+                        if (isNewPasswordValid) {
+                            authService.verifyUser(userEmail, oldPassword, { isOldPasswordCorrect ->
+                                if (isOldPasswordCorrect) {
+                                    userService.updateUserPassword(newPassword, {
+                                        Toast.makeText(requireContext(), getString(R.string.update_password_succe), Toast.LENGTH_SHORT).show()
+                                        requireActivity().onBackPressed()
+                                    }, {
+                                        Toast.makeText(requireContext(), getString(R.string.update_password_error), Toast.LENGTH_SHORT).show()
+                                    })
+                                } else {
+                                    Toast.makeText(requireContext(), getString(R.string.old_password_incorr), Toast.LENGTH_SHORT).show()
+                                }
+                            }, {
+                                Toast.makeText(requireContext(), getString(R.string.old_password_verify_error), Toast.LENGTH_SHORT).show()
+                            })
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.password_invalid), Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        Toast.makeText(requireContext(), getString(R.string.password_invalid), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.new_password_same_as_old_error), Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.new_password_error), Toast.LENGTH_SHORT).show()

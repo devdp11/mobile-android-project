@@ -82,6 +82,7 @@
     <string name="old_password_verify_error">Error verifying old password. Try Again!</string>
     <string name="old_password_incorr">Old password is incorrect. Try Again!</string>
     <string name="new_password_error">New passwords do not match. Try Again!</string>
+    <string name="new_password_same_as_old_error">New password cannot be the same as the old. Try Another!</string>
 
     <string name="no">No</string>
     <string name="yes">Yes</string>

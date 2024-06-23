@@ -55,29 +55,30 @@
     <string name="register_desc">Traga a sua aventura até nós!</string>
     <string name="login_desc">Entre com as suas credenciais, por favor!</string>
     <string name="name">Nome</string>
-    <string name="confirm_password">Confirme palavra-chave</string>
+    <string name="confirm_password">Confirme palavra-passe</string>
     <string name="remember_me">Lembrar-se de mim</string>
-    <string name="forgot_password">Esqueceu-se da palavra-chave?</string>
+    <string name="forgot_password">Esqueceu-se da palavra-passe?</string>
     <string name="register">Registar</string>
     <string name="login">Login</string>
 
-    <string name="password_invalid">Palavra-chave inválida. Tente novamente!</string>
+    <string name="password_invalid">Palavra-passe inválida. Tente novamente!</string>
     <string name="edit_trip">Editar Viagem</string>
     <string name="edit_location">Editar Localização</string>
-    <string name="old_pass">Palavra-chave Antiga</string>
-    <string name="new_pass">Nova palavra-chave</string>
-    <string name="conf_pass">Confirmar Palavra-Chave</string>
+    <string name="old_pass">Palavra-passe Antiga</string>
+    <string name="new_pass">Nova palavra-passe</string>
+    <string name="conf_pass">Confirmar Palavra-passe</string>
 
     <string name="load_error">Erro ao carregar os dados!</string>
     <string name="save_error">Erro ao salvar ação!</string>
     <string name="save_succe">Ação salva com sucesso!</string>
     <string name="succe">Sucesso!</string>
 
-    <string name="update_password_error">Erro ao atualizar palavra-chave. Tente novamente!</string>
-    <string name="update_password_succe">Palavra-chave atualizada com sucesso!</string>
-    <string name="old_password_verify_error">Erro ao verificar palavra-chave antiga. Tente novamente!</string>
-    <string name="old_password_incorr">Palavra-chave antiga está incorreta. Tente novamente!</string>
-    <string name="new_password_error">Novas palavras-chave não são iguais. Tente Novamente!</string>
+    <string name="update_password_error">Erro ao atualizar palavra-passe. Tente novamente!</string>
+    <string name="update_password_succe">Palavra-passe atualizada com sucesso!</string>
+    <string name="old_password_verify_error">Erro ao verificar palavra-passe antiga. Tente novamente!</string>
+    <string name="old_password_incorr">Palavra-passe antiga está incorreta. Tente novamente!</string>
+    <string name="new_password_error">Novas palavras-passes não são iguais. Tente Novamente!</string>
+    <string name="new_password_same_as_old_error">Nova password não pode ser igual à antiga. Tente outra!</string>
 
     <string name="no">Não</string>
     <string name="yes">Sim</string>
@@ -103,7 +104,7 @@
 
     <string name="select_language">Selecione o Idioma</string>
 
-    <string name="password_requirements_text">A palavra-chave deve conter pelo menos:</string>
+    <string name="password_requirements_text">A palavra-passe deve conter pelo menos:</string>
     <string name="password_requirements_one">Uma letra maiúscula</string>
     <string name="password_requirements_two">Uma letra minúscula</string>
     <string name="password_requirements_three">Um número</string>
