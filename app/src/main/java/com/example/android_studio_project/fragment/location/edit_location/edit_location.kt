@@ -274,6 +274,17 @@ class edit_location(private val locationUuid: UUID, private val tripUuid: UUID) 
                 locationDate ?: ""
             }
 
+            val tripStartDateParsed = isoDateFormat.parse(tripStartDate)
+            val tripEndDateParsed = isoDateFormat.parse(tripEndDate)
+            val parsedSelectedDate = displayFormat.parse(selectedDate)
+
+            if (parsedSelectedDate != null) {
+                if (parsedSelectedDate.before(tripStartDateParsed) || parsedSelectedDate.after(tripEndDateParsed)) {
+                    Toast.makeText(requireContext(), getString(R.string.selected_date_error), Toast.LENGTH_LONG).show()
+                    return
+                }
+            }
+
             val updatedLocation = LocationModelCreate(
                 name = locationName,
                 description = locationDescription,
