@@ -46,6 +46,11 @@ class edit_password(private val userEmail: String) : Fragment() {
             requireActivity().onBackPressed()
         }
 
+        val cancelButton: Button = view.findViewById(R.id.cancel_btn)
+        cancelButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         newPasswordEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
