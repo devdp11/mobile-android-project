@@ -90,6 +90,11 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
             requireActivity().onBackPressed()
         }
 
+        val cancelButton: Button = view.findViewById(R.id.cancel_btn)
+        cancelButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         dateTextInput = view.findViewById(R.id.location_date)
         dateTextInput.setOnClickListener {
             showDatePicker()

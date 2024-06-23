@@ -29,7 +29,7 @@
 
     <style name="ThemeOverlay.App.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
         <item name="colorPrimary">@color/datepickerColor</item>
-        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnPrimary">@color/datepickerRange</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
         <item name="materialButtonStyle">@style/Widget.Custom.MaterialCalendar.Button</item>
