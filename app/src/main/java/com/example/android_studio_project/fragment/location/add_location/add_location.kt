@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,6 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import android.util.Base64
-import android.util.Log
 import com.example.android_studio_project.data.retrofit.models.LocationModelCreate
 import com.example.android_studio_project.data.retrofit.models.PhotoModel
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -50,12 +48,18 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
 
     private var selectedLatLng: LatLng? = null
 
+    private lateinit var tripStartDate: String
+    private lateinit var tripEndDate: String
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_location, container, false)
+
+        tripStartDate = arguments?.getString("tripStartDate") ?: ""
+        tripEndDate = arguments?.getString("tripEndDate") ?: ""
 
         locationService = LocationService(requireContext())
         locationTypeSpinner = view.findViewById(R.id.location_type)
@@ -106,7 +110,7 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
         googleMap.uiSettings.isMyLocationButtonEnabled = true
         googleMap.setOnMapClickListener { latLng ->
             googleMap.clear()
-            googleMap.addMarker(MarkerOptions().position(latLng).title("Selected Location"))
+            googleMap.addMarker(MarkerOptions().position(latLng).title(getString(R.string.selected_loc)))
             selectedLatLng = latLng
         }
 
@@ -121,7 +125,7 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
                     val currentLocation = task.result
                     val currentLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                    googleMap.addMarker(MarkerOptions().position(currentLatLng).title("Current Location"))
+                    googleMap.addMarker(MarkerOptions().position(currentLatLng).title(getString(R.string.current_loc)))
                     selectedLatLng = currentLatLng
                 }
             }
@@ -142,23 +146,30 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
     }
 
     private fun showDatePicker() {
+        val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+        val tripStartDateParsed = isoDateFormat.parse(tripStartDate)
+        val tripEndDateParsed = isoDateFormat.parse(tripEndDate)
+
         val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select date")
+            .setTitleText(getString(R.string.select_date))
             .setTheme(R.style.ThemeOverlay_App_DatePicker)
             .build()
 
         datePicker.addOnPositiveButtonClickListener { selection ->
-            val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-            isoDateFormat.timeZone = TimeZone.getTimeZone("UTC")
-
-            val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val dateDisplay = displayFormat.format(Date(selection ?: 0))
-            dateTextInput.setText(dateDisplay)
+            val selectedDate = Date(selection ?: 0)
+            if (selectedDate.before(tripStartDateParsed) || selectedDate.after(tripEndDateParsed)) {
+                Toast.makeText(requireContext(), getString(R.string.selected_date_error), Toast.LENGTH_LONG).show()
+            } else {
+                val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val dateDisplay = displayFormat.format(selectedDate)
+                dateTextInput.setText(dateDisplay)
+            }
         }
 
         datePicker.show(parentFragmentManager, "datePicker")
     }
-
 
     private val selectPhotosLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri> ->
         photosList.addAll(uris)
@@ -360,8 +371,14 @@ class add_location(private val tripUuid: UUID) : Fragment(), OnMapReadyCallback 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
 
-        fun newInstance(tripUuid: UUID): add_location {
-            return add_location(tripUuid)
+        fun newInstance(tripUuid: UUID, tripStartDate: String, tripEndDate: String): add_location {
+            val fragment = add_location(tripUuid)
+            val args = Bundle()
+            args.putString("tripStartDate", tripStartDate)
+            args.putString("tripEndDate", tripEndDate)
+            fragment.arguments = args
+            return fragment
         }
     }
+
 }

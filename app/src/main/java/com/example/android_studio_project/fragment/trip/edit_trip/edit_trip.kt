@@ -153,10 +153,14 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
     }
 
     private fun openEditLocationFragment(locationUuid: UUID, tripUuid: UUID) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, edit_location.newInstance(locationUuid, tripUuid))
-            .addToBackStack(null)
-            .commit()
+        tripStartDate?.let { startDate ->
+            tripEndDate?.let { endDate ->
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.frame_layout, edit_location.newInstance(locationUuid, tripUuid, startDate, endDate))
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
     }
 
     private fun getLocations() {
@@ -219,10 +223,14 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
     }
 
     private fun openAddLocationFragment(tripUuid: UUID) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, add_location.newInstance(tripUuid))
-            .addToBackStack(null)
-            .commit()
+        tripStartDate?.let { startDate ->
+            tripEndDate?.let { endDate ->
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.frame_layout, add_location.newInstance(tripUuid, startDate, endDate))
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
     }
 
     private fun saveTrip() {

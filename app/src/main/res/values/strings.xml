@@ -47,6 +47,7 @@
     <string name="username_exists_error">Username already exists. Try again.</string>
     <string name="update_succe">Profile updated successfully!</string>
     <string name="add_location">Add Location</string>
+    <string name="add_location_btn">Add</string>
     <string name="home">Dashboard</string>
     <string name="password_requirements_text">The password must contain at least:</string>
     <string name="password_requirements_one">One uppercase letter</string>
@@ -114,5 +115,12 @@
     <string name="popup_button">Share</string>
 
     <string name="user_not_found">User not Found</string>
+
+    <string name="location">Location</string>
+    <string name="current_loc">Current Location</string>
+    <string name="selected_loc">Selected Location</string>
+    <string name="select_date">Select date</string>
+    <string name="selected_date_error">Selected date must be within the trip date range!</string>
+
     <string name="no_connection">You are disconneted from the E-World!</string>
 </resources>

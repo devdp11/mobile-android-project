@@ -47,7 +47,8 @@
     <string name="update_error">Erro ao atualizar perfil. Tente novamente.</string>
     <string name="username_exists_error">Username já existente. Tente novamente.</string>
     <string name="update_succe">Perfil atualizado com sucesso!</string>
-    <string name="add_location">Adicionar</string>
+    <string name="add_location">Adicionar Localização</string>
+    <string name="add_location_btn">Adicionar</string>
     <string name="home">Painel Principal</string>
 
     <string name="welcome">Bem-vindo</string>
@@ -113,5 +114,12 @@
     <string name="popup_button">Partilhar</string>
 
     <string name="user_not_found">User não encontrado</string>
+
+    <string name="location">Localização</string>
+    <string name="current_loc">Localização atual</string>
+    <string name="selected_loc">Localização selecionada</string>
+    <string name="select_date">Selecionar data</string>
+    <string name="selected_date_error">A data selecionada deve estar entre as datas da viagem!</string>
+
     <string name="no_connection">Conexão à internet perdida...</string>
 </resources>
