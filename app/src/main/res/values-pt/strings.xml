@@ -104,6 +104,10 @@
 
     <string name="select_language">Selecione o Idioma</string>
 
+    <string name="invite_user_succe">Utilizador adicionado com sucesso à viagem</string>
+    <string name="invite_user_error">Erro ao adicionar utilizador à viagem. Tente Novamente!</string>
+    <string name="invite_user">Por favor, introduza um emaill</string>
+
     <string name="password_requirements_text">A palavra-passe deve conter pelo menos:</string>
     <string name="password_requirements_one">Uma letra maiúscula</string>
     <string name="password_requirements_two">Uma letra minúscula</string>
@@ -114,7 +118,7 @@
     <string name="popup_hint">Email/Username</string>
     <string name="popup_button">Partilhar</string>
 
-    <string name="user_not_found">User não encontrado</string>
+    <string name="user_not_found">Utilizador não encontrado</string>
 
     <string name="location">Localização</string>
     <string name="current_loc">Localização atual</string>

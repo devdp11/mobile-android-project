@@ -273,7 +273,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
 
     private fun showDatePicker() {
         val datePicker = MaterialDatePicker.Builder.dateRangePicker()
-            .setTitleText("Select date range")
+            .setTitleText(getString(R.string.select_date))
             .setTheme(R.style.ThemeOverlay_App_DatePicker)
             .build()
 
@@ -311,7 +311,7 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
                 getAddUser(email)
                 dialog.dismiss()
             } else {
-                Toast.makeText(requireContext(), "Por favor, insira um email", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.invite_user), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -333,11 +333,11 @@ class edit_trip(private val tripUuid: UUID, private val userUUID: String?) : Fra
     private fun createUserTrip(userTrip: UserTripModel) {
         tripService.createUserTrip(userTrip,
             onResponse = {
-                Toast.makeText(requireContext(), "User adicionado com sucesso à viagem", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.invite_user_succe), Toast.LENGTH_SHORT).show()
                 getUsers()
             },
             onFailure = { error ->
-                Toast.makeText(requireContext(), "Erro ao associar user à viagem: $error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.invite_user_error), Toast.LENGTH_SHORT).show()
             }
         )
     }
