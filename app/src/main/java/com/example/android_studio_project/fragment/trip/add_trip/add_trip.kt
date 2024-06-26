@@ -59,6 +59,11 @@ class add_trip(private val userUUID: String) : Fragment() {
             requireActivity().onBackPressed()
         }
 
+        val cancelButton: Button = view.findViewById(R.id.cancel_btn)
+        cancelButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         return view
     }
 
