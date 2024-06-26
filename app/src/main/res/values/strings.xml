@@ -111,6 +111,10 @@
     <string name="english" translatable="false">English</string>
     <string name="portugues" translatable="false">Português</string>
 
+    <string name="invite_user_succe">User added successfully to the trip</string>
+    <string name="invite_user_error">Error adding the user to the trip. Try Again!</string>
+    <string name="invite_user">Please, enter an email</string>
+
     <string name="popup_title">Share Trip</string>
     <string name="popup_hint">Email/Username</string>
     <string name="popup_button">Share</string>
